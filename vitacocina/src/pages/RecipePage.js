@@ -16,6 +16,8 @@ import XIcon from '@mui/icons-material/X';
 import Image from '../assets/food.jpg'
 
 import MakeReview from '../components/MakeReview';
+import ReviewCard from '../components/Review';
+
 export default function RecipePage() {
   const tagsTitle = ["Dieta", "Tiempo", "Dificultad"];
 
@@ -189,6 +191,10 @@ const averageRating = calculateAverageRating(exampleRecipe);
 
       <Typography variant='h4' lineHeight={3}>Reseñas</Typography>
       <MakeReview isLoggedIn={true}></MakeReview>
+      {exampleRecipe.reviews.map((review) => (
+        <ReviewCard  userName={review.user} rating={review.rating} comment={review.comment}/>
+      ))}
+
     </>
   );
 }
