@@ -8,6 +8,7 @@ import CardMedia from '@mui/material/CardMedia';
 import Divider from '@mui/material/Divider';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
+import Container from '@mui/material/Container'
 
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
@@ -67,10 +68,13 @@ export default function RecipePage() {
 const averageRating = calculateAverageRating(exampleRecipe);
 
   return (
-    <>
+    <Container maxWidth="md" sx={{ paddingTop: '20px' }}>
       <Typography variant="h3">{exampleRecipe.name}</Typography>
 
       <Box display='flex' marginY={1}>
+        {averageRating === -1 ? (
+          <Typography variant='body1' href='#reviews' component='a'>Sé el primero en publicar una reseña!</Typography>
+        ) : (<>
         <Rating
           name="simple-controlled"
           value={averageRating}
@@ -78,16 +82,17 @@ const averageRating = calculateAverageRating(exampleRecipe);
           readOnly
           sx={{ mr: 1 }}
         />
-        <Typography variant='body1'>{averageRating}</Typography>
+        <Typography variant='body1' component='div'>{averageRating}</Typography>
         <Divider orientation='vertical' flexItem sx={{ marginX: 1.5 }}/>
-        <Typography href='#reviews' component='a'>{exampleRecipe.reviews.length} Reseñas</Typography>
+        <Typography variant='body1' href='#reviews' component='a'>{exampleRecipe.reviews.length} Reseñas</Typography>
+        </>)}
       </Box>
 
       <Typography>{exampleRecipe.description}</Typography>
       <Typography lineHeight={2} variant='body2'>Publicado por <strong>{exampleRecipe.author}</strong></Typography>
 
-      <Card sx={{ maxWidth: 600, margin: '0 auto', boxShadow: 3, borderRadius: 4 }}>
-      <CardMedia component="img" height="320" image={Image} alt="food image"/>
+      <Card sx={{ margin: '40px auto', boxShadow: 3, borderRadius: 4 }}>
+      <CardMedia component="img" height="400" image={Image} alt="food image"/>
       <CardContent>
         <Box sx={{ display: 'flex', gap: 1.5, flexWrap: 'wrap', marginTop: 3, justifyContent: 'center'}}>
           <Box
@@ -146,7 +151,7 @@ const averageRating = calculateAverageRating(exampleRecipe);
       ))}
       </ul>
 
-      <Typography variant='h6'>Comparte esta receta</Typography>
+      <Typography variant='h6' marginTop={4}>Comparte esta receta</Typography>
       <ButtonGroup variant="text" aria-label="share recipe" sx={{ marginTop: 1 }}>
         <Button
           onClick={() => {}}
@@ -189,12 +194,11 @@ const averageRating = calculateAverageRating(exampleRecipe);
         </Button>
       </ButtonGroup>
 
-      <Typography variant='h4' lineHeight={3}>Reseñas</Typography>
+      <Typography id='reviews' variant='h4' lineHeight={3}>Reseñas</Typography>
       <MakeReview isLoggedIn={true}></MakeReview>
       {exampleRecipe.reviews.map((review) => (
         <ReviewCard  userName={review.user} rating={review.rating} comment={review.comment}/>
       ))}
-
-    </>
+    </Container>
   );
 }

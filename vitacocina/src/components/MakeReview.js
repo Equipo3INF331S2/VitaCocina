@@ -34,10 +34,9 @@ const MakeReview = ({ isLoggedIn }) => {
             <Typography component='legend' fontWeight='bold'>Mi Puntuación</Typography>
             <Rating
               name="recipe-rating"
-              size='large'
               value={rating}
               onChange={(event, newValue) => setRating(newValue)}
-              sx={{ marginBottom: 2 }}
+              sx={{ marginBottom: 2, fontSize: '3rem' }}
             />
             
             {/* Campo para escribir la reseña */}

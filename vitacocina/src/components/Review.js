@@ -4,7 +4,7 @@ import { Typography, Rating, Card, CardContent } from '@mui/material';
 
 const ReviewCard = ({ userName, rating, comment }) => {
   return (
-    <Card variant='outlined' sx={{ width: 600, margin: '20px auto' }}>
+    <Card variant='outlined' sx={{ maxWidth: 600, margin: '20px auto' }}>
       <CardContent>
         {/* Nombre del Usuario */}
         <Typography variant="h6" component="div" gutterBottom>
