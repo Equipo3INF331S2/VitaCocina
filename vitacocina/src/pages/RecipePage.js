@@ -1,5 +1,8 @@
 import * as React from 'react';
 import Typography from '@mui/material/Typography';
+import Rating from '@mui/material/Rating';
+import Box from '@mui/material/Box'
+import Divider from '@mui/material/Divider';
 export default function RecipePage() {
   const calculateAverageRating = (recipe) => {
     const { reviews } = recipe;
@@ -50,6 +53,18 @@ const averageRating = calculateAverageRating(exampleRecipe);
     <>
       <Typography variant="h3">{exampleRecipe.name}</Typography>
 
+      <Box display='flex' marginY={1}>
+        <Rating
+          name="simple-controlled"
+          value={averageRating}
+          precision={0.5}
+          readOnly
+          sx={{ mr: 1 }}
+        />
+        <Typography variant='body1'>{averageRating}</Typography>
+        <Divider orientation='vertical' flexItem sx={{ marginX: 1.5 }}/>
+        <Typography href='#reviews' component='a'>{exampleRecipe.reviews.length} Reseñas</Typography>
+      </Box>
     </>
   );
 }
