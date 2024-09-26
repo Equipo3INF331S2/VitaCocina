@@ -120,6 +120,20 @@ const averageRating = calculateAverageRating(exampleRecipe);
         </Box>
       </CardContent>
       </Card>
+
+      <Typography variant='h4'>Ingredientes</Typography>
+      <ul>
+      {exampleRecipe.ingredients.map((ingrediente) => (
+        <li>{ingrediente}</li>
+      ))}
+      </ul>
+
+      <Typography variant='h4'>Instrucciones</Typography>
+      <ul>
+      {exampleRecipe.instructions.map((instruccion) => (
+        <li>{instruccion}</li>
+      ))}
+      </ul>
     </>
   );
 }
