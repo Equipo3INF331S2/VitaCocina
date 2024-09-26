@@ -6,6 +6,13 @@ import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Divider from '@mui/material/Divider';
+import Button from '@mui/material/Button';
+import ButtonGroup from '@mui/material/ButtonGroup';
+
+import FacebookIcon from '@mui/icons-material/Facebook';
+import InstagramIcon from '@mui/icons-material/Instagram';
+import XIcon from '@mui/icons-material/X';
+
 import Image from '../assets/food.jpg'
 export default function RecipePage() {
   const tagsTitle = ["Dieta", "Tiempo", "Dificultad"];
@@ -134,6 +141,49 @@ const averageRating = calculateAverageRating(exampleRecipe);
         <li>{instruccion}</li>
       ))}
       </ul>
+
+      <Typography variant='h6'>Comparte esta receta</Typography>
+      <ButtonGroup variant="text" aria-label="share recipe" sx={{ marginTop: 1 }}>
+        <Button
+          onClick={() => {}}
+          sx={{
+            width: 64,
+            height: 50,
+            boxShadow: '0 4px 10px rgba(0,0,0,0.1)',
+            '&:hover': {
+              backgroundColor: '#f5f5f5',
+            },
+          }}
+        >
+          <FacebookIcon sx={{ color: '#000' }} />
+        </Button>
+        <Button
+          onClick={() => {}}
+          sx={{
+            width: 64,
+            height: 50,
+            boxShadow: '0 4px 10px rgba(0,0,0,0.1)',
+            '&:hover': {
+              backgroundColor: '#f5f5f5',
+            },
+          }}
+        >
+          <InstagramIcon sx={{ color: '#000' }} />
+        </Button>
+        <Button
+          onClick={() => {}}
+          sx={{
+            width: 64,
+            height: 50,
+            boxShadow: '0 4px 10px rgba(0,0,0,0.1)',
+            '&:hover': {
+              backgroundColor: '#f5f5f5',
+            },
+          }}
+        >
+          <XIcon sx={{ color: '#000' }} />
+        </Button>
+      </ButtonGroup>
     </>
   );
 }
