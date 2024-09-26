@@ -14,6 +14,8 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import XIcon from '@mui/icons-material/X';
 
 import Image from '../assets/food.jpg'
+
+import MakeReview from '../components/MakeReview';
 export default function RecipePage() {
   const tagsTitle = ["Dieta", "Tiempo", "Dificultad"];
 
@@ -184,6 +186,9 @@ const averageRating = calculateAverageRating(exampleRecipe);
           <XIcon sx={{ color: '#000' }} />
         </Button>
       </ButtonGroup>
+
+      <Typography variant='h4' lineHeight={3}>Reseñas</Typography>
+      <MakeReview isLoggedIn={true}></MakeReview>
     </>
   );
 }
