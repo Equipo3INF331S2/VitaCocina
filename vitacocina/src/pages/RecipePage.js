@@ -10,6 +10,7 @@ import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import Container from '@mui/material/Container'
 
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import XIcon from '@mui/icons-material/X';
@@ -20,7 +21,11 @@ import MakeReview from '../components/MakeReview';
 import ReviewCard from '../components/Review';
 
 export default function RecipePage() {
-  const tagsTitle = ["Dieta", "Tiempo", "Dificultad"];
+  const tagsTitle = {
+    dietaryPreferences: "Dieta", 
+    time: "Tiempo", 
+    difficulty: "Dificultad"
+  };
 
   const calculateAverageRating = (recipe) => {
     const { reviews } = recipe;
@@ -91,7 +96,23 @@ const averageRating = calculateAverageRating(exampleRecipe);
       <Typography>{exampleRecipe.description}</Typography>
       <Typography lineHeight={2} variant='body2'>Publicado por <strong>{exampleRecipe.author}</strong></Typography>
 
-      <Card sx={{ margin: '40px auto', boxShadow: 3, borderRadius: 4 }}>
+      <Box marginY='16px'>
+        <Button
+          variant="contained"
+          startIcon={<FavoriteIcon />}
+          color='error'
+          sx={{
+            padding: '6px 16px',
+            textTransform: 'none',
+            fontWeight: 'bold',
+          }}
+          onClick={() => {}}
+        >
+          Agregar a Favoritos
+        </Button>
+      </Box>
+
+      <Card sx={{ margin: '20px auto', boxShadow: 3, borderRadius: 4 }}>
       <CardMedia component="img" height="400" image={Image} alt="food image"/>
       <CardContent>
         <Box sx={{ display: 'flex', gap: 1.5, flexWrap: 'wrap', marginTop: 3, justifyContent: 'center'}}>
@@ -105,7 +126,7 @@ const averageRating = calculateAverageRating(exampleRecipe);
               fontWeight: '500',
             }}
           >
-            {tagsTitle[0]}: {exampleRecipe.dietaryPreferences}
+            {tagsTitle.dietaryPreferences}: {exampleRecipe.dietaryPreferences}
           </Box>
 
           <Box
@@ -118,7 +139,7 @@ const averageRating = calculateAverageRating(exampleRecipe);
               fontWeight: '500',
             }}
           >
-            {tagsTitle[1]}: {exampleRecipe.time}
+            {tagsTitle.time}: {exampleRecipe.time}
           </Box>
 
           <Box
@@ -131,7 +152,7 @@ const averageRating = calculateAverageRating(exampleRecipe);
               fontWeight: '500',
             }}
           >
-            {tagsTitle[2]}: {exampleRecipe.difficulty}
+            {tagsTitle.difficulty}: {exampleRecipe.difficulty}
           </Box>
         </Box>
       </CardContent>
