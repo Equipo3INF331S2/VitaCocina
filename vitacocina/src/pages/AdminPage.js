@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import {
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, ButtonGroup, IconButton, Container,
   Box,
-  Typography
+  Typography,
+  TablePagination
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 
@@ -37,12 +38,27 @@ const initialData = {
 const AdminTable = () => {
   const [viewType, setViewType] = useState('recipes');
   const [data, setData] = useState(initialData);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
 
-  // Función para eliminar
   const handleDelete = (type, index) => {
     const updatedData = { ...data };
     updatedData[type] = updatedData[type].filter((_, i) => i !== index);
     setData(updatedData);
+  };
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+  const getDisplayedData = () => {
+    const currentData = data[viewType] || [];
+    return currentData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
   };
 
   return (
@@ -115,39 +131,33 @@ const AdminTable = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {viewType === 'recipes' && data.recipes.map((recipe, index) => (
+            {getDisplayedData().map((item, index) => (
               <TableRow key={index}>
-                <TableCell>{recipe.author}</TableCell>
-                <TableCell>{recipe.name}</TableCell>
-                <TableCell>{recipe.description}</TableCell>
-                <TableCell>{recipe.time}</TableCell>
-                <TableCell>{recipe.difficulty}</TableCell>
-                <TableCell>{recipe.dietaryPreferences}</TableCell>
+                {viewType === 'recipes' && (
+                  <>
+                    <TableCell>{item.author}</TableCell>
+                    <TableCell>{item.name}</TableCell>
+                    <TableCell>{item.description}</TableCell>
+                    <TableCell>{item.time}</TableCell>
+                    <TableCell>{item.difficulty}</TableCell>
+                    <TableCell>{item.dietaryPreferences}</TableCell>
+                  </>
+                )}
+                {viewType === 'tips' && (
+                  <>
+                    <TableCell>{item.author}</TableCell>
+                    <TableCell>{item.title}</TableCell>
+                    <TableCell>{item.description}</TableCell>
+                  </>
+                )}
+                {viewType === 'users' && (
+                  <>
+                    <TableCell>{item.email}</TableCell>
+                    <TableCell>{item.password}</TableCell>
+                  </>
+                )}
                 <TableCell>
-                  <IconButton color="error" onClick={() => handleDelete('recipes', index)}>
-                    <DeleteIcon />
-                  </IconButton>
-                </TableCell>
-              </TableRow>
-            ))}
-            {viewType === 'tips' && data.tips.map((tip, index) => (
-              <TableRow key={index}>
-                <TableCell>{tip.author}</TableCell>
-                <TableCell>{tip.title}</TableCell>
-                <TableCell>{tip.description}</TableCell>
-                <TableCell>
-                  <IconButton color="error" onClick={() => handleDelete('tips', index)}>
-                    <DeleteIcon />
-                  </IconButton>
-                </TableCell>
-              </TableRow>
-            ))}
-            {viewType === 'users' && data.users.map((user, index) => (
-              <TableRow key={index}>
-                <TableCell>{user.email}</TableCell>
-                <TableCell>{user.password}</TableCell>
-                <TableCell>
-                  <IconButton color="error" onClick={() => handleDelete('users', index)}>
+                  <IconButton color="error" onClick={() => handleDelete(viewType, index)}>
                     <DeleteIcon />
                   </IconButton>
                 </TableCell>
@@ -156,6 +166,18 @@ const AdminTable = () => {
           </TableBody>
         </Table>
       </TableContainer>
+
+      {/* Paginación */}
+      <TablePagination
+        component="div"
+        count={data[viewType].length} // Total de elementos
+        page={page}
+        onPageChange={handleChangePage}
+        rowsPerPage={rowsPerPage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+        labelRowsPerPage="Filas por página"
+        rowsPerPageOptions={[5, 10, 15]}
+      />
     </Container>
   );
 };
