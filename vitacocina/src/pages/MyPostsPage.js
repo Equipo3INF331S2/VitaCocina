@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Typography, Container } from '@mui/material';
+import { Typography, Container, Button, Box } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 
 import PostListPaper from '../components/PostsListPaper';
@@ -62,6 +62,9 @@ const MyPostsPage = () => {
             type={'recipe'} 
             fallbackText={fallbackText.recipes}
           />
+          <Box textAlign='center' marginY={2}>
+            <Button variant='contained' sx={{ fontSize: '1.5rem' }}>Crear receta</Button>
+          </Box>
         </Grid>
 
         {/* Columna de consejos */}
@@ -76,6 +79,9 @@ const MyPostsPage = () => {
             type={'tip'} 
             fallbackText={fallbackText.tips}
           />
+          <Box textAlign='center' marginY={2}>
+            <Button variant='contained' sx={{ fontSize: '1.5rem' }}>Crear consejo</Button>
+          </Box>
         </Grid>
       </Grid>
     </Container>
