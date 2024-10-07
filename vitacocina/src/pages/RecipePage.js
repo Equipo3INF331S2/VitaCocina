@@ -1,29 +1,34 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 import Rating from '@mui/material/Rating';
-import Box from '@mui/material/Box'
-import Card from '@mui/material/Card'
+import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Divider from '@mui/material/Divider';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
-import Container from '@mui/material/Container'
-
+import Container from '@mui/material/Container';
+import CircularProgress from '@mui/material/CircularProgress';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import XIcon from '@mui/icons-material/X';
 
-import Image from '../assets/food.jpg'
-
 import MakeReview from '../components/MakeReview';
 import ReviewCard from '../components/Review';
 
+const ENDPOINT = process.env.ENPOINT || 'http://localhost:5000';
+
 export default function RecipePage() {
+  const { id } = useParams();
+  const [recipe, setRecipe] = useState(null);
+  const [loading, setLoading] = useState(true);
+
   const tagsTitle = {
-    dietaryPreferences: "Dieta", 
-    time: "Tiempo", 
+    dietaryPreferences: "Dieta",
+    time: "Tiempo",
     difficulty: "Dificultad"
   };
 
@@ -33,68 +38,51 @@ export default function RecipePage() {
 
     const totalRating = reviews.reduce((acc, review) => acc + review.rating, 0);
     return totalRating / reviews.length;
-};
+  };
 
+  useEffect(() => {
+    fetch(`${ENDPOINT}/api/recipe/${id}`, { method: 'GET' })
+      .then(response => response.json())
+      .then(data => {
+        setRecipe(data);
+        console.log(data);
+        setLoading(false); // Cambiar a false cuando la carga haya terminado
+      });
+  }, [id]);
 
-  const exampleRecipe = {
-  author: "Thor, Dios del Trueno",
-  name: "Ensalada César",
-  description: "Una ensalada clásica y refrescante, ideal para el verano. Combina lechuga fresca con crutones y aderezo César.",
-  ingredients: [
-    "Lechuga romana",
-    "Crutones",
-    "Queso parmesano",
-    "Aderezo César",
-    "Pechuga de pollo (opcional)"
-  ],
-  instructions: [
-    "Lavar y trocear la lechuga.",
-    "Agregar crutones y queso parmesano al gusto.",
-    "Añadir aderezo César y mezclar bien.",
-    "Si se desea, agregar pechuga de pollo a la ensalada."
-  ],
-  dietaryPreferences: "Sin gluten", // Opcional
-  time: "15 minutos",
-  difficulty: "Fácil",
-  reviews: [
-    {
-      user: "Juan Pérez",
-      rating: 4,
-      comment: "Deliciosa y fácil de hacer."
-    },
-    {
-      user: "Ana Gómez",
-      rating: 5,
-      comment: "La mejor ensalada César que he probado."
-    }
-  ]
-};
+  if (loading) {
+    return (
+      <Container maxWidth="md" sx={{ paddingTop: '200px', textAlign: 'center' }}>
+        <CircularProgress />
+      </Container>
+    );
+  }
 
-const averageRating = calculateAverageRating(exampleRecipe);
+  const averageRating = calculateAverageRating(recipe);
 
   return (
     <Container maxWidth="md" sx={{ paddingTop: '20px' }}>
-      <Typography variant="h3">{exampleRecipe.name}</Typography>
+      <Typography variant="h3">{recipe.name}</Typography>
 
       <Box display='flex' marginY={1}>
         {averageRating === -1 ? (
           <Typography variant='body1' href='#reviews' component='a'>Sé el primero en publicar una reseña!</Typography>
         ) : (<>
-        <Rating
-          name="simple-controlled"
-          value={averageRating}
-          precision={0.5}
-          readOnly
-          sx={{ mr: 1 }}
-        />
-        <Typography variant='body1' component='div'>{averageRating}</Typography>
-        <Divider orientation='vertical' flexItem sx={{ marginX: 1.5 }}/>
-        <Typography variant='body1' href='#reviews' component='a'>{exampleRecipe.reviews.length} Reseñas</Typography>
+          <Rating
+            name="simple-controlled"
+            value={averageRating}
+            precision={0.5}
+            readOnly
+            sx={{ mr: 1 }}
+          />
+          <Typography variant='body1' component='div'>{averageRating}</Typography>
+          <Divider orientation='vertical' flexItem sx={{ marginX: 1.5 }} />
+          <Typography variant='body1' href='#reviews' component='a'>{recipe.reviews.length} Reseñas</Typography>
         </>)}
       </Box>
 
-      <Typography>{exampleRecipe.description}</Typography>
-      <Typography lineHeight={2} variant='body2'>Publicado por <strong>{exampleRecipe.author}</strong></Typography>
+      <Typography>{recipe.description}</Typography>
+      <Typography lineHeight={2} variant='body2'>Publicado por <strong>{recipe.author.name}</strong></Typography>
 
       <Box marginY='16px'>
         <Button
@@ -113,63 +101,63 @@ const averageRating = calculateAverageRating(exampleRecipe);
       </Box>
 
       <Card sx={{ margin: '20px auto', boxShadow: 3, borderRadius: 4 }}>
-      <CardMedia component="img" height="400" image={Image} alt="food image"/>
-      <CardContent>
-        <Box sx={{ display: 'flex', gap: 1.5, flexWrap: 'wrap', marginTop: 3, justifyContent: 'center'}}>
-          <Box
-            sx={{
-              backgroundColor: '#81d4fa',
-              padding: '6px 12px',
-              borderRadius: '20px',
-              boxShadow: '0 4px 10px rgba(0,0,0,0.1)',
-              fontSize: '0.9rem',
-              fontWeight: '500',
-            }}
-          >
-            {tagsTitle.dietaryPreferences}: {exampleRecipe.dietaryPreferences}
-          </Box>
+        <CardMedia component="img" height="400" image={`${ENDPOINT}/uploads/${recipe.img}`} alt="food image" />
+        <CardContent>
+          <Box sx={{ display: 'flex', gap: 1.5, flexWrap: 'wrap', marginTop: 3, justifyContent: 'center' }}>
+            <Box
+              sx={{
+                backgroundColor: '#81d4fa',
+                padding: '6px 12px',
+                borderRadius: '20px',
+                boxShadow: '0 4px 10px rgba(0,0,0,0.1)',
+                fontSize: '0.9rem',
+                fontWeight: '500',
+              }}
+            >
+              {tagsTitle.dietaryPreferences}: {recipe.dietaryPreferences}
+            </Box>
 
-          <Box
-            sx={{
-              backgroundColor: '#ffd54f',
-              padding: '6px 12px',
-              borderRadius: '20px',
-              boxShadow: '0 4px 10px rgba(0,0,0,0.1)',
-              fontSize: '0.9rem',
-              fontWeight: '500',
-            }}
-          >
-            {tagsTitle.time}: {exampleRecipe.time}
-          </Box>
+            <Box
+              sx={{
+                backgroundColor: '#ffd54f',
+                padding: '6px 12px',
+                borderRadius: '20px',
+                boxShadow: '0 4px 10px rgba(0,0,0,0.1)',
+                fontSize: '0.9rem',
+                fontWeight: '500',
+              }}
+            >
+              {tagsTitle.time}: {recipe.time}
+            </Box>
 
-          <Box
-            sx={{
-              backgroundColor: '#a5d6a7',
-              padding: '6px 12px',
-              borderRadius: '20px',
-              boxShadow: '0 4px 10px rgba(0,0,0,0.1)',
-              fontSize: '0.9rem',
-              fontWeight: '500',
-            }}
-          >
-            {tagsTitle.difficulty}: {exampleRecipe.difficulty}
+            <Box
+              sx={{
+                backgroundColor: '#a5d6a7',
+                padding: '6px 12px',
+                borderRadius: '20px',
+                boxShadow: '0 4px 10px rgba(0,0,0,0.1)',
+                fontSize: '0.9rem',
+                fontWeight: '500',
+              }}
+            >
+              {tagsTitle.difficulty}: {recipe.difficulty}
+            </Box>
           </Box>
-        </Box>
-      </CardContent>
+        </CardContent>
       </Card>
 
       <Typography variant='h4'>Ingredientes</Typography>
       <ul>
-      {exampleRecipe.ingredients.map((ingrediente) => (
-        <li>{ingrediente}</li>
-      ))}
+        {recipe.ingredients.map((ingrediente) => (
+          <li key={ingrediente}>{ingrediente}</li>
+        ))}
       </ul>
 
       <Typography variant='h4'>Instrucciones</Typography>
       <ul>
-      {exampleRecipe.instructions.map((instruccion) => (
-        <li>{instruccion}</li>
-      ))}
+        {recipe.instructions.map((instruccion) => (
+          <li key={instruccion}>{instruccion}</li>
+        ))}
       </ul>
 
       <Typography variant='h6' marginTop={4}>Comparte esta receta</Typography>
@@ -217,8 +205,8 @@ const averageRating = calculateAverageRating(exampleRecipe);
 
       <Typography id='reviews' variant='h4' lineHeight={3}>Reseñas</Typography>
       <MakeReview isLoggedIn={true}></MakeReview>
-      {exampleRecipe.reviews.map((review) => (
-        <ReviewCard  userName={review.user} rating={review.rating} comment={review.comment}/>
+      {recipe.reviews.map((review) => (
+        <ReviewCard key={review.user._id} userName={review.user.name} rating={review.rating} comment={review.comment} />
       ))}
     </Container>
   );
