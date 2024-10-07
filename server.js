@@ -9,6 +9,9 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+// Middleware para servir imagenes
+app.use('/uploads', express.static('uploads'));
+
 // Conectar a MongoDB
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
@@ -17,15 +20,12 @@ mongoose.connect(process.env.MONGO_URI, {
   .catch((err) => console.error('Could not connect to MongoDB', err));
 
 // Rutas
-app.get('/', (req, res) => {
-  res.send('Vita Cocina API');
-});
+const recipeRoutes = require('./routes/recipeRoutes');
+app.use('/api', recipeRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
 
-const recipeRoutes = require('./routes/recipeRoutes');
-app.use('/api', recipeRoutes);
 
