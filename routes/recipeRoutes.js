@@ -1,5 +1,6 @@
 const express = require('express');
 const Recipe = require('../models/Recipe');
+const User = require('../models/User');
 const router = express.Router();
 
 // Listar recetas
@@ -11,6 +12,23 @@ router.get('/recipes', async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
+
+router.get('/recipe/:recipeId', async (req, res) => {
+  try {
+    const recipeId = req.params.recipeId;
+    const recipe = await Recipe.findOne({ _id: recipeId })
+      .populate('author', 'name')
+      .populate('reviews.user', 'name');
+
+    if (!recipe) {
+      return res.status(404).json({ message: 'Receta no encontrada' });
+    }
+
+    res.json(recipe);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+})
 
 // Agregar receta
 router.post('/recipes', async (req, res) => {
