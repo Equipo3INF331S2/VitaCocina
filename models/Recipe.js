@@ -7,6 +7,8 @@ const recipeSchema = new mongoose.Schema({
         required: [true, 'El autor es obligatorio']
       },
     name: { type: String, required: true },
+    description: {type: String, required: true},
+    img: {type: String, required: true},
     ingredients: { type: [String], required: true },
     instructions: { type: [String], required: true },
     dietaryPreferences: { type: String, default: '' },
