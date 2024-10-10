@@ -6,10 +6,13 @@ import AdminPage from './pages/AdminPage';
 import MyPostsPage from './pages/MyPostsPage'; 
 import SignIn from './pages/LoginPage'; 
 import SignUp from './pages/RegisterPage';
+import HomePage from './pages/HomePage';
+
 
 const AppRoutes = () => {
   return (
     <Routes>
+      <Route path='/' element={<HomePage />} />
       <Route path="/recipes/:id" element={<RecipePage />} />
       <Route path="/admin" element={<AdminPage />} />
       <Route path="/posts" element={<MyPostsPage />} /> 
