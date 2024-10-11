@@ -34,7 +34,7 @@ const RecipeCard = () => {
 
   return (
     <Link to={`/recipes/${id}`} style={{ textDecoration: 'none' }}>
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ maxWidth: "100%" }}>
       <CardActionArea>
         <CardMedia
           component="img"

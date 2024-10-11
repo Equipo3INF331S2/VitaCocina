@@ -143,7 +143,7 @@ const HomePage = () => {
                 textAlign: 'center',
                 fontFamily: 'Arial, sans-serif',
                 minHeight: '100vh',
-                minWidth:'auto',
+                minWidth: 'auto',
                 display: 'felx',
                 flexDirection: 'column',
                 alignItems: 'center',
@@ -154,16 +154,28 @@ const HomePage = () => {
                     display: 'flex',
                     flexDirection: 'row',
                     justifyContent: 'center',
-                    gap: '1%',
+                    gap: '1rem',
                     alignItems: 'center',
                     mb: '2%',
-                    paddingTop: '5%',
+                    paddingTop: '2rem 0',
                     width: '100%',
+                    marginTop: '5%'
                 }}>
-                    <img src="/Logo.png" alt="Vita Cocina Logo" style={{ maxHeight: '30vh', width: 'auto' }} />
-                    <Typography variant="h2" component="h1" gutterBottom sx={{ fontWeight: 'bold', color: '#FFFFFF', fontSize: { fontSize: '7rem' } }} >
-                        VitaCocina
-                    </Typography>
+                    <img src="/Logo.png" alt="Vita Cocina Logo" style={{  height: '15rem', width: 'auto' }} />
+                    {!isSmallScreen && (
+                        <Typography
+                            variant="h1"
+                            component="h1"
+                            sx={{
+                                fontWeight: 'bold',
+                                color: '#FFFFFF',
+                                fontSize: 'clamp(1rem, 6vw, 10rem)',
+                                textAlign: 'center',
+                            }}
+                        >
+                            VitaCocina
+                        </Typography>
+                    )}
                 </Box>
 
                 <Box sx={{
