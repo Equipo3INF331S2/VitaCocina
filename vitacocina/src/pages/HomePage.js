@@ -18,6 +18,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { useSpring, animated } from '@react-spring/web';
+import Link from '@mui/material/Link';
 
 
 
@@ -212,7 +213,7 @@ const HomePage = () => {
                         justifyContent: "center",
                     }}>
                         <Grid container spacing={"1%"} sx={{ alignItems: 'flex-start' }}>
-                            <Grid item xs={12} sm={4}>
+                            <Grid item xs={10} sm={4}>
                                 <Chip
                                     icon={<KeyboardArrowDownIcon style={{ color: 'white' }} />}
                                     label={selectedDiet || "Preferencia Dietética"}
@@ -310,7 +311,9 @@ const HomePage = () => {
                 </animated.div>
                 <Box sx={{ position: 'absolute', top: 16, right: 16 }}>
                     <Typography variant="body2" sx={{ color: '#FFFFFF', textAlign: 'right' }}>
-                        Tienes una cuenta? <a href="/login">INGRESA</a> o <a href="/register">REGISTRATE</a>
+                        Tienes una cuenta?{' '}
+                        <Link href="/login" sx={{ color: '#d98e2c', textDecoration: 'none' }}>INGRESA</Link> o
+                        <Link href="/register" sx={{ color: '#d98e2c', textDecoration: 'none' }}> REGISTRATE</Link>
                     </Typography>
                 </Box>
             </div>
