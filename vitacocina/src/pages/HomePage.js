@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Grid from '@mui/material/Grid';
 import RecipeCard from '../components/RecipeCard';
+import TipCard from '../components/TipCard';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { styled } from '@mui/material/styles';
@@ -58,6 +59,18 @@ const exampleRecipes = [
 
 ];
 
+const exampleTips = [
+    { id: 1, title: "Cortes de cebolla", desc: "Desc1", author: "Me" },
+    { id: 2, title: "Cortes de pimiento", desc: "Desc2", author: "Me" },
+    { id: 3, title: "Cortes de zanahoria", desc: "Desc3", author: "Me" },
+    { id: 4, title: "Cortes de tomate", desc: "Desc4", author: "Me" },
+    { id: 5, title: "Cortes de perejil", desc: "Desc5", author: "Me" },
+    { id: 6, title: "Cortes de apio", desc: "Desc6", author: "Me" },
+    { id: 7, title: "Cortes de carne", desc: "Desc7", author: "Me" },
+]
+
+
+
 const HomePage = () => {
 
     const [dietAnchorEl, setDietAnchorEl] = useState(null);
@@ -104,15 +117,14 @@ const HomePage = () => {
         //TODAVIA NO IMPLEMENTADO
     };
 
-    const [recipesToDisplay, setRecipesToDisplay] = useState([]);
-    const [currentPage, setCurrentPage] = useState(1);
-    const recipesPerPage = 3;
-
     useEffect(() => {
         const shuffledRecipes = [...exampleRecipes].sort(() => 0.5 - Math.random());
         setRecipesToDisplay(shuffledRecipes);
     }, []);
 
+    const [recipesToDisplay, setRecipesToDisplay] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const recipesPerPage = 3;
 
     const numPages = Math.ceil(recipesToDisplay.length / recipesPerPage);
     const indexOfLastRecipe = currentPage * recipesPerPage;
@@ -130,6 +142,34 @@ const HomePage = () => {
         setCurrentPage(value);
         const offsetTop = recipeGridRef.current?.offsetTop || 0;
         setSpringProps({ scrollTop: offsetTop, onRest: () => { } });
+    };
+
+
+    useEffect(() => {
+        const shuffledTips = [...exampleTips].sort(() => 0.5 - Math.random());
+        setTipsToDisplay(shuffledTips);
+    }, []);
+
+    const [tipsToDisplay, setTipsToDisplay] = useState([]);
+    const [currentPageTips, setCurrentPageTips] = useState(1);
+    const tipsPerPage = 3;
+
+    const numPagesTips = Math.ceil(tipsToDisplay.length / tipsPerPage);
+    const indexOfLastTip = currentPageTips * tipsPerPage;
+    const indexOfFirstTip = indexOfLastTip - tipsPerPage;
+    const currentTip = tipsToDisplay.slice(indexOfFirstTip, indexOfLastTip);
+
+    const tipGridRef = useRef(null);
+
+    const [springPropsTips, setSpringPropsTips] = useSpring(() => ({
+        scrollTop: 0,
+    }));
+
+
+    const handlePageChangeTips = (event, value) => {
+        setCurrentPageTips(value);
+        const offsetTop = tipGridRef.current?.offsetTop || 0;
+        setSpringPropsTips({ scrollTop: offsetTop, onRest: () => { } });
     };
 
     const themeMui = createTheme();
@@ -162,7 +202,7 @@ const HomePage = () => {
                     width: '100%',
                     marginTop: '5%'
                 }}>
-                    <img src="/Logo.png" alt="Vita Cocina Logo" style={{  height: '15rem', width: 'auto' }} />
+                    <img src="/Logo.png" alt="Vita Cocina Logo" style={{ height: '15rem', width: 'auto' }} />
                     {!isSmallScreen && (
                         <Typography
                             variant="h1"
@@ -274,6 +314,19 @@ const HomePage = () => {
 
                 </Box>
 
+                <Typography
+                    variant="h3"
+                    component="h3"
+                    sx={{
+                        fontWeight: 'bold',
+                        color: '#FFFFFF',
+                        fontSize: 'clamp(1rem, 4vw, 6rem)',
+                        textAlign: 'left',
+                        marginLeft: '10%'
+                    }}
+                >
+                    Recetas
+                </Typography>
                 <animated.div style={{
                     scrollBehavior: 'smooth',
                     width: '100%',
@@ -309,6 +362,65 @@ const HomePage = () => {
                             }} />
                     </Box>
                 </animated.div>
+                <Box sx={{ position: 'absolute', top: 16, right: 16 }}>
+                    <Typography variant="body2" sx={{ color: '#FFFFFF', textAlign: 'right' }}>
+                        Tienes una cuenta?{' '}
+                        <Link href="/login" sx={{ color: '#d98e2c', textDecoration: 'none' }}>INGRESA</Link> o
+                        <Link href="/register" sx={{ color: '#d98e2c', textDecoration: 'none' }}> REGISTRATE</Link>
+                    </Typography>
+                </Box>
+
+                {/* TIPS */}
+                <Typography
+                    variant="h3"
+                    component="h3"
+                    sx={{
+                        fontWeight: 'bold',
+                        color: '#FFFFFF',
+                        fontSize: 'clamp(1rem, 4vw, 6rem)',
+                        textAlign: 'left',
+                        marginLeft: '10%'
+                    }}
+                >
+                    Consejos
+                </Typography>
+
+                <animated.div style={{
+                    scrollBehavior: 'smooth',
+                    width: '100%',
+                    overflowY: 'auto',
+                    flex: 1
+                }}
+                    scrollTop={springPropsTips.scrollTop}
+                >
+                    <Box sx={{ display: 'flex', justifyContent: 'center', width: '100%', mt: '2%' }}>
+                        <Grid container spacing={2} id="tip-grid" sx={{ width: '100%', maxWidth: '1200px', direction: { xs: 'column', sm: 'row' } }} ref={tipGridRef}>
+                            {currentTip.map((tip) => (
+                                <Grid item key={tip.id} xs={12} sm={6} md={4}>
+                                    <TipCard tip={tip} />
+                                </Grid>
+                            ))}
+                        </Grid>
+                    </Box>
+
+                    <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3 }}>
+                        <Pagination
+                            count={numPagesTips}
+                            page={currentPageTips}
+                            onChange={handlePageChangeTips}
+                            size="small"
+                            sx={{
+                                "& .MuiPaginationItem-root": {
+                                    color: "white"
+                                },
+                                "& .Mui-selected": {
+                                    backgroundColor: "#f57c00",
+                                    color: "white",
+                                }
+                            }} />
+                    </Box>
+                </animated.div>
+
                 <Box sx={{ position: 'absolute', top: 16, right: 16 }}>
                     <Typography variant="body2" sx={{ color: '#FFFFFF', textAlign: 'right' }}>
                         Tienes una cuenta?{' '}
