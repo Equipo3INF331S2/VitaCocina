@@ -363,14 +363,6 @@ const HomePage = () => {
                             }} />
                     </Box>
                 </animated.div>
-                <Box sx={{ position: 'absolute', top: 16, right: 16 }}>
-                    <Typography variant="body2" sx={{ color: '#FFFFFF', textAlign: 'right' }}>
-                        Tienes una cuenta?{' '}
-                        <Link href="/login" sx={{ color: '#d98e2c', textDecoration: 'none' }}>INGRESA</Link> o
-                        <Link href="/register" sx={{ color: '#d98e2c', textDecoration: 'none' }}> REGISTRATE</Link>
-                    </Typography>
-                </Box>
-
                 {/* TIPS */}
                 <Typography
                     variant="h3"
@@ -383,7 +375,7 @@ const HomePage = () => {
                         marginLeft: '10%'
                     }}
                 >
-                    Consejos
+                <Link href="/alltip" sx={{ color: '#ffffff', textDecoration: 'none' }}>Consejos</Link>
                 </Typography>
 
                 <animated.div style={{

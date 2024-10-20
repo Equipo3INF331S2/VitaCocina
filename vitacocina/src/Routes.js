@@ -9,6 +9,7 @@ import SignIn from './pages/LoginPage';
 import SignUp from './pages/RegisterPage';
 import HomePage from './pages/HomePage';
 import AllRecipePage from './pages/AllRecipePage';
+import AllTipPage from './pages/AllTipPage';
 
 
 const AppRoutes = () => {
@@ -22,6 +23,7 @@ const AppRoutes = () => {
       <Route path="/login" element={<SignIn />} />
       <Route path="/register" element={<SignUp />} /> 
       <Route path="/allrecipe" element={<AllRecipePage />} />
+      <Route path="/alltip" element={<AllTipPage />} />
     </Routes>
   );
 };
