@@ -11,6 +11,10 @@ const culinaryTipSchema = new mongoose.Schema({
     required: [true, 'La descripción es obligatoria'],
     minlength: [10, 'La descripción debe tener al menos 10 caracteres']
   },
+  img: {
+    type: String, 
+    required: true
+  },
   author: {
     type: mongoose.Schema.Types.ObjectId, 
     ref: 'User',
