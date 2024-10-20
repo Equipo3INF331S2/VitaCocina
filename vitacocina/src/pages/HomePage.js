@@ -23,6 +23,9 @@ import Link from '@mui/material/Link';
 
 
 
+const ENDPOINT = process.env.ENPOINT || 'http://localhost:5000';
+
+
 const StyledTextField = styled(TextField)({
     '& .MuiOutlinedInput-root': {
         backgroundColor: '#FFFFFF',
@@ -117,14 +120,26 @@ const HomePage = () => {
         //TODAVIA NO IMPLEMENTADO
     };
 
-    useEffect(() => {
-        const shuffledRecipes = [...exampleRecipes].sort(() => 0.5 - Math.random());
-        setRecipesToDisplay(shuffledRecipes);
-    }, []);
-
+    
     const [recipesToDisplay, setRecipesToDisplay] = useState([]);
+    const [loading, setLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
     const recipesPerPage = 3;
+    
+    useEffect(() => {
+        setLoading(true);
+        fetch(`${ENDPOINT}/api/recipes`, { method: 'GET' })
+            .then(response => response.json())
+            .then(data => {
+                const shuffledRecipes = [...data].sort(() => 0.5 - Math.random());
+                setRecipesToDisplay(shuffledRecipes);
+                setLoading(false);
+            })
+            .catch(error => {
+                console.error("Error fetching recipes:", error);
+                setLoading(false);
+            });
+    }, []);
 
     const numPages = Math.ceil(recipesToDisplay.length / recipesPerPage);
     const indexOfLastRecipe = currentPage * recipesPerPage;
@@ -136,6 +151,7 @@ const HomePage = () => {
     const [springProps, setSpringProps] = useSpring(() => ({
         scrollTop: 0,
     }));
+
 
 
     const handlePageChange = (event, value) => {
@@ -245,7 +261,7 @@ const HomePage = () => {
                         sx={{ width: '100%' }}
 
                     />
-                    <box sx={{
+                    <Box sx={{
                         display: 'flex',
                         gap: "2%",
                         width: '100%',
@@ -287,7 +303,7 @@ const HomePage = () => {
                                 />
                             </Grid>
                         </Grid>
-                    </box>
+                    </Box>
                     <Menu anchorEl={dietAnchorEl} open={Boolean(dietAnchorEl)} onClose={() => handleDietClose(null)} >
                         {dietOptions.map((option) => (
                             <MenuItem key={option} onClick={() => handleDietClose(option)}>
@@ -337,13 +353,7 @@ const HomePage = () => {
                     scrollTop={springProps.scrollTop}
                 >
                     <Box sx={{ display: 'flex', justifyContent: 'center', width: '100%', mt: '2%' }}>
-                        <Grid container spacing={2} id="recipe-grid" sx={{ width: '100%', maxWidth: '1200px', direction: { xs: 'column', sm: 'row' } }} ref={recipeGridRef}>
-                            {currentRecipes.map((recipe) => (
-                                <Grid item key={recipe.id} xs={12} sm={6} md={4}>
-                                    <RecipeCard recipe={recipe} />
-                                </Grid>
-                            ))}
-                        </Grid>
+                                <RecipeCard/>
                     </Box>
 
                     <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3 }}>

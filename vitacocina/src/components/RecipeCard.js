@@ -1,57 +1,85 @@
 import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import CardActionArea from '@mui/material/CardActionArea';
 import { Link } from 'react-router-dom';
+import Container from '@mui/material/Container';
+import CircularProgress from '@mui/material/CircularProgress';
+import { Grid } from '@mui/material';
 
 
-const exampleRecipes = [
-    { id: 1, title: "Ensalada César", desc: "Desc1" },
-    { id: 2, title: "Tarta de Manzana", desc: "Desc2" },
-    { id: 3, title: "Queque de vainilla", desc: "Desc3" },
-    { id: 4, title: "Galletas de chocolate", desc: "Desc4" },
-    { id: 5, title: "Mermelada de frutilla", desc: "Desc5" },
-    { id: 6, title: "Tortilla de papas", desc: "Desc6" },
-    { id: 7, title: "Albóndigas", desc: "Desc7" },
-  ];
+const ENDPOINT = process.env.ENPOINT || 'http://localhost:5000';
 
-const RecipeCard = () => {
-  const [id, setId] = useState('')
-  const [title, setTitle] = useState('');
-  const [desc, setDesc] = useState('');
+const RecipeCard = ({recipe}) => {
+  const [recipes, setRecipes] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const tagsTitle = {
+    dietaryPreferences: "Dieta",
+    time: "Tiempo",
+    difficulty: "Dificultad"
+  };
 
   useEffect(() => {
-    const randomIndex = Math.floor(Math.random() * exampleRecipes.length);
-    const randomRecipe = exampleRecipes[randomIndex];
-    setTitle(randomRecipe.title);
-    setDesc(randomRecipe.desc);
-    setId(randomRecipe.id);
-  }, []); 
+    fetch(`${ENDPOINT}/api/recipes`, { method: 'GET' })
+      .then(response => response.json())
+      .then(data => {
+        setRecipes(data);
+        console.log(data);
+        setLoading(false); // Cambiar a false cuando la carga haya terminado
+      })
+      .catch(error => {
+        console.error("Error fetching recipes:", error);
+        setLoading(false);
+      });
+  }, []);
 
+  if (loading) {
+    return (
+      <Container maxWidth="md" sx={{ paddingTop: '200px', textAlign: 'center' }}>
+        <CircularProgress />
+      </Container>
+    );
+  }
+
+  if (!recipes || recipes.length === 0) { // <-- Manejar el caso donde no hay recetas
+    return (
+      <Container maxWidth="md" sx={{ paddingTop: '100px', textAlign: 'center' }}>
+        <Typography variant="h6">No se encontraron recetas.</Typography>
+      </Container>
+    );
+  }
 
   return (
-    <Link to={`/recipes/${id}`} style={{ textDecoration: 'none' }}>
-    <Card sx={{ maxWidth: "100%" }}>
-      <CardActionArea>
-        <CardMedia
-          component="img"
-          height="140"
-          image="/static/images/cards/contemplative-reptile.jpg" 
-          alt={title} 
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            {title}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {desc}
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-    </Card>
-    </Link>
+    <Grid container spacing={2} sx={{ width: '100%', maxWidth: '1200px', direction: { xs: 'column', sm: 'row' } }}>
+      {recipes.map(recipe => (
+        <Grid item xs={12} sm={6} md={4} key={recipe._id}>
+        <Link key={recipe._id} to={`/recipes/${recipe._id}`} style={{ textDecoration: 'none' }}>
+          <Card>
+            <CardActionArea>
+              <CardMedia
+                component="img"
+                height="140"
+                image={`${ENDPOINT}/uploads/${recipe.img}`}
+                alt="food image"
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="div">
+                  {recipe.name}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {recipe.description.substring(0, 100)}...
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+          </Card>
+        </Link>
+        </Grid>
+      ))}
+    </Grid>
   );
 };
 
