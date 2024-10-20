@@ -1,0 +1,35 @@
+[{
+  "_id": "671465a39df8b1fc051d3a99",
+  "title": "Cómo hervir huevos perfectamente",
+  "description": "Para hervir huevos perfectamente, colócalos en una cacerola y cúbrelos con agua fría. Lleva el agua a ebullición, luego retira del fuego y cubre la cacerola. Deja reposar durante 9-12 minutos, dependiendo de cómo te gusten.",
+  "author": "6701ea79a3c28f7815208d10",
+  "img": "tip1.jpg"
+},
+{
+  "_id": "671465a39df8b1fc051d3a9a",
+  "title": "Ensalada César",
+  "description": "Mezcla lechuga romana, crutones, queso parmesano y aderezo César. Agrega pollo a la parrilla para un plato más completo.",
+  "author": "6701ea79a3c28f7815208d10",
+  "img": "tip2.jpg"
+},
+{
+  "_id": "671465a39df8b1fc051d3a9b",
+  "title": "Almacenamiento de especias",
+  "description": "Mantén tus especias en un lugar fresco y oscuro para preservar su sabor. Usa frascos herméticos para prolongar su vida útil.",
+  "author": "6701ea79a3c28f7815208d10",
+  "img": "tip3.jpg"
+},
+{
+  "_id": "671465a39df8b1fc051d3a9c",
+  "title": "Pasta al Pesto",
+  "description": "Cocina la pasta según las instrucciones del paquete. Mezcla con pesto fresco, piñones y queso parmesano. Sirve caliente.",
+  "author": "6701ea79a3c28f7815208d10",
+  "img": "tip4.jpg"
+},
+{
+  "_id": "671465a39df8b1fc051d3a9d",
+  "title": "Cómo elegir un buen corte de carne",
+  "description": "Busca cortes que tengan un buen marmoleo de grasa. Esto asegurará que la carne sea jugosa y llena de sabor.",
+  "author": "6701ea79a3c28f7815208d10",
+  "img": "tip5.jpg"
+}]

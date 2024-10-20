@@ -1,0 +1,91 @@
+[{
+  "_id": "6701ebfaa3c28f7815208d1b",
+  "author": "6701ea79a3c28f7815208d10",
+  "name": "Sopa de Verduras",
+  "ingredients": [
+    "Zanahorias",
+    "Apio",
+    "Cebolla",
+    "Caldo de verduras",
+    "Papas"
+  ],
+  "instructions": [
+    "Cortar las verduras en trozos medianos.",
+    "Hervir el caldo de verduras.",
+    "Añadir las verduras y cocinar a fuego medio por 25 minutos.",
+    "Servir caliente."
+  ],
+  "dietaryPreferences": "Vegano",
+  "time": "35 minutos",
+  "difficulty": "Fácil",
+  "reviews": [
+    {
+      "user": "6701eaf7a3c28f7815208d13",
+      "rating": 5,
+      "comment": "Muy nutritiva y fácil de hacer."
+    }
+  ],
+  "description": "Una ensalada nutritiva y refrescante, perfecta para el almuerzo o la cena.",
+  "img": "food.jpg"
+},
+{
+  "_id": "67146ea09df8b1fc051d3ab1",
+  "author": "6701ea79a3c28f7815208d10",
+  "name": "Ensalada César",
+  "ingredients": [
+    "Lechuga romana",
+    "Crutones",
+    "Queso parmesano",
+    "Aderezo César",
+    "Pollo a la parrilla"
+  ],
+  "instructions": [
+    "Cortar la lechuga y colocarla en un bol grande.",
+    "Añadir crutones y queso parmesano al gusto.",
+    "Agregar el aderezo César y mezclar bien.",
+    "Colocar el pollo a la parrilla en tiras sobre la ensalada.",
+    "Servir frío."
+  ],
+  "dietaryPreferences": "Omnívoro",
+  "time": "15 minutos",
+  "difficulty": "Fácil",
+  "reviews": [
+    {
+      "user": "6701eaf7a3c28f7815208d13",
+      "rating": 4,
+      "comment": "Sencilla pero deliciosa. La combinación de sabores es perfecta."
+    }
+  ],
+  "description": "Una ensalada clásica y refrescante, ideal para el verano. Combina lechuga fresca con crutones y aderezo César.",
+  "img": "food2.jpg"
+},
+{
+  "_id": "67146ea09df8b1fc051d3ab2",
+  "author": "6701ea79a3c28f7815208d10",
+  "name": "Pasta al Pesto",
+  "ingredients": [
+    "Pasta",
+    "Salsa pesto",
+    "Piñones",
+    "Queso parmesano",
+    "Aceite de oliva"
+  ],
+  "instructions": [
+    "Cocinar la pasta según las instrucciones del paquete.",
+    "Mezclar la pasta cocida con la salsa pesto.",
+    "Añadir piñones y queso parmesano al gusto.",
+    "Rociar con aceite de oliva y servir caliente."
+  ],
+  "dietaryPreferences": "Vegetariano",
+  "time": "25 minutos",
+  "difficulty": "Intermedio",
+  "reviews": [
+    {
+      "user": "6701eaf7a3c28f7815208d13",
+      "rating": 5,
+      "comment": "Exquisita, el pesto casero le da un toque espectacular."
+    }
+  ],
+  "description": "Una pasta al pesto clásica con un toque crujiente de piñones y la suavidad del queso parmesano.",
+  "img": "food1.jpg"
+}]

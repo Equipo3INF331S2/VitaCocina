@@ -1,0 +1,12 @@
+[{
+  "_id": "6701ea79a3c28f7815208d10",
+  "password": "contraseña123",
+  "email": "usuario1@example.com",
+  "name": "Thor, Dios del Trueno"
+},
+{
+  "_id": "6701eaf7a3c28f7815208d13",
+  "email": "usuario2@example.com",
+  "password": "password456",
+  "name": "Odín, Padre de Todos"
+}]
