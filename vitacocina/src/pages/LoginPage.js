@@ -16,6 +16,7 @@ import ForgotPassword from '../components/ForgotPassword';
 import { VitaCocinaIcon } from '../components/CustomIcons';
 import AppTheme from '../components/AppTheme';
 import ColorModeSelect from '../components/ColorModeSelect';
+import { useNavigate } from 'react-router-dom';
 
 const Card = styled(MuiCard)(({ theme }) => ({
     display: 'flex',
@@ -64,6 +65,7 @@ export default function SignIn(props) {
     const [passwordError, setPasswordError] = React.useState(false);
     const [passwordErrorMessage, setPasswordErrorMessage] = React.useState('');
     const [open, setOpen] = React.useState(false);
+    const navigate = useNavigate();
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -73,16 +75,41 @@ export default function SignIn(props) {
         setOpen(false);
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
+        event.preventDefault(); // Prevenir el comportamiento por defecto del formulario
+
         if (emailError || passwordError) {
-            event.preventDefault();
             return;
         }
+
         const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-        });
+        const email = data.get('email');
+        const password = data.get('password');
+
+        try {
+            const response = await fetch(`http://localhost:3000/api/users?email=${email}&password=${password}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error('Error en la verificación del usuario');
+            }
+
+            const result = await response.json();
+            console.log('Usuario encontrado:', result);
+
+            localStorage.setItem('user', JSON.stringify(result.user));
+
+            alert('Inicio de sesión exitoso');
+
+            navigate('/');
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Error en el inicio de sesión. Por favor, verifica tus credenciales.');
+        }
     };
 
     const validateInputs = () => {

@@ -20,8 +20,7 @@ import { useTheme } from '@mui/material/styles';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { useSpring, animated } from '@react-spring/web';
 import Link from '@mui/material/Link';
-
-
+import { useNavigate } from 'react-router-dom';
 
 const StyledTextField = styled(TextField)({
     '& .MuiOutlinedInput-root': {
@@ -56,7 +55,6 @@ const exampleRecipes = [
     { id: 5, title: "Mermelada de frutilla", desc: "Desc5" },
     { id: 6, title: "Tortilla de papas", desc: "Desc6" },
     { id: 7, title: "Albóndigas", desc: "Desc7" },
-
 ];
 
 const exampleTips = [
@@ -67,12 +65,9 @@ const exampleTips = [
     { id: 5, title: "Cortes de perejil", desc: "Desc5", author: "Me" },
     { id: 6, title: "Cortes de apio", desc: "Desc6", author: "Me" },
     { id: 7, title: "Cortes de carne", desc: "Desc7", author: "Me" },
-]
-
-
+];
 
 const HomePage = () => {
-
     const [dietAnchorEl, setDietAnchorEl] = useState(null);
     const [timeAnchorEl, setTimeAnchorEl] = useState(null);
     const [skillAnchorEl, setSkillAnchorEl] = useState(null);
@@ -112,9 +107,8 @@ const HomePage = () => {
         setSelectedSkill(option);
     };
 
-
     const handleSearch = () => {
-        //TODAVIA NO IMPLEMENTADO
+        // TODAVIA NO IMPLEMENTADO
     };
 
     useEffect(() => {
@@ -137,13 +131,11 @@ const HomePage = () => {
         scrollTop: 0,
     }));
 
-
     const handlePageChange = (event, value) => {
         setCurrentPage(value);
         const offsetTop = recipeGridRef.current?.offsetTop || 0;
         setSpringProps({ scrollTop: offsetTop, onRest: () => { } });
     };
-
 
     useEffect(() => {
         const shuffledTips = [...exampleTips].sort(() => 0.5 - Math.random());
@@ -165,7 +157,6 @@ const HomePage = () => {
         scrollTop: 0,
     }));
 
-
     const handlePageChangeTips = (event, value) => {
         setCurrentPageTips(value);
         const offsetTop = tipGridRef.current?.offsetTop || 0;
@@ -176,6 +167,16 @@ const HomePage = () => {
     const theme = useTheme();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
+    const navigate = useNavigate();
+
+    // Recuperar la información del usuario desde localStorage
+    const user = JSON.parse(localStorage.getItem('user'));
+
+    // Función para cerrar sesión
+    const handleLogout = () => {
+        localStorage.removeItem('user');
+        navigate('/login');
+    };
 
     return (
         <ThemeProvider theme={themeMui}>
@@ -185,7 +186,7 @@ const HomePage = () => {
                 fontFamily: 'Arial, sans-serif',
                 minHeight: '100vh',
                 minWidth: 'auto',
-                display: 'felx',
+                display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
                 padding: '1rem',
@@ -225,7 +226,6 @@ const HomePage = () => {
                     display: 'flex',
                     flexDirection: 'column',
                     gap: "1%",
-
                 }}>
                     <StyledTextField
                         id="search-bar"
@@ -243,9 +243,8 @@ const HomePage = () => {
                             ),
                         }}
                         sx={{ width: '100%' }}
-
                     />
-                    <box sx={{
+                    <Box sx={{
                         display: 'flex',
                         gap: "2%",
                         width: '100%',
@@ -287,7 +286,7 @@ const HomePage = () => {
                                 />
                             </Grid>
                         </Grid>
-                    </box>
+                    </Box>
                     <Menu anchorEl={dietAnchorEl} open={Boolean(dietAnchorEl)} onClose={() => handleDietClose(null)} >
                         {dietOptions.map((option) => (
                             <MenuItem key={option} onClick={() => handleDietClose(option)}>
@@ -311,7 +310,6 @@ const HomePage = () => {
                             </MenuItem>
                         ))}
                     </Menu>
-
                 </Box>
 
                 <Typography
@@ -415,16 +413,24 @@ const HomePage = () => {
                 </animated.div>
 
                 <Box sx={{ position: 'absolute', top: 16, right: 16 }}>
-                    <Typography variant="body2" sx={{ color: '#FFFFFF', textAlign: 'right' }}>
-                        Tienes una cuenta?{' '}
-                        <Link href="/login" sx={{ color: '#d98e2c', textDecoration: 'none' }}>INGRESA</Link> o
-                        <Link href="/register" sx={{ color: '#d98e2c', textDecoration: 'none' }}> REGISTRATE</Link>
-                    </Typography>
+                    {user ? (
+                        <Typography variant="body2" sx={{ color: '#FFFFFF', textAlign: 'right' }}>
+                            Hola, {user.name}!{' '}
+                            <Link href="/createRecipe" sx={{ color: '#d98e2c', textDecoration: 'none' }}>Receta</Link>{' '}
+                            <Link href="/createTip" sx={{ color: '#d98e2c', textDecoration: 'none' }}>Tips</Link>{' '}
+                            <Link href="#" onClick={handleLogout} sx={{ color: '#d98e2c', textDecoration: 'none' }}>LogOut</Link>
+                        </Typography>
+                    ) : (
+                        <Typography variant="body2" sx={{ color: '#FFFFFF', textAlign: 'right' }}>
+                            ¿Tienes una cuenta?{' '}
+                            <Link href="/login" sx={{ color: '#d98e2c', textDecoration: 'none' }}>INGRESA</Link> o
+                            <Link href="/register" sx={{ color: '#d98e2c', textDecoration: 'none' }}> REGISTRATE</Link>
+                        </Typography>
+                    )}
                 </Box>
             </div>
         </ThemeProvider>
-    )
+    );
+};
 
-}
-
-export default HomePage
+export default HomePage;

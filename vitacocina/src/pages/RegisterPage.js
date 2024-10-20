@@ -9,7 +9,7 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import MuiCard from '@mui/material/Card';
-import {  styled } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import { VitaCocinaIcon } from '../components/CustomIcons';
 import ColorModeSelect from '../components/ColorModeSelect';
@@ -57,7 +57,7 @@ const SignUpContainer = styled(Stack)(({ theme }) => ({
 }));
 
 export default function SignUp(props) {
-    const [mode, setMode] = React.useState('light');
+    const [, setMode] = React.useState('light');
     const [nameError, setNameError] = React.useState(false);
     const [nameErrorMessage, setNameErrorMessage] = React.useState('');
     const [emailError, setEmailError] = React.useState(false);
@@ -115,20 +115,35 @@ export default function SignUp(props) {
         return isValid;
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
+        event.preventDefault(); 
         if (nameError || emailError || passwordError) {
-            event.preventDefault();
             return;
         }
         const data = new FormData(event.currentTarget);
-        console.log({
+        const userData = {
             name: data.get('name'),
-            lastName: data.get('lastName'),
             email: data.get('email'),
             password: data.get('password'),
-        }); 
-        navigate('/login');
-        
+        };
+
+        try {
+            const response = await fetch('http://localhost:3000/api/users', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(userData),
+            });
+            if (!response.ok) {
+                throw new Error('Error en la creación del usuario');
+            }
+            const result = await response.json();
+            alert('Usuario creado exitosamente.', result);
+            navigate('/login');
+        } catch (error) {
+            console.error('Error:', error);
+        }
     };
 
     return (
