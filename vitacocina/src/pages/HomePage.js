@@ -20,7 +20,8 @@ import { useTheme } from '@mui/material/styles';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { useSpring, animated } from '@react-spring/web';
 import Link from '@mui/material/Link';
-import { useNavigate } from 'react-router-dom';
+
+
 
 const ENDPOINT = process.env.ENPOINT || 'http://localhost:5000';
 
@@ -50,16 +51,6 @@ const StyledTextField = styled(TextField)({
     display: 'block',
 });
 
-const exampleRecipes = [
-    { id: 1, title: "Ensalada César", desc: "Desc1" },
-    { id: 2, title: "Tarta de Manzana", desc: "Desc2" },
-    { id: 3, title: "Queque de vainilla", desc: "Desc3" },
-    { id: 4, title: "Galletas de chocolate", desc: "Desc4" },
-    { id: 5, title: "Mermelada de frutilla", desc: "Desc5" },
-    { id: 6, title: "Tortilla de papas", desc: "Desc6" },
-    { id: 7, title: "Albóndigas", desc: "Desc7" },
-];
-
 const exampleTips = [
     { id: 1, title: "Cortes de cebolla", desc: "Desc1", author: "Me" },
     { id: 2, title: "Cortes de pimiento", desc: "Desc2", author: "Me" },
@@ -68,9 +59,15 @@ const exampleTips = [
     { id: 5, title: "Cortes de perejil", desc: "Desc5", author: "Me" },
     { id: 6, title: "Cortes de apio", desc: "Desc6", author: "Me" },
     { id: 7, title: "Cortes de carne", desc: "Desc7", author: "Me" },
-];
+]
+
 
 const HomePage = () => {
+    
+    const themeMui = createTheme();
+    const theme = useTheme();
+    const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+
     const [dietAnchorEl, setDietAnchorEl] = useState(null);
     const [timeAnchorEl, setTimeAnchorEl] = useState(null);
     const [skillAnchorEl, setSkillAnchorEl] = useState(null);
@@ -110,8 +107,9 @@ const HomePage = () => {
         setSelectedSkill(option);
     };
 
+
     const handleSearch = () => {
-        // TODAVIA NO IMPLEMENTADO
+        //TODAVIA NO IMPLEMENTADO
     };
 
     
@@ -133,20 +131,19 @@ const HomePage = () => {
                 console.error("Error fetching recipes:", error);
                 setLoading(false);
             });
-    }, []);
-
-    const numPages = Math.ceil(recipesToDisplay.length / recipesPerPage);
-    const indexOfLastRecipe = currentPage * recipesPerPage;
-    const indexOfFirstRecipe = indexOfLastRecipe - recipesPerPage;
-    const currentRecipes = recipesToDisplay.slice(indexOfFirstRecipe, indexOfLastRecipe);
-
-    const recipeGridRef = useRef(null);
-
-    const [springProps, setSpringProps] = useSpring(() => ({
-        scrollTop: 0,
-    }));
-
-
+        }, []);
+        
+        const numPages = Math.ceil(recipesToDisplay.length / recipesPerPage);
+        const indexOfLastRecipe = currentPage * recipesPerPage;
+        const indexOfFirstRecipe = indexOfLastRecipe - recipesPerPage;
+        const currentRecipes = recipesToDisplay.slice(indexOfFirstRecipe, indexOfLastRecipe);
+        
+        const recipeGridRef = useRef(null);
+        
+        const [springProps, setSpringProps] = useSpring(() => ({
+            scrollTop: 0,
+        }));
+        
 
     const handlePageChange = (event, value) => {
         setCurrentPage(value);
@@ -154,46 +151,41 @@ const HomePage = () => {
         setSpringProps({ scrollTop: offsetTop, onRest: () => { } });
     };
 
-    useEffect(() => {
-        const shuffledTips = [...exampleTips].sort(() => 0.5 - Math.random());
-        setTipsToDisplay(shuffledTips);
-    }, []);
 
     const [tipsToDisplay, setTipsToDisplay] = useState([]);
+    const [loadingTip, setLoadingTip] = useState(true);
+    const [currentTip, setCurrentTip] = useState([]);
     const [currentPageTips, setCurrentPageTips] = useState(1);
     const tipsPerPage = 3;
-
-    const numPagesTips = Math.ceil(tipsToDisplay.length / tipsPerPage);
-    const indexOfLastTip = currentPageTips * tipsPerPage;
-    const indexOfFirstTip = indexOfLastTip - tipsPerPage;
-    const currentTip = tipsToDisplay.slice(indexOfFirstTip, indexOfLastTip);
-
     const tipGridRef = useRef(null);
 
     const [springPropsTips, setSpringPropsTips] = useSpring(() => ({
         scrollTop: 0,
     }));
 
+    useEffect(() => {
+        setLoadingTip(true);
+        fetch(`${ENDPOINT}/api/tips`, { method: 'GET' })
+            .then(response => response.json())
+            .then(data => {
+                const shuffledTips = [...data].sort(() => 0.5 - Math.random());
+                setTipsToDisplay(shuffledTips);
+                const indexOfLastTip = currentPageTips * tipsPerPage;
+                const indexOfFirstTip = indexOfLastTip - tipsPerPage;
+                setCurrentTip(shuffledTips.slice(indexOfFirstTip, indexOfLastTip));
+                setLoading(false);
+            })
+            .catch(error => {
+                console.error("Error fetching tips:", error);
+                setLoading(false);
+            });
+    }, [currentPageTips]);
+
+
     const handlePageChangeTips = (event, value) => {
         setCurrentPageTips(value);
-        const offsetTop = tipGridRef.current?.offsetTop || 0;
-        setSpringPropsTips({ scrollTop: offsetTop, onRest: () => { } });
     };
 
-    const themeMui = createTheme();
-    const theme = useTheme();
-    const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
-
-    const navigate = useNavigate();
-
-    // Recuperar la información del usuario desde localStorage
-    const user = JSON.parse(localStorage.getItem('user'));
-
-    // Función para cerrar sesión
-    const handleLogout = () => {
-        localStorage.removeItem('user');
-        navigate('/login');
-    };
 
     return (
         <ThemeProvider theme={themeMui}>
@@ -203,7 +195,7 @@ const HomePage = () => {
                 fontFamily: 'Arial, sans-serif',
                 minHeight: '100vh',
                 minWidth: 'auto',
-                display: 'flex',
+                display: 'felx',
                 flexDirection: 'column',
                 alignItems: 'center',
                 padding: '1rem',
@@ -243,6 +235,7 @@ const HomePage = () => {
                     display: 'flex',
                     flexDirection: 'column',
                     gap: "1%",
+
                 }}>
                     <StyledTextField
                         id="search-bar"
@@ -260,6 +253,7 @@ const HomePage = () => {
                             ),
                         }}
                         sx={{ width: '100%' }}
+
                     />
                     <Box sx={{
                         display: 'flex',
@@ -327,6 +321,7 @@ const HomePage = () => {
                             </MenuItem>
                         ))}
                     </Menu>
+
                 </Box>
 
                 <Typography
@@ -352,7 +347,7 @@ const HomePage = () => {
                     scrollTop={springProps.scrollTop}
                 >
                     <Box sx={{ display: 'flex', justifyContent: 'center', width: '100%', mt: '2%' }}>
-                                <RecipeCard/>
+                        <RecipeCard/>
                     </Box>
 
                     <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3 }}>
@@ -396,18 +391,12 @@ const HomePage = () => {
                     scrollTop={springPropsTips.scrollTop}
                 >
                     <Box sx={{ display: 'flex', justifyContent: 'center', width: '100%', mt: '2%' }}>
-                        <Grid container spacing={2} id="tip-grid" sx={{ width: '100%', maxWidth: '1200px', direction: { xs: 'column', sm: 'row' } }} ref={tipGridRef}>
-                            {currentTip.map((tip) => (
-                                <Grid item key={tip.id} xs={12} sm={6} md={4}>
-                                    <TipCard tip={tip} />
-                                </Grid>
-                            ))}
-                        </Grid>
+                        <TipCard tipData={currentTip}/>
                     </Box>
 
                     <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3 }}>
                         <Pagination
-                            count={numPagesTips}
+                            count={Math.ceil(tipsToDisplay.length / tipsPerPage)}
                             page={currentPageTips}
                             onChange={handlePageChangeTips}
                             size="small"
@@ -424,24 +413,16 @@ const HomePage = () => {
                 </animated.div>
 
                 <Box sx={{ position: 'absolute', top: 16, right: 16 }}>
-                    {user ? (
-                        <Typography variant="body2" sx={{ color: '#FFFFFF', textAlign: 'right' }}>
-                            Hola, {user.name}!{' '}
-                            <Link href="/createRecipe" sx={{ color: '#d98e2c', textDecoration: 'none' }}>Receta</Link>{' '}
-                            <Link href="/createTip" sx={{ color: '#d98e2c', textDecoration: 'none' }}>Tips</Link>{' '}
-                            <Link href="#" onClick={handleLogout} sx={{ color: '#d98e2c', textDecoration: 'none' }}>LogOut</Link>
-                        </Typography>
-                    ) : (
-                        <Typography variant="body2" sx={{ color: '#FFFFFF', textAlign: 'right' }}>
-                            ¿Tienes una cuenta?{' '}
-                            <Link href="/login" sx={{ color: '#d98e2c', textDecoration: 'none' }}>INGRESA</Link> o
-                            <Link href="/register" sx={{ color: '#d98e2c', textDecoration: 'none' }}> REGISTRATE</Link>
-                        </Typography>
-                    )}
+                    <Typography variant="body2" sx={{ color: '#FFFFFF', textAlign: 'right' }}>
+                        Tienes una cuenta?{' '}
+                        <Link href="/login" sx={{ color: '#d98e2c', textDecoration: 'none' }}>INGRESA</Link> o
+                        <Link href="/register" sx={{ color: '#d98e2c', textDecoration: 'none' }}> REGISTRATE</Link>
+                    </Typography>
                 </Box>
             </div>
         </ThemeProvider>
-    );
-};
+    )
 
-export default HomePage;
+}
+
+export default HomePage

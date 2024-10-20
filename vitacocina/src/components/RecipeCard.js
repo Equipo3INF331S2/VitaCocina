@@ -13,7 +13,7 @@ import { Grid } from '@mui/material';
 
 const ENDPOINT = process.env.ENPOINT || 'http://localhost:5000';
 
-const RecipeCard = ({recipe}) => {
+const RecipeCard = () => {
   const [recipes, setRecipes] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -54,7 +54,7 @@ const RecipeCard = ({recipe}) => {
   }
 
   return (
-    <Grid container spacing={2} sx={{ width: '100%', maxWidth: '1200px', direction: { xs: 'column', sm: 'row' } }}>
+    <Grid container spacing={2} sx={{ width: '100%', maxWidth: '1300px', direction: { xs: 'column', sm: 'row' } }}>
       {recipes.map(recipe => (
         <Grid item xs={12} sm={6} md={4} key={recipe._id}>
         <Link key={recipe._id} to={`/recipes/${recipe._id}`} style={{ textDecoration: 'none' }}>
@@ -71,7 +71,7 @@ const RecipeCard = ({recipe}) => {
                   {recipe.name}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  {recipe.description.substring(0, 100)}...
+                  {recipe.description.substring(0,100)}...
                 </Typography>
               </CardContent>
             </CardActionArea>

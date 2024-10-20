@@ -5,58 +5,54 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import CardActionArea from '@mui/material/CardActionArea';
 import { Link } from 'react-router-dom';
+import Container from '@mui/material/Container';
+import CircularProgress from '@mui/material/CircularProgress';
+import { Grid } from '@mui/material';
+
+const ENDPOINT = process.env.ENPOINT || 'http://localhost:5000';
 
 
-const exampleTips = [
-    { id: 1, title: "Cortes de cebolla", desc: "Desc1", author: "Me" },
-    { id: 2, title: "Cortes de pimiento", desc: "Desc2", author: "Me" },
-    { id: 3, title: "Cortes de zanahoria", desc: "Desc3", author: "Me" },
-    { id: 4, title: "Cortes de tomate", desc: "Desc4", author: "Me" },
-    { id: 5, title: "Cortes de perejil", desc: "Desc5", author: "Me" },
-    { id: 6, title: "Cortes de apio", desc: "Desc6", author: "Me" },
-    { id: 7, title: "Cortes de carne", desc: "Desc7", author: "Me" },
-]
+const TipCard = ({tipData}) => {
 
-const TipCard = () => {
-  const [id, setId] = useState('')
-  const [title, setTitle] = useState('');
-  const [desc, setDesc] = useState('');
-  const [author, setAuthor] = useState('');
-
-  useEffect(() => {
-    const randomIndex = Math.floor(Math.random() * exampleTips.length);
-    const randomTip = exampleTips[randomIndex];
-    setTitle(randomTip.title);
-    setDesc(randomTip.desc);
-    setId(randomTip.id);
-    setAuthor(randomTip.author);
-  }, []); 
+  if (!tipData || tipData.length === 0) { // <-- Manejar el caso donde no hay recetas
+    return (
+      <Container maxWidth="md" sx={{ paddingTop: '100px', textAlign: 'center' }}>
+        <Typography variant="h6">No se encontraron Consejos.</Typography>
+      </Container>
+    );
+  }
 
 
   return (
-    <Link to={`/Tips/${id}`} style={{ textDecoration: 'none' }}>
-    <Card sx={{ maxWidth: "100%" }}>
-      <CardActionArea>
-        <CardMedia
-          component="img"
-          height="140"
-          image="/static/images/cards/contemplative-reptile.jpg" 
-          alt={title} 
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            {title}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {desc}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            Autor: {author}
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-    </Card>
-    </Link>
+    <Grid container spacing={2} sx={{ width: '100%', maxWidth: '1300px', direction: { xs: 'column', sm: 'row' } }}>
+      {tipData.map((tip) => (
+        <Grid item xs={12} sm={6} md={4} key={tip._id}>
+          <Link to={`/Tips/${tip._id}`} style={{ textDecoration: 'none' }}>
+            <Card>
+              <CardActionArea>
+                <CardMedia
+                  component="img"
+                  height="140"
+                  image={`${ENDPOINT}/uploads/${tip.img}`}
+                  alt="tip image"
+                />
+                <CardContent>
+                  <Typography gutterBottom variant="h5" component="div">
+                    {tip.title}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {tip.description.substring(0, 100)}...
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Autor: {tip.author}
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          </Link>
+        </Grid>
+      ))}
+    </Grid>
   );
 };
 
