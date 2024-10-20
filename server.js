@@ -21,7 +21,8 @@ mongoose.connect(process.env.MONGO_URI, {
 
 // Rutas
 const recipeRoutes = require('./routes/recipeRoutes');
-app.use('/api', recipeRoutes);
+const tipRoutes = require('./routes/tipRoutes');
+app.use('/api', [recipeRoutes, tipRoutes]);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

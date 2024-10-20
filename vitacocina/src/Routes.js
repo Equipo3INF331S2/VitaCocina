@@ -2,6 +2,7 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import RecipePage from './pages/RecipePage';
+import TipPage from "./pages/TipPage";
 import AdminPage from './pages/AdminPage';
 import MyPostsPage from './pages/MyPostsPage'; 
 import SignIn from './pages/LoginPage'; 
@@ -15,6 +16,7 @@ const AppRoutes = () => {
     <Routes>
       <Route path='/' element={<HomePage />} />
       <Route path="/recipes/:id" element={<RecipePage />} />
+      <Route path="/tips/:id" element={<TipPage />} />
       <Route path="/admin" element={<AdminPage />} />
       <Route path="/posts" element={<MyPostsPage />} /> 
       <Route path="/login" element={<SignIn />} />
