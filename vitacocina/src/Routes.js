@@ -7,6 +7,7 @@ import MyPostsPage from './pages/MyPostsPage';
 import SignIn from './pages/LoginPage'; 
 import SignUp from './pages/RegisterPage';
 import HomePage from './pages/HomePage';
+import AllRecipePage from './pages/AllRecipePage';
 
 
 const AppRoutes = () => {
@@ -18,6 +19,7 @@ const AppRoutes = () => {
       <Route path="/posts" element={<MyPostsPage />} /> 
       <Route path="/login" element={<SignIn />} />
       <Route path="/register" element={<SignUp />} /> 
+      <Route path="/allrecipe" element={<AllRecipePage />} />
     </Routes>
   );
 };

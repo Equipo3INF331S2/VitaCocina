@@ -325,8 +325,9 @@ const HomePage = () => {
                         marginLeft: '10%'
                     }}
                 >
-                    Recetas
+                    <Link href="/allrecipe" sx={{ color: '#ffffff', textDecoration: 'none' }}>Recetas</Link>
                 </Typography>
+                
                 <animated.div style={{
                     scrollBehavior: 'smooth',
                     width: '100%',
