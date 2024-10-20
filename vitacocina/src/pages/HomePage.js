@@ -63,7 +63,7 @@ const exampleTips = [
 
 
 const HomePage = () => {
-    
+
     const themeMui = createTheme();
     const theme = useTheme();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
@@ -112,52 +112,45 @@ const HomePage = () => {
         //TODAVIA NO IMPLEMENTADO
     };
 
-    
-    const [recipesToDisplay, setRecipesToDisplay] = useState([]);
+    const [shuffledRecipes, setShuffledRecipes] = useState([]);
     const [loading, setLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
     const recipesPerPage = 3;
-    
+
+    const [springProps, setSpringProps] = useSpring(() => ({
+        scrollTop: 0,
+    }));
+
     useEffect(() => {
         setLoading(true);
         fetch(`${ENDPOINT}/api/recipes`, { method: 'GET' })
             .then(response => response.json())
             .then(data => {
-                const shuffledRecipes = [...data].sort(() => 0.5 - Math.random());
-                setRecipesToDisplay(shuffledRecipes);
+                const shuffledRe = [...data].sort(() => 0.5 - Math.random());
+                setShuffledRecipes(shuffledRe);
                 setLoading(false);
             })
             .catch(error => {
                 console.error("Error fetching recipes:", error);
                 setLoading(false);
             });
-        }, []);
-        
-        const numPages = Math.ceil(recipesToDisplay.length / recipesPerPage);
-        const indexOfLastRecipe = currentPage * recipesPerPage;
-        const indexOfFirstRecipe = indexOfLastRecipe - recipesPerPage;
-        const currentRecipes = recipesToDisplay.slice(indexOfFirstRecipe, indexOfLastRecipe);
-        
-        const recipeGridRef = useRef(null);
-        
-        const [springProps, setSpringProps] = useSpring(() => ({
-            scrollTop: 0,
-        }));
-        
+    }, []);
+
+    const indexOfLastRecipe = currentPage * recipesPerPage;
+    const indexOfFirstRecipe = indexOfLastRecipe - recipesPerPage;
+    const currentRecipe = shuffledRecipes.slice(indexOfFirstRecipe, indexOfLastRecipe);
+    const numPageRecipe = Math.ceil(shuffledRecipes.length / recipesPerPage);
+
 
     const handlePageChange = (event, value) => {
         setCurrentPage(value);
-        const offsetTop = recipeGridRef.current?.offsetTop || 0;
-        setSpringProps({ scrollTop: offsetTop, onRest: () => { } });
     };
 
 
-    const [tipsToDisplay, setTipsToDisplay] = useState([]);
+    const [shuffledTips, setShuffledTips] = useState([]);
     const [loadingTip, setLoadingTip] = useState(true);
-    const [currentTip, setCurrentTip] = useState([]);
     const [currentPageTips, setCurrentPageTips] = useState(1);
     const tipsPerPage = 3;
-    const tipGridRef = useRef(null);
 
     const [springPropsTips, setSpringPropsTips] = useSpring(() => ({
         scrollTop: 0,
@@ -168,24 +161,26 @@ const HomePage = () => {
         fetch(`${ENDPOINT}/api/tips`, { method: 'GET' })
             .then(response => response.json())
             .then(data => {
-                const shuffledTips = [...data].sort(() => 0.5 - Math.random());
-                setTipsToDisplay(shuffledTips);
-                const indexOfLastTip = currentPageTips * tipsPerPage;
-                const indexOfFirstTip = indexOfLastTip - tipsPerPage;
-                setCurrentTip(shuffledTips.slice(indexOfFirstTip, indexOfLastTip));
-                setLoading(false);
+                const shuffled = [...data].sort(() => 0.5 - Math.random());
+                setShuffledTips(shuffled);
+                setLoadingTip(false);
             })
             .catch(error => {
                 console.error("Error fetching tips:", error);
                 setLoading(false);
             });
-    }, [currentPageTips]);
+    }, []);
 
+
+
+    const indexOfLastTip = currentPageTips * tipsPerPage;
+    const indexOfFirstTip = indexOfLastTip - tipsPerPage;
+    const currentTip = shuffledTips.slice(indexOfFirstTip, indexOfLastTip);
+    const numPagesTips = Math.ceil(shuffledTips.length / tipsPerPage);
 
     const handlePageChangeTips = (event, value) => {
         setCurrentPageTips(value);
     };
-
 
     return (
         <ThemeProvider theme={themeMui}>
@@ -337,7 +332,7 @@ const HomePage = () => {
                 >
                     <Link href="/allrecipe" sx={{ color: '#ffffff', textDecoration: 'none' }}>Recetas</Link>
                 </Typography>
-                
+
                 <animated.div style={{
                     scrollBehavior: 'smooth',
                     width: '100%',
@@ -347,12 +342,12 @@ const HomePage = () => {
                     scrollTop={springProps.scrollTop}
                 >
                     <Box sx={{ display: 'flex', justifyContent: 'center', width: '100%', mt: '2%' }}>
-                        <RecipeCard/>
+                        <RecipeCard recipeData={currentRecipe} />
                     </Box>
 
                     <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3 }}>
                         <Pagination
-                            count={numPages}
+                            count={numPageRecipe}
                             page={currentPage}
                             onChange={handlePageChange}
                             size="small"
@@ -379,7 +374,7 @@ const HomePage = () => {
                         marginLeft: '10%'
                     }}
                 >
-                <Link href="/alltip" sx={{ color: '#ffffff', textDecoration: 'none' }}>Consejos</Link>
+                    <Link href="/alltip" sx={{ color: '#ffffff', textDecoration: 'none' }}>Consejos</Link>
                 </Typography>
 
                 <animated.div style={{
@@ -391,12 +386,12 @@ const HomePage = () => {
                     scrollTop={springPropsTips.scrollTop}
                 >
                     <Box sx={{ display: 'flex', justifyContent: 'center', width: '100%', mt: '2%' }}>
-                        <TipCard tipData={currentTip}/>
+                        <TipCard tipData={currentTip} />
                     </Box>
 
                     <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3 }}>
                         <Pagination
-                            count={Math.ceil(tipsToDisplay.length / tipsPerPage)}
+                            count={numPagesTips}
                             page={currentPageTips}
                             onChange={handlePageChangeTips}
                             size="small"

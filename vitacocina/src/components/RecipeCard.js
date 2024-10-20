@@ -13,49 +13,20 @@ import { Grid } from '@mui/material';
 
 const ENDPOINT = process.env.ENPOINT || 'http://localhost:5000';
 
-const RecipeCard = () => {
-  const [recipes, setRecipes] = useState([]);
-  const [loading, setLoading] = useState(true);
+const RecipeCard = ({recipeData}) => {
 
-  const tagsTitle = {
-    dietaryPreferences: "Dieta",
-    time: "Tiempo",
-    difficulty: "Dificultad"
-  };
 
-  useEffect(() => {
-    fetch(`${ENDPOINT}/api/recipes`, { method: 'GET' })
-      .then(response => response.json())
-      .then(data => {
-        setRecipes(data);
-        console.log(data);
-        setLoading(false); // Cambiar a false cuando la carga haya terminado
-      })
-      .catch(error => {
-        console.error("Error fetching recipes:", error);
-        setLoading(false);
-      });
-  }, []);
-
-  if (loading) {
-    return (
-      <Container maxWidth="md" sx={{ paddingTop: '200px', textAlign: 'center' }}>
-        <CircularProgress />
-      </Container>
-    );
-  }
-
-  if (!recipes || recipes.length === 0) { // <-- Manejar el caso donde no hay recetas
+  if (!recipeData || recipeData.length === 0) { // <-- Manejar el caso donde no hay recetas
     return (
       <Container maxWidth="md" sx={{ paddingTop: '100px', textAlign: 'center' }}>
-        <Typography variant="h6">No se encontraron recetas.</Typography>
+        <Typography variant="h6">No se encontraron Recetas.</Typography>
       </Container>
     );
   }
 
   return (
     <Grid container spacing={2} sx={{ width: '100%', maxWidth: '1300px', direction: { xs: 'column', sm: 'row' } }}>
-      {recipes.map(recipe => (
+      {recipeData.map((recipe) => (
         <Grid item xs={12} sm={6} md={4} key={recipe._id}>
         <Link key={recipe._id} to={`/recipes/${recipe._id}`} style={{ textDecoration: 'none' }}>
           <Card>
