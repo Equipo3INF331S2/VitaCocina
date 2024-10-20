@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const culinaryTipSchema = new mongoose.Schema({
   title: {
@@ -22,4 +22,4 @@ const culinaryTipSchema = new mongoose.Schema({
   }
 });
 
-export default mongoose.models.CulinaryTip || mongoose.model('CulinaryTip', culinaryTipSchema);
+module.exports = mongoose.model('Tip', culinaryTipSchema);
