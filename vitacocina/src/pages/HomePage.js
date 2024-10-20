@@ -213,7 +213,7 @@ const HomePage = () => {
                         justifyContent: "center",
                     }}>
                         <Grid container spacing={"1%"} sx={{ alignItems: 'flex-start' }}>
-                            <Grid item xs={10} sm={4}>
+                            <Grid item xs={12} sm={4}>
                                 <Chip
                                     icon={<KeyboardArrowDownIcon style={{ color: 'white' }} />}
                                     label={selectedDiet || "Preferencia Dietética"}
