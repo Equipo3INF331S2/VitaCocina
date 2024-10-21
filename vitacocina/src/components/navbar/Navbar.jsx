@@ -7,42 +7,67 @@ import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-//import AdbIcon from '@mui/icons-material/Adb';
-
+import { useNavigate } from 'react-router-dom';
 import Logo from '../../assets/vitacocina.png';
-
-const pages = ['Inicio', 'Publicar', 'Favoritos'];
-const settings = ['Profile', 'Logout'];
 
 function Navbar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const navigate = useNavigate();
+  const user = JSON.parse(localStorage.getItem('user'));
+  const isUserLoggedIn = Boolean(user);
+  const isAdmin = isUserLoggedIn && user.email.endsWith('@vitacocina.com');
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
-  };
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
   };
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
 
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+    navigate('/login');
   };
+
+  const handleLogin = () => {
+    navigate('/login');
+  };
+
+  const handleNavigation = (page) => {
+    if (page === 'Inicio') {
+      navigate('/');
+    } else if (page === 'Recetas') {
+      navigate('/allrecipe');
+    } else if (page === 'Consejos') {
+      navigate('/alltip');
+    } else if (page === 'Publicaciones') {
+      navigate('/posts');
+    } else if (page === 'Favoritos') {
+      
+    } else if (page === 'Admin') {
+      navigate('/admin');
+    }
+  };
+
+  const publicPages = ['Inicio', 'Recetas', 'Consejos'];
+  const privatePages = isUserLoggedIn ? ['Publicaciones', 'Favoritos'] : [];
 
   return (
     <AppBar position="static" sx={{ height: 80 }}>
-      <Container maxWidth="xl" sx={{ height: '100%'}}>
+      <Container maxWidth="xl" sx={{ height: '100%' }}>
         <Toolbar disableGutters sx={{ height: '100%', alignItems: 'center' }}>
-          <Box component='img' src={Logo} alt='Logo' sx={{ display: { xs: 'none', md: 'flex' }, mr: 1, height: 80}}/>
-
+          {/* Logo */}
+          <Box
+            component="img"
+            src={Logo}
+            alt="Logo"
+            onClick={() => navigate('/')}
+            sx={{ display: { xs: 'none', md: 'flex' }, mr: 1, height: 80, cursor: 'pointer' }}
+          />
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
@@ -71,69 +96,56 @@ function Navbar() {
               onClose={handleCloseNavMenu}
               sx={{ display: { xs: 'block', md: 'none' } }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
+              {[...publicPages, ...privatePages, isAdmin && 'Admin'].filter(Boolean).map((page) => (
+                <MenuItem key={page} onClick={() => handleNavigation(page)}>
                   <Typography sx={{ textAlign: 'center' }}>{page}</Typography>
                 </MenuItem>
               ))}
             </Menu>
           </Box>
+
+          {/* Logo */}
           <Box
-          component="a"
-          href="#"
-          sx={{
-            display: { xs: 'flex', md: 'none' },
-            mr: 2,
-            flexGrow: 1,
-            textDecoration: 'none',
-            alignItems: 'center',
-          }}
-        >
-          <Box component="img" src={Logo} alt="Logo" sx={{ height: 80 }}/>
-        </Box>
+            component="a"
+            href="#"
+            onClick={() => navigate('/')}
+            sx={{
+              display: { xs: 'flex', md: 'none' },
+              mr: 2,
+              flexGrow: 1,
+              textDecoration: 'none',
+              alignItems: 'center',
+              cursor: 'pointer',
+            }}
+          >
+            <Box component="img" src={Logo} alt="Logo" sx={{ height: 80 }} />
+          </Box>
+
+          {/* Botones de navegación */}
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
+            {[...publicPages, ...privatePages, isAdmin && 'Admin'].filter(Boolean).map((page) => (
               <Button
                 key={page}
-                onClick={handleCloseNavMenu}
+                onClick={() => handleNavigation(page)}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
                 {page}
               </Button>
             ))}
           </Box>
+
+          {/* Botón de cerrar/iniciar sesión */}
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-              </IconButton>
+            <Tooltip title={isUserLoggedIn ? 'Cerrar sesión' : 'Iniciar sesión'}>
+              <Button onClick={isUserLoggedIn ? handleLogout : handleLogin} sx={{ color: 'white' }}>
+                {isUserLoggedIn ? 'Cerrar sesión' : 'Iniciar sesión'}
+              </Button>
             </Tooltip>
-            <Menu
-              sx={{ mt: '45px' }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography sx={{ textAlign: 'center' }}>{setting}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
           </Box>
         </Toolbar>
       </Container>
     </AppBar>
   );
 }
+
 export default Navbar;
