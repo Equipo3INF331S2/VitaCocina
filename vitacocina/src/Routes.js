@@ -12,6 +12,7 @@ import AllRecipePage from './pages/AllRecipePage';
 import AllTipPage from './pages/AllTipPage'; 
 import CreateRecipe from './pages/CreateRecipe'; 
 import CreateTip from './pages/CreateTips';
+import SearchResults from './pages/searchresult';
 
 import Navbar from './components/navbar/Navbar';
 import ProtectedRoute from './ProtectedRoute';
@@ -39,6 +40,7 @@ const AppRoutes = () => {
               <Route path="/tips/:id" element={<TipPage />} />
               <Route path="/allrecipe" element={<AllRecipePage />} />
               <Route path="/alltip" element={<AllTipPage />} /> 
+              <Route path="/searchresult" element={<SearchResults />} />
             </Routes>
           </>
         }

@@ -21,6 +21,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { useSpring, animated } from '@react-spring/web';
 import Link from '@mui/material/Link';
 import UserMenu from '../components/userMenu';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -109,9 +110,27 @@ const HomePage = () => {
     };
 
 
+    const navigate = useNavigate();
+
     const handleSearch = () => {
-        //TODAVIA NO IMPLEMENTADO
+        const searchTerm = document.getElementById('search-bar').value;
+        const filters = {
+            diet: selectedDiet,
+            time: selectedTime,
+            skill: selectedSkill,
+        };
+    
+        let searchParams = new URLSearchParams({ q: searchTerm }); 
+        for (const key in filters) {
+            if (filters[key]) {
+                searchParams.set(key, filters[key]);
+            }
+        }
+    
+        navigate(`/searchresult?${searchParams.toString()}`);
+    
     };
+    
 
     const [shuffledRecipes, setShuffledRecipes] = useState([]);
     const [loading, setLoading] = useState(true);

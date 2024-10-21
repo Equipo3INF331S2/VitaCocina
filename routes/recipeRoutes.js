@@ -43,4 +43,39 @@ router.post('/recipes', async (req, res) => {
   }
 });
 
+router.get('/searchrecipes', async (req, res) => {
+  try {
+    const searchTerm = req.query.q;
+    const diet = req.query.diet;
+    const time = req.query.time;
+    const skill = req.query.skill;
+
+    const query = {};
+
+    if (searchTerm) {
+      query.$or = [
+        { name: { $regex: searchTerm, $options: 'i' } },
+      ];
+    }
+    if (diet) {
+      query.dietaryPreferences = diet;
+    }
+    if (time) {
+      query.time = time;
+    }
+    if (skill) {
+      query.difficulty = skill;
+    }
+
+    console.log("Consulta MongoDB:", query);
+
+    const recipes = await Recipe.find(query)
+      .populate('author', 'name');
+
+    res.json(recipes);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 module.exports = router;
