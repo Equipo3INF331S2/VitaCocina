@@ -15,7 +15,8 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, 'La contraseña es obligatoria'],
     minlength: [6, 'La contraseña debe tener al menos 6 caracteres']
-  }
+  },
+  favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Recipe' }]
 });
 
 module.exports = mongoose.model('User', userSchema);

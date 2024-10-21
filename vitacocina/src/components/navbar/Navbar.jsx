@@ -47,7 +47,7 @@ function Navbar() {
     } else if (page === 'Publicaciones') {
       navigate('/posts');
     } else if (page === 'Favoritos') {
-      
+      navigate('/favorites');
     } else if (page === 'Admin') {
       navigate('/admin');
     }

@@ -12,6 +12,7 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 import Container from '@mui/material/Container';
 import CircularProgress from '@mui/material/CircularProgress';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import HeartBrokenIcon from '@mui/icons-material/HeartBroken';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import XIcon from '@mui/icons-material/X';
@@ -23,8 +24,10 @@ const ENDPOINT = process.env.ENPOINT || 'http://localhost:5000';
 
 export default function RecipePage() {
   const { id } = useParams();
+  const user = JSON.parse(localStorage.getItem('user'));
   const [recipe, setRecipe] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isFavorite, setIsFavorite] = useState(false);
 
   const tagsTitle = {
     dietaryPreferences: "Dieta",
@@ -49,6 +52,56 @@ export default function RecipePage() {
         setLoading(false); // Cambiar a false cuando la carga haya terminado
       });
   }, [id]);
+
+  useEffect(() => {
+    fetch(`${ENDPOINT}/api/favorites/check/${user._id}/${id}`, { method: 'GET' })
+      .then(response => response.json())
+      .then(data => {
+        setIsFavorite(data.inFavorites);
+      });
+  }, [id, user._id]);
+
+  const addToFavorites = (recipeId) => {
+    fetch(`${ENDPOINT}/api/favorites/${user._id}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ recipeId }),
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Error al agregar receta a favoritos');
+        }
+        setIsFavorite(true);
+      })
+      .catch(error => {
+        console.error("Error:", error);
+      });
+  };
+
+  const removeFromFavorites = (recipeId) => {
+    fetch(`${ENDPOINT}/api/favorites/${user._id}/${recipeId}`, {
+      method: 'DELETE',
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Error al eliminar receta de favoritos');
+        }
+        setIsFavorite(false);
+      })
+      .catch(error => {
+        console.error("Error:", error);
+      });
+  };
+
+  const handleFavoriteToggle = () => {
+    if (isFavorite) {
+      removeFromFavorites(id);
+    } else {
+      addToFavorites(id);
+    }
+  };
 
   if (loading) {
     return (
@@ -87,16 +140,16 @@ export default function RecipePage() {
       <Box marginY='16px'>
         <Button
           variant="contained"
-          startIcon={<FavoriteIcon />}
+          startIcon={isFavorite ? <HeartBrokenIcon /> : <FavoriteIcon />}
           color='error'
           sx={{
             padding: '6px 16px',
             textTransform: 'none',
             fontWeight: 'bold',
           }}
-          onClick={() => {}}
+          onClick={handleFavoriteToggle}
         >
-          Agregar a Favoritos
+          {isFavorite ? 'Eliminar de Favoritos' : 'Agregar a Favoritos'}
         </Button>
       </Box>
 
