@@ -56,7 +56,6 @@ export default function CreateTip(props) {
     const [descriptionErrorMessage, setDescriptionErrorMessage] = React.useState('');
     const [imgError, setImgError] = React.useState(false);
     const [imgErrorMessage, setImgErrorMessage] = React.useState('');
-    const [imgFile, setImgFile] = React.useState(null);
     const navigate = useNavigate();
 
     // Verificar si el usuario está logueado
@@ -70,6 +69,7 @@ export default function CreateTip(props) {
     const validateInputs = () => {
         const title = document.getElementById('title');
         const description = document.getElementById('description');
+        const img = document.getElementById('img');
 
         let isValid = true;
 
@@ -91,9 +91,9 @@ export default function CreateTip(props) {
             setDescriptionErrorMessage('');
         }
 
-        if (!imgFile) {
+        if (!img.value || img.value.length < 1) {
             setImgError(true);
-            setImgErrorMessage('La imagen es obligatoria.');
+            setImgErrorMessage('La URL de la imagen es obligatoria.');
             isValid = false;
         } else {
             setImgError(false);
@@ -108,33 +108,34 @@ export default function CreateTip(props) {
         if (titleError || descriptionError || imgError) {
             return;
         }
-        const data = new FormData(event.currentTarget);
+
+        const form = event.currentTarget;
         const user = JSON.parse(localStorage.getItem('user'));
 
-        const formData = new FormData();
-        formData.append('author', user._id);
-        formData.append('title', data.get('title'));
-        formData.append('description', data.get('description'));
-        formData.append('img', imgFile);
+        const tipData = {
+            author: user._id,
+            title: form.title.value,
+            description: form.description.value,
+            img: form.img.value,
+        };
 
         try {
             const response = await fetch('http://localhost:3000/api/tips', {
                 method: 'POST',
-                body: formData,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(tipData),
             });
             if (!response.ok) {
                 throw new Error('Error en la creación del tip');
             }
             const result = await response.json();
             alert('Tip creado exitosamente.', result);
-            navigate('/home');
+            navigate('/');
         } catch (error) {
             console.error('Error:', error);
         }
-    };
-
-    const handleFileChange = (event) => {
-        setImgFile(event.target.files[0]);
     };
 
     return (
@@ -192,18 +193,19 @@ export default function CreateTip(props) {
                                 />
                             </FormControl>
                             <FormControl>
-                                <FormLabel htmlFor="img">Imagen</FormLabel>
-                                <input
+                                <FormLabel htmlFor="img">URL de la Imagen</FormLabel>
+                                <TextField
                                     required
                                     fullWidth
                                     name="img"
-                                    type="file"
                                     id="img"
-                                    accept="image/*"
-                                    onChange={handleFileChange}
-                                    style={{ marginTop: '8px' }}
+                                    placeholder="URL de la imagen"
+                                    autoComplete="img"
+                                    variant="outlined"
+                                    error={imgError}
+                                    helperText={imgErrorMessage}
+                                    color={imgError ? 'error' : 'primary'}
                                 />
-                                {imgError && <Typography color="error">{imgErrorMessage}</Typography>}
                             </FormControl>
                             <Button
                                 type="submit"

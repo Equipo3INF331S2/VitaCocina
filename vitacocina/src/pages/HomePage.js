@@ -155,7 +155,6 @@ const HomePage = () => {
     const [springPropsTips, setSpringPropsTips] = useSpring(() => ({
         scrollTop: 0,
     }));
-
     useEffect(() => {
         setLoadingTip(true);
         fetch(`${ENDPOINT}/api/tips`, { method: 'GET' })

@@ -27,6 +27,16 @@ router.get('/tip/:tipId', async (req, res) => {
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
+}); 
+
+router.post('/tips', async (req, res) => {
+  const tip = new Tip(req.body);
+  try {
+    const savedTip = await tip.save();
+    res.status(201).json(savedTip);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
 });
 
 module.exports = router;

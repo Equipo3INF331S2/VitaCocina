@@ -121,9 +121,9 @@ export default function CreateRecipe(props) {
             setInstructionsErrorMessage('');
         }
 
-        if (!img.files || img.files.length === 0) {
+        if (!img.value || img.value.length < 1) {
             setImgError(true);
-            setImgErrorMessage('La imagen es obligatoria.');
+            setImgErrorMessage('La URL de la imagen es obligatoria.');
             isValid = false;
         } else {
             setImgError(false);
@@ -152,25 +152,42 @@ export default function CreateRecipe(props) {
     };
 
     const handleSubmit = async (event) => {
-        event.preventDefault(); 
+        event.preventDefault();
         if (titleError || descriptionError || ingredientsError || instructionsError || imgError || timeError || difficultyError) {
             return;
         }
-        const data = new FormData(event.currentTarget);
+
+        const form = event.currentTarget;
         const user = JSON.parse(localStorage.getItem('user'));
-        data.append('author', user._id);
+
+        const recipeData = {
+            author: user._id,
+            name: form.title.value,
+            description: form.description.value,
+            ingredients: form.ingredients.value.split(','),
+            instructions: form.instructions.value.split(','),
+            dietaryPreferences: form.dietaryPreferences.value,
+            img: form.img.value,
+            time: form.time.value,
+            difficulty: form.difficulty.value,
+        };
 
         try {
             const response = await fetch('http://localhost:3000/api/recipes', {
                 method: 'POST',
-                body: data,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(recipeData),
             });
+
             if (!response.ok) {
                 throw new Error('Error en la creación de la receta');
             }
+
             const result = await response.json();
             alert('Receta creada exitosamente.', result);
-            navigate('/home');
+            navigate('/');
         } catch (error) {
             console.error('Error:', error);
         }
@@ -178,19 +195,19 @@ export default function CreateRecipe(props) {
 
     return (
         <AppTheme {...props} >
-                <CssBaseline enableColorScheme />
-                <CreateRecipeContainer direction="column" justifyContent="center" alignItems="center">
-                    <ColorModeSelect sx={{ position: 'fixed', top: '1rem', right: '1rem' }} />
-                    <Card variant="outlined">
-                        <VitaCocinaIcon />
-                        <Typography
-                            component="h1"
-                            variant="h4"
-                            sx={{ width: '100%', fontSize: 'clamp(2rem, 10vw, 2.15rem)' }}
-                        >
-                            Crear Receta
-                        </Typography>
-                        <Box
+            <CssBaseline enableColorScheme />
+            <CreateRecipeContainer direction="column" justifyContent="center" alignItems="center">
+                <ColorModeSelect sx={{ position: 'fixed', top: '1rem', right: '1rem' }} />
+                <Card variant="outlined">
+                    <VitaCocinaIcon />
+                    <Typography
+                        component="h1"
+                        variant="h4"
+                        sx={{ width: '100%', fontSize: 'clamp(2rem, 10vw, 2.15rem)' }}
+                    >
+                        Crear Receta
+                    </Typography>
+                    <Box
                         component="form"
                         onSubmit={handleSubmit}
                         noValidate
@@ -200,133 +217,133 @@ export default function CreateRecipe(props) {
                             width: '100%',
                             gap: 2,
                         }}
-                        >
-                            <FormControl>
-                                <FormLabel htmlFor="title">Título</FormLabel>
-                                <TextField
-                                    autoComplete="title"
-                                    name="title"
-                                    required
-                                    fullWidth
-                                    id="title"
-                                    placeholder="Título de la receta"
-                                    error={titleError}
-                                    helperText={titleErrorMessage}
-                                    color={titleError ? 'error' : 'primary'}
-                                />
-                            </FormControl>
-                            <FormControl>
-                                <FormLabel htmlFor="description">Descripción</FormLabel>
-                                <TextField
-                                    required
-                                    fullWidth
-                                    id="description"
-                                    placeholder="Descripción de la receta"
-                                    name="description"
-                                    autoComplete="description"
-                                    variant="outlined"
-                                    error={descriptionError}
-                                    helperText={descriptionErrorMessage}
-                                    color={descriptionError ? 'error' : 'primary'}
-                                />
-                            </FormControl>
-                            <FormControl>
-                                <FormLabel htmlFor="img">Imagen</FormLabel>
-                                <TextField
-                                    required
-                                    fullWidth
-                                    name="img"
-                                    type="file"
-                                    id="img"
-                                    autoComplete="img"
-                                    variant="outlined"
-                                    error={imgError}
-                                    helperText={imgErrorMessage}
-                                    color={imgError ? 'error' : 'primary'}
-                                />
-                            </FormControl>
-                            <FormControl>
-                                <FormLabel htmlFor="ingredients">Ingredientes (separados por comas)</FormLabel>
-                                <TextField
-                                    required
-                                    fullWidth
-                                    name="ingredients"
-                                    placeholder="Ingredientes de la receta"
-                                    id="ingredients"
-                                    autoComplete="ingredients"
-                                    variant="outlined"
-                                    error={ingredientsError}
-                                    helperText={ingredientsErrorMessage}
-                                    color={ingredientsError ? 'error' : 'primary'}
-                                />
-                            </FormControl>
-                            <FormControl>
-                                <FormLabel htmlFor="instructions">Instrucciones (separadas por comas)</FormLabel>
-                                <TextField
-                                    required
-                                    fullWidth
-                                    name="instructions"
-                                    placeholder="Instrucciones de la receta"
-                                    id="instructions"
-                                    autoComplete="instructions"
-                                    variant="outlined"
-                                    error={instructionsError}
-                                    helperText={instructionsErrorMessage}
-                                    color={instructionsError ? 'error' : 'primary'}
-                                />
-                            </FormControl>
-                            <FormControl>
-                                <FormLabel htmlFor="dietaryPreferences">Preferencias Dietéticas</FormLabel>
-                                <TextField
-                                    fullWidth
-                                    name="dietaryPreferences"
-                                    placeholder="Preferencias dietéticas (opcional)"
-                                    id="dietaryPreferences"
-                                    autoComplete="dietaryPreferences"
-                                    variant="outlined"
-                                />
-                            </FormControl>
-                            <FormControl>
-                                <FormLabel htmlFor="time">Tiempo</FormLabel>
-                                <TextField
-                                    required
-                                    fullWidth
-                                    name="time"
-                                    placeholder="Tiempo de preparación"
-                                    id="time"
-                                    autoComplete="time"
-                                    variant="outlined"
-                                    error={timeError}
-                                    helperText={timeErrorMessage}
-                                    color={timeError ? 'error' : 'primary'}
-                                />
-                            </FormControl>
-                            <FormControl>
-                                <FormLabel htmlFor="difficulty">Dificultad</FormLabel>
-                                <TextField
-                                    required
-                                    fullWidth
-                                    name="difficulty"
-                                    placeholder="Dificultad de la receta"
-                                    id="difficulty"
-                                    autoComplete="difficulty"
-                                    variant="outlined"
-                                    error={difficultyError}
-                                    helperText={difficultyErrorMessage}
-                                    color={difficultyError ? 'error' : 'primary'}
-                                />
-                            </FormControl>
-                            <Button
-                                type="submit"
+                    >
+                        <FormControl>
+                            <FormLabel htmlFor="title">Título</FormLabel>
+                            <TextField
+                                autoComplete="title"
+                                name="title"
+                                required
                                 fullWidth
-                                variant="contained"
-                                onClick={validateInputs}
-                            >
-                                Crear Receta
-                            </Button>
-                        </Box>
-                    </Card>
-                </CreateRecipeContainer>
+                                id="title"
+                                placeholder="Título de la receta"
+                                error={titleError}
+                                helperText={titleErrorMessage}
+                                color={titleError ? 'error' : 'primary'}
+                            />
+                        </FormControl>
+                        <FormControl>
+                            <FormLabel htmlFor="description">Descripción</FormLabel>
+                            <TextField
+                                required
+                                fullWidth
+                                id="description"
+                                placeholder="Descripción de la receta"
+                                name="description"
+                                autoComplete="description"
+                                variant="outlined"
+                                error={descriptionError}
+                                helperText={descriptionErrorMessage}
+                                color={descriptionError ? 'error' : 'primary'}
+                            />
+                        </FormControl>
+                        <FormControl>
+                            <FormLabel htmlFor="img">URL de la Imagen</FormLabel>
+                            <TextField
+                                required
+                                fullWidth
+                                name="img"
+                                id="img"
+                                placeholder="URL de la imagen"
+                                autoComplete="img"
+                                variant="outlined"
+                                error={imgError}
+                                helperText={imgErrorMessage}
+                                color={imgError ? 'error' : 'primary'}
+                            />
+                        </FormControl>
+                        <FormControl>
+                            <FormLabel htmlFor="ingredients">Ingredientes (separados por comas)</FormLabel>
+                            <TextField
+                                required
+                                fullWidth
+                                name="ingredients"
+                                placeholder="Ingredientes de la receta"
+                                id="ingredients"
+                                autoComplete="ingredients"
+                                variant="outlined"
+                                error={ingredientsError}
+                                helperText={ingredientsErrorMessage}
+                                color={ingredientsError ? 'error' : 'primary'}
+                            />
+                        </FormControl>
+                        <FormControl>
+                            <FormLabel htmlFor="instructions">Instrucciones (separadas por comas)</FormLabel>
+                            <TextField
+                                required
+                                fullWidth
+                                name="instructions"
+                                placeholder="Instrucciones de la receta"
+                                id="instructions"
+                                autoComplete="instructions"
+                                variant="outlined"
+                                error={instructionsError}
+                                helperText={instructionsErrorMessage}
+                                color={instructionsError ? 'error' : 'primary'}
+                            />
+                        </FormControl>
+                        <FormControl>
+                            <FormLabel htmlFor="dietaryPreferences">Preferencias Dietéticas</FormLabel>
+                            <TextField
+                                fullWidth
+                                name="dietaryPreferences"
+                                placeholder="Preferencias dietéticas (opcional)"
+                                id="dietaryPreferences"
+                                autoComplete="dietaryPreferences"
+                                variant="outlined"
+                            />
+                        </FormControl>
+                        <FormControl>
+                            <FormLabel htmlFor="time">Tiempo</FormLabel>
+                            <TextField
+                                required
+                                fullWidth
+                                name="time"
+                                placeholder="Tiempo de preparación"
+                                id="time"
+                                autoComplete="time"
+                                variant="outlined"
+                                error={timeError}
+                                helperText={timeErrorMessage}
+                                color={timeError ? 'error' : 'primary'}
+                            />
+                        </FormControl>
+                        <FormControl>
+                            <FormLabel htmlFor="difficulty">Dificultad</FormLabel>
+                            <TextField
+                                required
+                                fullWidth
+                                name="difficulty"
+                                placeholder="Dificultad de la receta"
+                                id="difficulty"
+                                autoComplete="difficulty"
+                                variant="outlined"
+                                error={difficultyError}
+                                helperText={difficultyErrorMessage}
+                                color={difficultyError ? 'error' : 'primary'}
+                            />
+                        </FormControl>
+                        <Button
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            onClick={validateInputs}
+                        >
+                            Crear Receta
+                        </Button>
+                    </Box>
+                </Card>
+            </CreateRecipeContainer>
         </AppTheme>
     );
 }

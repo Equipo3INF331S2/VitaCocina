@@ -31,8 +31,9 @@ router.get('/recipe/:recipeId', async (req, res) => {
 })
 
 // Agregar receta
-router.post('/recipes', async (req, res) => {
-  const recipe = new Recipe(req.body);
+router.post('/recipes', async (req, res) => {  
+  const recipe = new Recipe(req.body); 
+  console.log('req.body', req.body);
   try {
     const savedRecipe = await recipe.save();
     res.status(201).json(savedRecipe);
