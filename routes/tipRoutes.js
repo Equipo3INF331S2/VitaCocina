@@ -5,7 +5,8 @@ const router = express.Router();
 
 router.get('/tips', async (req, res) => {
   try {
-    const tips = await Tip.find();
+    const tips = await Tip.find()
+      .populate('author', 'name');
     res.json(tips);
   } catch (err) {
     res.status(500).json({ message: err.message });

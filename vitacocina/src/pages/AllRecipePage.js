@@ -20,7 +20,12 @@ const AllRecipePage = () => {
         fetch(`${ENDPOINT}/api/recipes`, { method: 'GET' })
             .then(response => response.json())
             .then(data => {
-                const sortedRecipes = [...data].sort((a, b) => a.name.localeCompare(b.name));
+                const transformedData = data.map(recipe => ({
+                    ...recipe,
+                    author: recipe.author.name
+                }));
+
+                const sortedRecipes = [...transformedData].sort((a, b) => a.name.localeCompare(b.name));
                 setRecipe(sortedRecipes);
                 setLoading(false);
             })

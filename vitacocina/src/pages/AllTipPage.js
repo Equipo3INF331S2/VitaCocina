@@ -20,7 +20,12 @@ const AllTipPage = () => {
         fetch(`${ENDPOINT}/api/tips`, { method: 'GET' })
             .then(response => response.json())
             .then(data => {
-                const sortedTips = [...data].sort((a, b) => a.title.localeCompare(b.title));
+                const transformedData = data.map(tip => ({
+                    ...tip,
+                    author: tip.author.name
+                }));
+
+                const sortedTips = [...transformedData].sort((a, b) => a.title.localeCompare(b.title));
                 setTips(sortedTips);
                 setLoading(false);
             })

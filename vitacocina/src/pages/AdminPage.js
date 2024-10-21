@@ -1,45 +1,75 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, ButtonGroup, IconButton, Container,
   Box,
   Typography,
-  TablePagination
+  TablePagination,
+  CircularProgress
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-// Ejemplos de datos
-const exampleRecipe = {
-  author: "Thor, Dios del Trueno",
-  name: "Ensalada César",
-  description: "Una ensalada clásica y refrescante, ideal para el verano. Combina lechuga fresca con crutones y aderezo César.",
-  ingredients: ["Lechuga romana", "Crutones", "Queso parmesano", "Aderezo César", "Pechuga de pollo (opcional)"],
-  time: "15 minutos",
-  difficulty: "Fácil",
-  dietaryPreferences: "Sin gluten"
-};
+const ENDPOINT = process.env.ENPOINT || 'http://localhost:5000';
 
-const exampleTip = {
-  author: "Loki",
-  title: "Cómo conservar la lechuga fresca",
-  description: "Almacenar en un envase hermético con toallas de papel para evitar que se marchite."
-};
 
-const exampleUser = {
-  email: "user@example.com",
-  password: "password123"
-};
-
-const initialData = {
-  recipes: [exampleRecipe],
-  tips: [exampleTip],
-  users: [exampleUser]
-};
 
 const AdminTable = () => {
   const [viewType, setViewType] = useState('recipes');
-  const [data, setData] = useState(initialData);
+  const [data, setData] = useState(null);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [recipesLoaded, setRecipesLoaded] = useState(false);
+  const [tipsLoaded, setTipsLoaded] = useState(false);
+  const [usersLoaded, setUsersLoaded] = useState(false);
+
+  useEffect(() => {
+    fetch(`${ENDPOINT}/api/recipes`, { method: 'GET' })
+      .then(response => response.json())
+      .then(recipesData => {
+        const transformedRecipes = recipesData.map(recipe => ({
+          ...recipe,
+          author: recipe.author.name
+        }));
+
+        setData(prevData => ({
+          ...prevData,
+          recipes: transformedRecipes
+        }));
+        setRecipesLoaded(true);
+      })
+      .catch(error => console.error('Error al obtener recetas:', error));
+  }, []);
+  
+  useEffect(() => {
+    fetch(`${ENDPOINT}/api/tips`, { method: 'GET' })
+      .then(response => response.json())
+      .then(tipsData => {
+        const transformedTips = tipsData.map(tip => ({
+          ...tip,
+          author: tip.author.name
+        }));
+
+        setData(prevData => ({
+          ...prevData,
+          tips: transformedTips
+        }));
+        setTipsLoaded(true);
+      })
+      .catch(error => console.error('Error al obtener consejos:', error));
+  }, []);
+  
+  useEffect(() => {
+    fetch(`${ENDPOINT}/api/allUsers`, { method: 'GET' })
+      .then(response => response.json())
+      .then(usersData => {
+        setData(prevData => ({
+          ...prevData,
+          users: usersData
+        }));
+        setUsersLoaded(true);
+      })
+      .catch(error => console.error('Error al obtener usuarios:', error));
+  }, []);
+  
 
   const handleDelete = (type, index) => {
     const updatedData = { ...data };
@@ -60,6 +90,14 @@ const AdminTable = () => {
     const currentData = data[viewType] || [];
     return currentData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
   };
+
+  if (!(recipesLoaded && tipsLoaded && usersLoaded)) {
+    return (
+      <Container maxWidth="md" sx={{ paddingTop: '200px', textAlign: 'center' }}>
+        <CircularProgress />
+      </Container>
+    );
+  }
 
   return (
     <Container maxWidth='xl' sx={{ paddingTop: '20px' }}>
@@ -124,7 +162,7 @@ const AdminTable = () => {
               {viewType === 'users' && (
                 <>
                   <TableCell>Email</TableCell>
-                  <TableCell>Password</TableCell>
+                  <TableCell>Nombre</TableCell>
                   <TableCell>Acciones</TableCell>
                 </>
               )}
@@ -153,7 +191,7 @@ const AdminTable = () => {
                 {viewType === 'users' && (
                   <>
                     <TableCell>{item.email}</TableCell>
-                    <TableCell>{item.password}</TableCell>
+                    <TableCell>{item.name}</TableCell>
                   </>
                 )}
                 <TableCell>

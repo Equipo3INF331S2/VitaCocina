@@ -6,7 +6,8 @@ const router = express.Router();
 // Listar recetas
 router.get('/recipes', async (req, res) => {
   try {
-    const recipes = await Recipe.find();
+    const recipes = await Recipe.find()
+      .populate('author', 'name');
     res.json(recipes);
   } catch (err) {
     res.status(500).json({ message: err.message });

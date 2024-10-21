@@ -126,7 +126,12 @@ const HomePage = () => {
         fetch(`${ENDPOINT}/api/recipes`, { method: 'GET' })
             .then(response => response.json())
             .then(data => {
-                const shuffledRe = [...data].sort(() => 0.5 - Math.random());
+                const transformedData = data.map(recipe => ({
+                    ...recipe,
+                    author: recipe.author.name
+                }));
+
+                const shuffledRe = [...transformedData].sort(() => 0.5 - Math.random());
                 setShuffledRecipes(shuffledRe);
                 setLoading(false);
             })
@@ -160,7 +165,12 @@ const HomePage = () => {
         fetch(`${ENDPOINT}/api/tips`, { method: 'GET' })
             .then(response => response.json())
             .then(data => {
-                const shuffled = [...data].sort(() => 0.5 - Math.random());
+                const transformedData = data.map(tip => ({
+                    ...tip,
+                    author: tip.author.name
+                }));
+
+                const shuffled = [...transformedData].sort(() => 0.5 - Math.random());
                 setShuffledTips(shuffled);
                 setLoadingTip(false);
             })
