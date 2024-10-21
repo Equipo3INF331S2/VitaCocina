@@ -173,7 +173,7 @@ export default function CreateRecipe(props) {
         };
 
         try {
-            const response = await fetch('http://localhost:3000/api/recipes', {
+            const response = await fetch('http://localhost:5000/api/recipes', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

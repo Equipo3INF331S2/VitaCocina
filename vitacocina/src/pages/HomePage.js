@@ -20,6 +20,7 @@ import { useTheme } from '@mui/material/styles';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { useSpring, animated } from '@react-spring/web';
 import Link from '@mui/material/Link';
+import UserMenu from '../components/userMenu';
 
 
 
@@ -190,6 +191,15 @@ const HomePage = () => {
     const handlePageChangeTips = (event, value) => {
         setCurrentPageTips(value);
     };
+
+    const [userLoggedIn, setUserLoggedIn] = useState(false);
+
+    useEffect (() => {
+        const storedUser = localStorage.getItem('user');
+        if (storedUser){
+            setUserLoggedIn(true);
+        }
+    }, []);
 
     return (
         <ThemeProvider theme={themeMui}>
@@ -417,16 +427,19 @@ const HomePage = () => {
                 </animated.div>
 
                 <Box sx={{ position: 'absolute', top: 16, right: 16 }}>
-                    <Typography variant="body2" sx={{ color: '#FFFFFF', textAlign: 'right' }}>
+                    {!userLoggedIn && (<Typography variant="body2" sx={{ color: '#FFFFFF', textAlign: 'right' }}>
                         Tienes una cuenta?{' '}
                         <Link href="/login" sx={{ color: '#d98e2c', textDecoration: 'none' }}>INGRESA</Link> o
                         <Link href="/register" sx={{ color: '#d98e2c', textDecoration: 'none' }}> REGISTRATE</Link>
                     </Typography>
+                )}    
+                </Box>
+                <Box sx ={{ position: 'absolute', top: 16, right: '200px'}}>
+                    {userLoggedIn && <UserMenu />}
                 </Box>
             </div>
         </ThemeProvider>
     )
-
 }
 
 export default HomePage
