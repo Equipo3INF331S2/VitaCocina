@@ -34,13 +34,25 @@ const handleLogout = () => {
     window.location.href = '/';
 };
 
+const user = JSON.parse(localStorage.getItem('user'));
+const isUserLoggedIn = Boolean(user);
+const isAdmin = isUserLoggedIn && user.email.endsWith('@vitacocina.com');
 
-const actions = [
-  { icon: <Link href="/createRecipe" sx={{ color: '#000000', textDecoration: 'none' }}>Agregar Receta</Link>},
-  { icon: <Link href="/createTip" sx={{ color: '#000000', textDecoration: 'none' }}>Agregar Consejo</Link>},
-  { icon: <Link href="/allrecipe" sx={{ color: '#000000', textDecoration: 'none' }}>Editar Cuenta</Link>},
-  { icon: <Link href="/allrecipe" sx={{ color: '#000000', textDecoration: 'none' }}>Ver Lista favoritos</Link>},
-  { icon: <Link onClick={handleLogout} sx={{ color: '#000000', textDecoration: 'none', cursor: 'pointer' }}>Cerrar Sesión</Link>}
+const actions = isAdmin ? [  // <-- Condicional para acciones de admin
+  { icon: <Link href="/createRecipe" sx={{ color: '#000000', textDecoration: 'none' }}>Agregar Receta</Link> },
+  { icon: <Link href="/createTip" sx={{ color: '#000000', textDecoration: 'none' }}>Agregar Consejo</Link> },
+  { icon: <Link href="/allrecipe" sx={{ color: '#000000', textDecoration: 'none' }}>Editar Cuenta</Link> },
+  { icon: <Link href="/allrecipe" sx={{ color: '#000000', textDecoration: 'none' }}>Ver Lista favoritos</Link> },
+  { icon: <Link href="/admin" sx={{ color: '#000000', textDecoration: 'none' }}>Administrar Vitacocina</Link> }, // <-- Nuevo link para admin
+  { icon: <Link onClick={handleLogout} sx={{ color: '#000000', textDecoration: 'none', cursor: 'pointer' }}>Cerrar Sesión</Link> },
+
+] : [ // <-- Acciones para usuarios normales
+  { icon: <Link href="/createRecipe" sx={{ color: '#000000', textDecoration: 'none' }}>Agregar Receta</Link> },
+  { icon: <Link href="/createTip" sx={{ color: '#000000', textDecoration: 'none' }}>Agregar Consejo</Link> },
+  { icon: <Link href="/allrecipe" sx={{ color: '#000000', textDecoration: 'none' }}>Editar Cuenta</Link> },
+  { icon: <Link href="/allrecipe" sx={{ color: '#000000', textDecoration: 'none' }}>Ver Lista favoritos</Link> },
+  { icon: <Link onClick={handleLogout} sx={{ color: '#000000', textDecoration: 'none', cursor: 'pointer' }}>Cerrar Sesión</Link> },
+
 ];
 
 const UserMenu = () => {
@@ -50,7 +62,7 @@ const UserMenu = () => {
 
   return (
     <Box sx={{ transform: 'translateZ(0px)', flexGrow: 1 }}>
-      <Box sx={{ position: 'relative', mt: 3, height: 320 }}>
+      <Box  sx={{ position: 'relative', mt: 3, height: 320 }}>
         <StyledSpeedDial
           ariaLabel="SpeedDial playground example"
           hidden={hidden}
