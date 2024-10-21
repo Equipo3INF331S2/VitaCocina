@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 import Rating from '@mui/material/Rating';
 import Box from '@mui/material/Box';
@@ -23,6 +23,7 @@ import ReviewCard from '../components/Review';
 const ENDPOINT = process.env.ENPOINT || 'http://localhost:5000';
 
 export default function RecipePage() {
+  const navigate = useNavigate();
   const { id } = useParams();
   const user = JSON.parse(localStorage.getItem('user'));
   const [recipe, setRecipe] = useState(null);
@@ -54,14 +55,21 @@ export default function RecipePage() {
   }, [id]);
 
   useEffect(() => {
-    fetch(`${ENDPOINT}/api/favorites/check/${user._id}/${id}`, { method: 'GET' })
-      .then(response => response.json())
-      .then(data => {
-        setIsFavorite(data.inFavorites);
-      });
-  }, [id, user._id]);
+    if (user) { // Solo verifica si hay un usuario conectado
+      fetch(`${ENDPOINT}/api/favorites/check/${user._id}/${id}`, { method: 'GET' })
+        .then(response => response.json())
+        .then(data => {
+          setIsFavorite(data.inFavorites);
+        });
+    }
+  }, [id, user]);
 
   const addToFavorites = (recipeId) => {
+    if (!user) {
+      navigate('/login');
+      return;
+    }
+
     fetch(`${ENDPOINT}/api/favorites/${user._id}`, {
         method: 'POST',
         headers: {
@@ -81,6 +89,11 @@ export default function RecipePage() {
   };
 
   const removeFromFavorites = (recipeId) => {
+    if (!user) {
+      navigate('/login');
+      return;
+    }
+
     fetch(`${ENDPOINT}/api/favorites/${user._id}/${recipeId}`, {
       method: 'DELETE',
     })
@@ -257,7 +270,7 @@ export default function RecipePage() {
       </ButtonGroup>
 
       <Typography id='reviews' variant='h4' lineHeight={3}>Reseñas</Typography>
-      <MakeReview isLoggedIn={true}></MakeReview>
+      <MakeReview isLoggedIn={!!user}></MakeReview>
       {recipe.reviews.map((review) => (
         <ReviewCard key={review.user._id} userName={review.user.name} rating={review.rating} comment={review.comment} />
       ))}
