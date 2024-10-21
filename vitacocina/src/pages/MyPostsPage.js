@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Typography, Container, Button, Box } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 
@@ -22,6 +23,7 @@ const exampleTips = [
 ];
 
 const MyPostsPage = () => {
+  const navigate = useNavigate();
   const [recipes, setRecipes] = useState(exampleRecipes);
   const [tips, setTips] = useState(exampleTips);
 
@@ -63,7 +65,7 @@ const MyPostsPage = () => {
             fallbackText={fallbackText.recipes}
           />
           <Box textAlign='center' marginY={2}>
-            <Button variant='contained' sx={{ fontSize: '1.5rem' }}>Crear receta</Button>
+            <Button onClick={() => {navigate('/createRecipe')}} variant='contained' sx={{ fontSize: '1.5rem' }}>Crear receta</Button>
           </Box>
         </Grid>
 
@@ -80,7 +82,7 @@ const MyPostsPage = () => {
             fallbackText={fallbackText.tips}
           />
           <Box textAlign='center' marginY={2}>
-            <Button variant='contained' sx={{ fontSize: '1.5rem' }}>Crear consejo</Button>
+            <Button onClick={() => {navigate('/createTip')}} variant='contained' sx={{ fontSize: '1.5rem' }}>Crear consejo</Button>
           </Box>
         </Grid>
       </Grid>
