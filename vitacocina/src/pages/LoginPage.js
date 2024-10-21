@@ -87,7 +87,7 @@ export default function SignIn(props) {
         const password = data.get('password');
 
         try {
-            const response = await fetch(`http://localhost:3000/api/users?email=${email}&password=${password}`, {
+            const response = await fetch(`http://localhost:5000/api/users?email=${email}&password=${password}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

@@ -13,21 +13,36 @@ import AllTipPage from './pages/AllTipPage';
 import CreateRecipe from './pages/CreateRecipe'; 
 import CreateTip from './pages/CreateTips';
 
+import Navbar from './components/navbar/Navbar';
+import ProtectedRoute from './ProtectedRoute';
+import PublicRoute from './PublicRoute';
 
 const AppRoutes = () => {
   return (
     <Routes>
-      <Route path='/' element={<HomePage />} />
-      <Route path="/recipes/:id" element={<RecipePage />} />
-      <Route path="/tips/:id" element={<TipPage />} />
-      <Route path="/admin" element={<AdminPage />} />
-      <Route path="/posts" element={<MyPostsPage />} /> 
-      <Route path="/login" element={<SignIn />} />
-      <Route path="/register" element={<SignUp />} /> 
-      <Route path="/allrecipe" element={<AllRecipePage />} />
-      <Route path="/alltip" element={<AllTipPage />} /> 
-      <Route path="/createRecipe" element={<CreateRecipe />} /> 
-      <Route path="/createTip" element={<CreateTip />} />
+      <Route path="/" element={<HomePage />} />
+      <Route path="/login" element={<PublicRoute element={SignIn} />} />
+      <Route path="/register" element={<PublicRoute element={SignUp} />} />
+      
+      <Route 
+        path="/*" 
+        element={
+          <>
+            <Navbar />
+            <Routes>
+              <Route path="/posts" element={<ProtectedRoute element={MyPostsPage} />} />
+              <Route path="/admin" element={<ProtectedRoute element={AdminPage} />} />
+              <Route path="/createRecipe" element={<ProtectedRoute element={CreateRecipe} />} /> 
+              <Route path="/createTip" element={<ProtectedRoute element={CreateTip} />} />
+
+              <Route path="/recipes/:id" element={<RecipePage />} />
+              <Route path="/tips/:id" element={<TipPage />} />
+              <Route path="/allrecipe" element={<AllRecipePage />} />
+              <Route path="/alltip" element={<AllTipPage />} /> 
+            </Routes>
+          </>
+        }
+      />
     </Routes>
   );
 };
