@@ -14,6 +14,18 @@ router.get('/recipes', async (req, res) => {
   }
 });
 
+// Listar recetas para usuario específico
+router.get('/recipes/user/:userId', async (req, res) => {
+  const { userId } = req.params;
+  try {
+    const recipes = await Recipe.find({ author: userId })
+      .populate('author', 'name');
+    res.json(recipes);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 router.get('/recipe/:recipeId', async (req, res) => {
   try {
     const recipeId = req.params.recipeId;

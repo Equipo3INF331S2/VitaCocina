@@ -13,6 +13,17 @@ router.get('/tips', async (req, res) => {
   }
 });
 
+// Listar consejos para usuario específico
+router.get('/tips/user/:userId', async (req, res) => {
+  const { userId } = req.params;
+  try {
+    const tips = await Tip.find({ author: userId })
+      .populate('author', 'name');
+    res.json(tips);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
 
 router.get('/tip/:tipId', async (req, res) => {
   try {
