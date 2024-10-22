@@ -85,7 +85,7 @@ router.post('/recipesImg', upload.single('img'), async (req, res) => {
     if (!req.file) {
         return res.status(400).json({ message: 'No se ha subido ningún archivo' });
     }
-    const imgUrl = `/uploads/${req.file.filename}`;
+    const imgUrl = `${req.file.filename}`;
     res.status(200).json({ url: imgUrl });
 });
 
