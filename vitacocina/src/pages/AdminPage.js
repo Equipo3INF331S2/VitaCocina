@@ -10,8 +10,6 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 const ENDPOINT = process.env.ENPOINT || 'http://localhost:5000';
 
-
-
 const AdminTable = () => {
   const [viewType, setViewType] = useState('recipes');
   const [data, setData] = useState(null);
@@ -71,10 +69,39 @@ const AdminTable = () => {
   }, []);
   
 
-  const handleDelete = (type, index) => {
+  const handleDelete = async (type, index, id) => {
     const updatedData = { ...data };
-    updatedData[type] = updatedData[type].filter((_, i) => i !== index);
-    setData(updatedData);
+  
+    try {
+      let endpoint;
+
+      switch (type) {
+        case 'recipes':
+          endpoint = `${ENDPOINT}/api/recipe/${id}`;
+          break;
+        case 'tips':
+          endpoint = `${ENDPOINT}/api/tips/${id}`;
+          break;
+        case 'users':
+          endpoint = `${ENDPOINT}/api/users/${id}`;
+          break;
+        default:
+          throw new Error('Tipo no válido');
+      }
+
+      const response = await fetch(endpoint, { method: 'DELETE' });
+  
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Error al eliminar');
+      }
+
+      updatedData[type] = updatedData[type].filter((_, i) => i !== index);
+      setData(updatedData);
+    } catch (error) {
+      console.error('Error al eliminar:', error.message);
+      alert('Ocurrió un error al eliminar: ' + error.message);
+    }
   };
 
   const handleChangePage = (event, newPage) => {
@@ -195,7 +222,7 @@ const AdminTable = () => {
                   </>
                 )}
                 <TableCell>
-                  <IconButton color="error" onClick={() => handleDelete(viewType, index)}>
+                  <IconButton color="error" onClick={() => handleDelete(viewType, index, item._id)}>
                     <DeleteIcon />
                   </IconButton>
                 </TableCell>

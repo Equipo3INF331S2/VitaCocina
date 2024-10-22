@@ -43,6 +43,23 @@ router.post('/recipes', async (req, res) => {
   }
 });
 
+// Eliminar receta
+router.delete('/recipe/:recipeId', async (req, res) => {
+  try {
+    const { recipeId } = req.params;
+    
+    const deletedRecipe = await Recipe.findByIdAndDelete(recipeId);
+
+    if (!deletedRecipe) {
+      return res.status(404).json({ message: 'Receta no encontrada' });
+    }
+
+    res.status(200).json({ message: 'Receta eliminada exitosamente' });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 router.get('/searchrecipes', async (req, res) => {
   try {
     const searchTerm = req.query.q;
@@ -77,6 +94,7 @@ router.get('/searchrecipes', async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
+
 // Agregar receta a favoritos
 router.post('/favorites/:userId', async (req, res) => {
   const { recipeId } = req.body;
