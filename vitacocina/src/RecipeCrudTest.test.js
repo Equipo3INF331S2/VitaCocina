@@ -32,7 +32,7 @@ describe('Recipes API', () => {
   let user;
 
   beforeEach(async () => {
-    
+
     user = new User({
       name: 'Test User',
       email: 'testuser@example.com',
@@ -42,7 +42,7 @@ describe('Recipes API', () => {
   });
 
   afterEach(async () => {
-    await Recipe.deleteMany(); 
+    await Recipe.deleteMany();
     await User.deleteMany();
   });
 
@@ -139,5 +139,43 @@ describe('Recipes API', () => {
     expect(res.statusCode).toBe(200);
     expect(res.body.length).toBe(1);
     expect(res.body[0].author.name).toBe('Test User');
+  });
+
+  test('PUT /recipe/:recipeId debe actualizar una receta', async () => {
+    const recipe = new Recipe({
+      name: 'Receta de prueba',
+      description: 'Descripción de prueba',
+      img: 'imagen.jpg',
+      ingredients: ['Ingrediente 1', 'Ingrediente 2'],
+      instructions: ['Paso 1', 'Paso 2'],
+      dietaryPreferences: 'Vegetariana',
+      time: '30 minutos',
+      difficulty: 'Fácil',
+      author: user._id
+    });
+    await recipe.save();
+
+    const updatedData = {
+      name: 'Receta Actualizada',
+      description: 'Descripción actualizada',
+      ingredients: ['Nuevo Ingrediente'],
+      dietaryPreferences: 'Vegana',  
+      time: '45 minutos',          
+      difficulty: 'Media'          
+    };
+
+    const res = await request(app)
+      .put(`/api/recipe/${recipe._id}`)
+      .send(updatedData);
+
+    expect(res.statusCode).toBe(200);
+    expect(res.body.name).toBe('Receta Actualizada');
+    expect(res.body.description).toBe('Descripción actualizada');
+    expect(res.body.ingredients).toEqual(['Nuevo Ingrediente']);
+    expect(res.body.dietaryPreferences).toBe('Vegana'); 
+    expect(res.body.time).toBe('45 minutos');          
+    expect(res.body.difficulty).toBe('Media');          
+
+
   });
 });

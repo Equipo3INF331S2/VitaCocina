@@ -32,7 +32,7 @@ describe('Tips API', () => {
   let user;
 
   beforeEach(async () => {
-    
+
     user = new User({
       name: 'Test User',
       email: 'testuser@example.com',
@@ -42,7 +42,7 @@ describe('Tips API', () => {
   });
 
   afterEach(async () => {
-    await Tip.deleteMany(); 
+    await Tip.deleteMany();
     await User.deleteMany();
   });
 
@@ -102,5 +102,30 @@ describe('Tips API', () => {
     expect(res.statusCode).toBe(200);
     expect(res.body.length).toBe(1);
     expect(res.body[0].author.name).toBe('Test User');
+  });
+
+  test('PUT /tip/:tipId debe actualizar un consejo', async () => {
+    const tip = new Tip({
+      title: 'Consejo de usuario',
+      description: 'Descripción de prueba',
+      img: 'imagen.jpg',
+      author: user._id,
+    });
+    await tip.save();
+
+    const updatedData = {
+      title: 'Consejo actualizado',
+      description: 'Descripcion actualizada'
+    };
+
+    const res = await request(app)
+      .put(`/api/tip/${tip._id}`)
+      .send(updatedData);
+
+    expect(res.statusCode).toBe(200);
+    expect(res.body.title).toBe('Consejo actualizado');
+    expect(res.body.description).toBe('Descripcion actualizada')
+
+
   });
 });
