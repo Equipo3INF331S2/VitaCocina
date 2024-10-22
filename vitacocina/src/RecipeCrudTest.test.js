@@ -85,6 +85,23 @@ describe('Recipes API', () => {
     expect(res.body.dietaryPreferences).toBe('Vegana');
   });
 
+  test('POST /recipes al agregar una receta sin campo name debe arrojar error', async () => {
+    const newRecipe = {
+      name: '',
+      description: 'Una deliciosa receta',
+      img: 'imagen.jpg',
+      ingredients: ['Ingrediente 1', 'Ingrediente 2'],
+      instructions: ['Paso 1', 'Paso 2'],
+      dietaryPreferences: 'Vegana',
+      time: '45 minutos',
+      difficulty: 'Media',
+      author: user._id
+    };
+
+    const res = await request(app).post('/api/recipes').send(newRecipe);
+    expect(res.statusCode).toBe(400);
+  });
+
   test('DELETE /recipe/:recipeId debe eliminar una receta', async () => {
     const recipe = new Recipe({
       name: 'Receta de prueba',

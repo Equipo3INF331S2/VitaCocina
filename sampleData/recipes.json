@@ -17,7 +17,7 @@
   ],
   "dietaryPreferences": "Vegano",
   "time": "35 minutos",
-  "difficulty": "Fácil",
+  "difficulty": "Principiante",
   "reviews": [
     {
       "user": "6701eaf7a3c28f7815208d13",
@@ -48,7 +48,7 @@
   ],
   "dietaryPreferences": "Omnívoro",
   "time": "15 minutos",
-  "difficulty": "Fácil",
+  "difficulty": "Principiante",
   "reviews": [
     {
       "user": "6701eaf7a3c28f7815208d13",
@@ -88,4 +88,565 @@
   ],
   "description": "Una pasta al pesto clásica con un toque crujiente de piñones y la suavidad del queso parmesano.",
   "img": "food1.jpg"
-}]
+},
+{
+  "_id": "67146ea09df8b1fc051d3ab3",
+  "author": "6701ea79a3c28f7815208d10",
+  "name": "Pizza Margherita",
+  "ingredients": [
+    "Masa de pizza",
+    "Salsa de tomate",
+    "Mozzarella fresca",
+    "Albahaca fresca",
+    "Aceite de oliva"
+  ],
+  "instructions": [
+    "Extender la masa de pizza.",
+    "Cubrir con salsa de tomate, mozzarella y albahaca.",
+    "Hornear a 220°C durante 15-20 minutos.",
+    "Rociar con aceite de oliva y servir caliente."
+  ],
+  "dietaryPreferences": "Vegetariano",
+  "time": "30-60 min",
+  "difficulty": "Principiante",
+  "reviews": [],
+  "description": "Una pizza clásica italiana con ingredientes simples y frescos.",
+  "img": "pizza.jpg"
+},
+{
+  "_id": "67146ea09df8b1fc051d3ab4",
+  "author": "6701ea79a3c28f7815208d10",
+  "name": "Risotto de Hongos",
+  "ingredients": [
+    "Arroz Arborio",
+    "Hongos variados",
+    "Caldo de verduras",
+    "Vino blanco",
+    "Queso parmesano"
+  ],
+  "instructions": [
+    "Saltear los hongos en aceite de oliva.",
+    "Añadir el arroz y tostarlo ligeramente.",
+    "Agregar el vino blanco y dejar evaporar.",
+    "Incorporar el caldo de verduras poco a poco, revolviendo constantemente.",
+    "Añadir queso parmesano y servir caliente."
+  ],
+  "dietaryPreferences": "Vegetariano",
+  "time": "30-60 min",
+  "difficulty": "Intermedio",
+  "reviews": [],
+  "description": "Un risotto cremoso y sabroso con una mezcla de hongos.",
+  "img": "risotto.jpg"
+},
+{
+  "_id": "67146ea09df8b1fc051d3ab5",
+  "author": "6701ea79a3c28f7815208d10",
+  "name": "Tacos al Pastor",
+  "ingredients": [
+    "Carne de cerdo marinada",
+    "Piña",
+    "Cebolla",
+    "Cilantro",
+    "Tortillas de maíz"
+  ],
+  "instructions": [
+    "Cocinar la carne de cerdo marinada.",
+    "Cortar la piña, cebolla y cilantro.",
+    "Calentar las tortillas de maíz.",
+    "Rellenar las tortillas con carne, piña, cebolla y cilantro.",
+    "Servir con salsa picante."
+  ],
+  "dietaryPreferences": "Keto",
+  "time": "Más de 60 min",
+  "difficulty": "Intermedio",
+  "reviews": [],
+  "description": "Tacos tradicionales mexicanos con carne de cerdo marinada y piña.",
+  "img": "tacos.jpg"
+},
+{
+  "_id": "67146ea09df8b1fc051d3ab6",
+  "author": "6701ea79a3c28f7815208d10",
+  "name": "Pad Thai",
+  "ingredients": [
+    "Fideos de arroz",
+    "Tofu",
+    "Camarones",
+    "Brotes de soja",
+    "Salsa de pescado"
+  ],
+  "instructions": [
+    "Cocinar los fideos de arroz.",
+    "Saltear el tofu y los camarones.",
+    "Añadir los fideos, brotes de soja y salsa de pescado.",
+    "Servir caliente."
+  ],
+  "dietaryPreferences": "Keto",
+  "time": "30-60 min",
+  "difficulty": "Intermedio",
+  "reviews": [],
+  "description": "Un plato tailandés clásico con fideos de arroz, tofu y camarones.",
+  "img": "padthai.jpg"
+},
+{
+  "_id": "67146ea09df8b1fc051d3ab7",
+  "author": "6701ea79a3c28f7815208d10",
+  "name": "Curry de Lentejas",
+  "ingredients": [
+    "Lentejas rojas",
+    "Leche de coco",
+    "Pasta de curry rojo",
+    "Espinacas",
+    "Arroz"
+  ],
+  "instructions": [
+    "Cocinar las lentejas rojas.",
+    "Añadir la leche de coco, pasta de curry y espinacas.",
+    "Cocinar a fuego lento hasta que espese.",
+    "Servir con arroz."
+  ],
+  "dietaryPreferences": "Vegano",
+  "time": "30-60 min",
+  "difficulty": "Principiante",
+  "reviews": [],
+  "description": "Un curry vegano cremoso y sabroso con lentejas rojas y espinacas.",
+  "img": "curry.jpg"
+},
+{
+  "_id": "67146ea09df8b1fc051d3ab8",
+  "author": "6701ea79a3c28f7815208d10",
+  "name": "Lasagna",
+  "ingredients": [
+    "Láminas de lasagna",
+    "Carne picada",
+    "Salsa de tomate",
+    "Queso ricotta",
+    "Mozzarella"
+  ],
+  "instructions": [
+    "Cocinar la carne picada con la salsa de tomate.",
+    "Montar la lasagna en capas con láminas de lasagna, carne, ricotta y mozzarella.",
+    "Hornear a 180°C durante 30-40 minutos.",
+    "Servir caliente."
+  ],
+  "dietaryPreferences": "Keto",
+  "time": "Más de 60 min",
+  "difficulty": "Intermedio",
+  "reviews": [],
+  "description": "Una lasagna clásica con carne picada, salsa de tomate y queso.",
+  "img": "lasagna.jpg"
+},
+{
+  "_id": "67146ea09df8b1fc051d3ab9",
+  "author": "6701ea79a3c28f7815208d10",
+  "name": "Paella",
+  "ingredients": [
+    "Arroz Bomba",
+    "Mariscos",
+    "Pollo",
+    "Caldo de pescado",
+    "Azafrán"
+  ],
+  "instructions": [
+    "Sofreír el pollo y los mariscos.",
+    "Añadir el arroz y el azafrán.",
+    "Incorporar el caldo de pescado y cocinar a fuego lento.",
+    "Servir caliente."
+  ],
+  "dietaryPreferences": "Keto",
+  "time": "30-60 min",
+  "difficulty": "Intermedio",
+  "reviews": [],
+  "description": "Un plato español tradicional con arroz, mariscos y pollo.",
+  "img": "paella.jpg"
+},
+{
+  "_id": "67146ea09df8b1fc051d3aba",
+  "author": "6701ea79a3c28f7815208d10",
+  "name": "Chili con Carne",
+  "ingredients": [
+    "Carne picada",
+    "Frijoles rojos",
+    "Tomates",
+    "Chiles",
+    "Especias"
+  ],
+  "instructions": [
+    "Cocinar la carne picada con los tomates, frijoles, chiles y especias.",
+    "Cocinar a fuego lento hasta que espese.",
+    "Servir caliente."
+  ],
+  "dietaryPreferences": "Keto",
+  "time": "Más de 60 min",
+  "difficulty": "Principiante",
+  "reviews": [],
+  "description": "Un guiso picante y sabroso con carne picada, frijoles y chiles.",
+  "img": "chili.jpg"
+},
+{
+  "_id": "67146ea09df8b1fc051d3abb",
+  "author": "6701ea79a3c28f7815208d10",
+  "name": "Enchiladas",
+  "ingredients": [
+    "Tortillas de maíz",
+    "Pollo desmenuzado",
+    "Queso",
+    "Salsa de enchilada",
+    "Crema agria"
+  ],
+  "instructions": [
+    "Rellenar las tortillas con pollo y queso.",
+    "Cubrir con salsa de enchilada y hornear.",
+    "Servir con crema agria."
+  ],
+  "dietaryPreferences": "Keto",
+  "time": "30-60 min",
+  "difficulty": "Intermedio",
+  "reviews": [],
+  "description": "Un plato mexicano con tortillas rellenas de pollo y queso, cubiertas con salsa de enchilada.",
+  "img": "enchiladas.jpg"
+},
+{
+  "_id": "67146ea09df8b1fc051d3abc",
+  "author": "6701ea79a3c28f7815208d10",
+  "name": "Sopa de Cebolla Francesa",
+  "ingredients": [
+    "Cebollas",
+    "Caldo de res",
+    "Vino blanco",
+    "Pan",
+    "Queso Gruyère"
+  ],
+  "instructions": [
+    "Caramelizar las cebollas.",
+    "Añadir el caldo de res y el vino blanco.",
+    "Cubrir con pan y queso Gruyère.",
+    "Gratinar en el horno."
+  ],
+  "dietaryPreferences": "Vegetariano",
+  "time": "Más de 60 min",
+  "difficulty": "Intermedio",
+  "reviews": [],
+  "description": "Una sopa clásica francesa con cebollas caramelizadas, pan y queso Gruyère.",
+  "img": "onion_soup.jpg"
+},
+{
+  "_id": "67146ea09df8b1fc051d3abd",
+  "author": "6701ea79a3c28f7815208d10",
+  "name": "Falafel",
+  "ingredients": [
+    "Garbanzos",
+    "Perejil",
+    "Cilantro",
+    "Cebolla",
+    "Especias"
+  ],
+  "instructions": [
+    "Remojar los garbanzos.",
+    "Triturar los garbanzos con perejil, cilantro, cebolla y especias.",
+    "Formar bolitas y freírlas.",
+    "Servir con pan de pita y salsa tahini."
+  ],
+  "dietaryPreferences": "Vegano",
+  "time": "Más de 60 min",
+  "difficulty": "Intermedio",
+  "reviews": [],
+  "description": "Un plato vegano del Medio Oriente con garbanzos fritos, pan de pita y salsa tahini.",
+  "img": "falafel.jpg"
+},
+{
+  "_id": "67146ea09df8b1fc051d3abe",
+  "author": "6701ea79a3c28f7815208d10",
+  "name": "Tarta Tatin",
+  "ingredients": [
+    "Manzanas",
+    "Azúcar",
+    "Mantequilla",
+    "Masa de hojaldre"
+  ],
+  "instructions": [
+    "Caramelizar las manzanas con azúcar y mantequilla.",
+    "Cubrir con masa de hojaldre y hornear.",
+    "Dar la vuelta a la tarta antes de servir."
+  ],
+  "dietaryPreferences": "Vegetariano",
+  "time": "30-60 min",
+  "difficulty": "Intermedio",
+  "reviews": [],
+  "description": "Una tarta francesa clásica con manzanas caramelizadas y masa de hojaldre.",
+  "img": "tarta_tatin.jpg"
+},
+{
+  "_id": "67146ea09df8b1fc051d3abf",
+  "author": "6701ea79a3c28f7815208d10",
+  "name": "Shepherd's Pie",
+  "ingredients": [
+    "Carne picada",
+    "Verduras",
+    "Puré de papas"
+  ],
+  "instructions": [
+    "Cocinar la carne picada con verduras.",
+    "Cubrir con puré de papas y hornear.",
+    "Servir caliente."
+  ],
+  "dietaryPreferences": "Omnívoro",
+  "time": "Más de 60 min",
+  "difficulty": "Principiante",
+  "reviews": [],
+  "description": "Un plato británico clásico con carne picada, verduras y puré de papas.",
+  "img": "shepherds_pie.jpg"
+},
+ {
+  "_id": "67146ea09df8b1fc051d3ac0",
+  "author": "6701ea79a3c28f7815208d10",
+  "name": "Gazpacho",
+  "ingredients": [
+    "Tomates",
+    "Pepino",
+    "Pimiento verde",
+    "Cebolla",
+    "Pan"
+  ],
+  "instructions": [
+    "Triturar todos los ingredientes juntos.",
+    "Enfriar en la nevera antes de servir."
+  ],
+  "dietaryPreferences": "Vegano",
+  "time": "Menos de 30 min",
+  "difficulty": "Principiante",
+  "reviews": [],
+  "description": "Una sopa fría española refrescante, perfecta para el verano.",
+  "img": "gazpacho.jpg"
+},
+{
+  "_id": "67146ea09df8b1fc051d3ac1",
+  "author": "6701ea79a3c28f7815208d10",
+  "name": "Ceviche",
+  "ingredients": [
+    "Pescado blanco",
+    "Lima",
+    "Cebolla roja",
+    "Cilantro",
+    "Ají"
+  ],
+  "instructions": [
+    "Marinar el pescado en jugo de lima, cebolla roja, cilantro y ají.",
+    "Servir frío."
+  ],
+  "dietaryPreferences": "Pescetariano",
+  "time": "Menos de 30 min",
+  "difficulty": "Principiante",
+  "reviews": [],
+  "description": "Un plato sudamericano con pescado marinado en jugo de lima.",
+  "img": "ceviche.jpg"
+},
+{
+  "_id": "67146ea09df8b1fc051d3ac2",
+  "author": "6701ea79a3c28f7815208d10",
+  "name": "Moussaka",
+  "ingredients": [
+    "Berenjenas",
+    "Carne picada",
+    "Salsa de tomate",
+    "Bechamel"
+  ],
+  "instructions": [
+    "Freír las berenjenas.",
+    "Cocinar la carne picada con salsa de tomate.",
+    "Montar la moussaka en capas con berenjenas, carne y bechamel.",
+    "Hornear."
+  ],
+  "dietaryPreferences": "Omnívoro",
+  "time": "Más de 60 min",
+  "difficulty": "Intermedio",
+  "reviews": [],
+  "description": "Un plato griego con berenjenas, carne picada y bechamel.",
+  "img": "moussaka.jpg"
+},
+{
+  "_id": "67146ea09df8b1fc051d3ac3",
+  "author": "6701ea79a3c28f7815208d10",
+  "name": "Sushi",
+  "ingredients": [
+    "Arroz para sushi",
+    "Alga nori",
+    "Pescado crudo",
+    "Vegetales"
+  ],
+  "instructions": [
+    "Preparar el arroz para sushi.",
+    "Extender el arroz sobre el alga nori.",
+    "Añadir el pescado y los vegetales.",
+    "Enrollar y cortar en rodajas."
+  ],
+  "dietaryPreferences": "Vegano",
+  "time": "Más de 60 min",
+  "difficulty": "Avanzado",
+  "reviews": [],
+  "description": "Un plato japonés con arroz, alga nori y pescado crudo o vegetales.",
+  "img": "sushi.jpg"
+},
+{
+  "_id": "67146ea09df8b1fc051d3ac4",
+  "author": "6701ea79a3c28f7815208d10",
+  "name": "Ramen",
+  "ingredients": [
+    "Fideos ramen",
+    "Caldo",
+    "Carne de cerdo",
+    "Huevo",
+    "Vegetales"
+  ],
+  "instructions": [
+    "Cocinar los fideos ramen.",
+    "Preparar el caldo.",
+    "Añadir la carne de cerdo, el huevo y los vegetales al caldo.",
+    "Servir con los fideos."
+  ],
+  "dietaryPreferences": "Omnívoro",
+  "time": "30-60 min",
+  "difficulty": "Intermedio",
+  "reviews": [],
+  "description": "Un plato japonés con fideos, caldo, carne de cerdo, huevo y vegetales.",
+  "img": "ramen.jpg"
+},
+  {
+  "_id": "67146ea09df8b1fc051d3ac5",
+  "author": "6701ea79a3c28f7815208d10",
+  "name": "Pollo al Horno con Patatas",
+  "ingredients": [
+    "Pollo entero",
+    "Patatas",
+    "Ajo",
+    "Romero",
+    "Aceite de oliva"
+  ],
+  "instructions": [
+    "Salpimentar el pollo y las patatas.",
+    "Añadir ajo y romero.",
+    "Hornear con aceite de oliva."
+  ],
+  "dietaryPreferences": "Omnívoro",
+  "time": "Más de 60 min",
+  "difficulty": "Principiante",
+  "reviews": [],
+  "description": "Un plato sencillo y sabroso con pollo asado y patatas.",
+  "img": "pollo_asado.jpg"
+},
+    {
+  "_id": "67146ea09df8b1fc051d3ac6",
+  "author": "6701ea79a3c28f7815208d10",
+  "name": "Hamburguesa",
+  "ingredients": [
+    "Carne picada",
+    "Pan de hamburguesa",
+    "Lechuga",
+    "Tomate",
+    "Queso"
+  ],
+  "instructions": [
+    "Formar las hamburguesas con la carne picada.",
+    "Cocinar las hamburguesas a la plancha o en la sartén.",
+    "Montar la hamburguesa con pan, lechuga, tomate, queso y otros ingredientes al gusto."
+  ],
+  "dietaryPreferences": "Omnívoro",
+  "time": "30-60 min",
+  "difficulty": "Principiante",
+  "reviews": [],
+  "description": "Una hamburguesa clásica con carne picada, pan, lechuga, tomate y queso.",
+  "img": "hamburguesa.jpg"
+},
+    {
+  "_id": "67146ea09df8b1fc051d3ac7",
+  "author": "6701ea79a3c28f7815208d10",
+  "name": "Ensalada Griega",
+  "ingredients": [
+    "Tomate",
+    "Pepino",
+    "Cebolla roja",
+    "Aceitunas Kalamata",
+    "Queso Feta"
+  ],
+  "instructions": [
+    "Cortar el tomate, el pepino, la cebolla roja en trozos grandes.",
+    "Añadir las aceitunas Kalamata y el queso Feta.",
+    "Aliñar con aceite de oliva, vinagre de vino tinto, orégano y sal."
+  ],
+  "dietaryPreferences": "Vegetariano",
+  "time": "Menos de 30 min",
+  "difficulty": "Principiante",
+  "reviews": [],
+  "description": "Una ensalada refrescante con tomate, pepino, cebolla roja, aceitunas Kalamata y queso Feta.",
+  "img": "ensalada_griega.jpg"
+},
+  {
+  "_id": "67146ea09df8b1fc051d3ac8",
+  "author": "6701ea79a3c28f7815208d10",
+  "name": "Frittata",
+  "ingredients": [
+    "Huevos",
+    "Verduras",
+    "Queso",
+    "Leche"
+  ],
+  "instructions": [
+    "Batir los huevos con la leche.",
+    "Saltear las verduras.",
+    "Mezclar los huevos con las verduras y el queso.",
+    "Cocinar en una sartén hasta que cuaje.",
+    "Terminar de cocinar en el horno si se desea."
+  ],
+  "dietaryPreferences": "Vegetariano",
+  "time": "30-60 min",
+  "difficulty": "Principiante",
+  "reviews": [],
+  "description": "Una tortilla italiana con huevos, verduras y queso.",
+  "img": "frittata.jpg"
+},
+{
+  "_id": "67146ea09df8b1fc051d3ac9",
+  "author": "6701ea79a3c28f7815208d10",
+  "name": "Guacamole",
+  "ingredients": [
+    "Aguacates",
+    "Cebolla roja",
+    "Tomate",
+    "Cilantro",
+    "Lima"
+  ],
+  "instructions": [
+    "Machacar los aguacates.",
+    "Picar la cebolla roja, el tomate y el cilantro.",
+    "Mezclar todos los ingredientes.",
+    "Añadir el jugo de lima."
+  ],
+  "dietaryPreferences": "Vegano",
+  "time": "Menos de 30 min",
+  "difficulty": "Principiante",
+  "reviews": [],
+  "description": "Un dip mexicano con aguacate, cebolla roja, tomate, cilantro y lima.",
+  "img": "guacamole.jpg"
+},
+ {
+  "_id": "67146ea09df8b1fc051d3aca",
+  "author": "6701ea79a3c28f7815208d10",
+  "name": "Crêpes",
+  "ingredients": [
+    "Harina",
+    "Leche",
+    "Huevos",
+    "Mantequilla"
+  ],
+  "instructions": [
+    "Mezclar la harina, la leche y los huevos.",
+    "Cocinar las crêpes en una sartén con mantequilla."
+  ],
+  "dietaryPreferences": "Vegetariano",
+  "time": "Menos de 30 min",
+  "difficulty": "Principiante",
+  "reviews": [],
+  "description": "Unas finas tortas francesas que se pueden rellenar con ingredientes dulces o salados.",
+  "img": "crepes.jpg"
+}
+
+]

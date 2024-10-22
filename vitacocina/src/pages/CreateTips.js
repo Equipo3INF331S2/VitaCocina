@@ -118,7 +118,8 @@ export default function CreateTip(props) {
         imgData.append('img', imgFile);
 
         try {
-            const imgResponse = await fetch('http://localhost:5000/api/recipesImg', {
+            const imgResponse = await fetch('http://localhost:5000/api/tipsImg', {
+                
                 method: 'POST',
                 body: imgData,
             });
