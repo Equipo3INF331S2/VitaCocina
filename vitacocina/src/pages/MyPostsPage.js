@@ -41,7 +41,7 @@ const MyPostsPage = () => {
   }, [user._id]);
 
   const handleEdit = (type, id) => {
-    console.log(`Edit ${type} with ID: ${id}`);
+    navigate(`/edit/${type}/${id}`);
   };
 
   const handleDelete = async (type, id) => {

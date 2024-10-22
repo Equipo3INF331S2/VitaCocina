@@ -2,6 +2,7 @@ const express = require('express');
 const Tip = require('../models/Tip');
 const User = require('../models/User');
 const multer = require('multer');
+const path = require('path');
 const router = express.Router();
 
 const storage = multer.diskStorage({
@@ -36,7 +37,7 @@ router.get('/tips', async (req, res) => {
   }
 });
 
-// Subir imagen de receta
+// Subir imagen de tip
 router.post('/tipsImg', upload.single('img'), async (req, res) => {
   if (!req.file) {
       return res.status(400).json({ message: 'No se ha subido ningún archivo' });
@@ -44,7 +45,6 @@ router.post('/tipsImg', upload.single('img'), async (req, res) => {
   const imgUrl = `/uploads/${req.file.filename}`;
   res.status(200).json({ url: imgUrl });
 });
-
 
 // Listar consejos para usuario específico
 router.get('/tips/user/:userId', async (req, res) => {
@@ -79,6 +79,22 @@ router.post('/tips', async (req, res) => {
   try {
     const savedTip = await tip.save();
     res.status(201).json(savedTip);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
+
+// Actualizar consejo
+router.put('/tip/:tipId', async (req, res) => {
+  const { tipId } = req.params;
+  try {
+    const updatedTip = await Tip.findByIdAndUpdate(tipId, req.body, { new: true });
+
+    if (!updatedTip) {
+      return res.status(404).json({ message: 'Consejo no encontrado' });
+    }
+
+    res.status(200).json(updatedTip);
   } catch (err) {
     res.status(400).json({ message: err.message });
   }

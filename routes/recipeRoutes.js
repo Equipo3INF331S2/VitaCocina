@@ -89,6 +89,22 @@ router.post('/recipesImg', upload.single('img'), async (req, res) => {
     res.status(200).json({ url: imgUrl });
 });
 
+// Actualizar receta
+router.put('/recipe/:recipeId', async (req, res) => {
+  const { recipeId } = req.params;
+  try { 
+      console.log('req.body', req.body);
+      const updatedRecipe = await Recipe.findByIdAndUpdate(recipeId, { $set: req.body }, { new: true });
+
+      if (!updatedRecipe) {
+          return res.status(404).json({ message: 'Receta no encontrada' });
+      }
+
+      res.status(200).json(updatedRecipe);
+  } catch (err) {
+      res.status(400).json({ message: err.message });
+  }
+});
 // Eliminar receta
 router.delete('/recipe/:recipeId', async (req, res) => {
     try {

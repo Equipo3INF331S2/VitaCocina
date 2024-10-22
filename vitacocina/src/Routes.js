@@ -14,7 +14,7 @@ import CreateRecipe from './pages/CreateRecipe';
 import CreateTip from './pages/CreateTips';
 import SearchResults from './pages/searchresult';
 import FavoritesPage from './pages/favoritesPage';
-
+import EditPostPage from './pages/EditPostPage';
 import Navbar from './components/navbar/Navbar';
 import ProtectedRoute from './ProtectedRoute';
 import PublicRoute from './PublicRoute';
@@ -42,7 +42,8 @@ const AppRoutes = () => {
               <Route path="/tips/:id" element={<TipPage />} />
               <Route path="/allrecipe" element={<AllRecipePage />} />
               <Route path="/alltip" element={<AllTipPage />} /> 
-              <Route path="/searchresult" element={<SearchResults />} />
+              <Route path="/searchresult" element={<SearchResults />} /> 
+              <Route path="/edit/:type/:id" element={<ProtectedRoute element={EditPostPage} />} />
             </Routes>
           </>
         }
