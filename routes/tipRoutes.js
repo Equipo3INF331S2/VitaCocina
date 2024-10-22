@@ -1,7 +1,30 @@
 const express = require('express');
 const Tip = require('../models/Tip');
 const User = require('../models/User');
+const multer = require('multer');
 const router = express.Router();
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+      cb(null, 'uploads/');
+  },
+  filename: (req, file, cb) => {
+      cb(null, Date.now() + path.extname(file.originalname));
+  }
+});
+const upload = multer({
+  storage,
+  fileFilter: (req, file, cb) => {
+      const filetypes = /jpeg|jpg|png/;
+      const mimetype = filetypes.test(file.mimetype);
+      const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+
+      if (mimetype && extname) {
+          return cb(null, true);
+      }
+      cb(new Error('Solo se permiten archivos .jpeg, .jpg y .png'));
+  }
+});
 
 router.get('/tips', async (req, res) => {
   try {
@@ -12,6 +35,16 @@ router.get('/tips', async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
+
+// Subir imagen de receta
+router.post('/tipsImg', upload.single('img'), async (req, res) => {
+  if (!req.file) {
+      return res.status(400).json({ message: 'No se ha subido ningún archivo' });
+  }
+  const imgUrl = `/uploads/${req.file.filename}`;
+  res.status(200).json({ url: imgUrl });
+});
+
 
 // Listar consejos para usuario específico
 router.get('/tips/user/:userId', async (req, res) => {

@@ -13,6 +13,8 @@ import { useNavigate } from 'react-router-dom';
 import { VitaCocinaIcon } from '../components/CustomIcons';
 import ColorModeSelect from '../components/ColorModeSelect';
 import AppTheme from '../components/AppTheme';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
 
 const Card = styled(MuiCard)(({ theme }) => ({
     display: 'flex',
@@ -64,6 +66,8 @@ export default function CreateRecipe(props) {
     const [timeErrorMessage, setTimeErrorMessage] = React.useState('');
     const [difficultyError, setDifficultyError] = React.useState(false);
     const [difficultyErrorMessage, setDifficultyErrorMessage] = React.useState('');
+    const [dietaryPreferences, setDietaryPreferences] = React.useState('');
+    const [time, setTime] = React.useState('');
     const navigate = useNavigate();
 
     // Verificar si el usuario está logueado
@@ -80,7 +84,6 @@ export default function CreateRecipe(props) {
         const ingredients = document.getElementById('ingredients');
         const instructions = document.getElementById('instructions');
         const img = document.getElementById('img');
-        const time = document.getElementById('time');
         const difficulty = document.getElementById('difficulty');
 
         let isValid = true;
@@ -121,16 +124,16 @@ export default function CreateRecipe(props) {
             setInstructionsErrorMessage('');
         }
 
-        if (!img.value || img.value.length < 1) {
+        if (!img.files || img.files.length === 0) {
             setImgError(true);
-            setImgErrorMessage('La URL de la imagen es obligatoria.');
+            setImgErrorMessage('La imagen es obligatoria.');
             isValid = false;
         } else {
             setImgError(false);
             setImgErrorMessage('');
         }
 
-        if (!time.value || time.value.length < 1) {
+        if (!time || time.length < 1) {
             setTimeError(true);
             setTimeErrorMessage('El tiempo es obligatorio.');
             isValid = false;
@@ -160,19 +163,36 @@ export default function CreateRecipe(props) {
         const form = event.currentTarget;
         const user = JSON.parse(localStorage.getItem('user'));
 
-        const recipeData = {
-            author: user._id,
-            name: form.title.value,
-            description: form.description.value,
-            ingredients: form.ingredients.value.split(','),
-            instructions: form.instructions.value.split(','),
-            dietaryPreferences: form.dietaryPreferences.value,
-            img: form.img.value,
-            time: form.time.value,
-            difficulty: form.difficulty.value,
-        };
+        // Subir la imagen primero
+        const imgFile = form.img.files[0];
+        const imgData = new FormData();
+        imgData.append('img', imgFile);
 
         try {
+            const imgResponse = await fetch('http://localhost:5000/api/recipesImg', {
+                method: 'POST',
+                body: imgData,
+            });
+            if (!imgResponse.ok) {
+                throw new Error('Error en la carga de la imagen');
+            }
+
+            const imgResult = await imgResponse.json();
+            const imgUrl = imgResult.url;
+
+            // Crear la receta con la URL de la imagen
+            const recipeData = {
+                author: user._id,
+                name: form.title.value,
+                description: form.description.value,
+                img: imgUrl,
+                ingredients: form.ingredients.value.split(','),
+                instructions: form.instructions.value.split(','),
+                dietaryPreferences: dietaryPreferences,
+                time: time,
+                difficulty: form.difficulty.value,
+            };
+
             const response = await fetch('http://localhost:5000/api/recipes', {
                 method: 'POST',
                 headers: {
@@ -248,13 +268,13 @@ export default function CreateRecipe(props) {
                             />
                         </FormControl>
                         <FormControl>
-                            <FormLabel htmlFor="img">URL de la Imagen</FormLabel>
+                            <FormLabel htmlFor="img">Imagen</FormLabel>
                             <TextField
                                 required
                                 fullWidth
                                 name="img"
+                                type="file"
                                 id="img"
-                                placeholder="URL de la imagen"
                                 autoComplete="img"
                                 variant="outlined"
                                 error={imgError}
@@ -294,29 +314,33 @@ export default function CreateRecipe(props) {
                         </FormControl>
                         <FormControl>
                             <FormLabel htmlFor="dietaryPreferences">Preferencias Dietéticas</FormLabel>
-                            <TextField
+                            <Select
                                 fullWidth
                                 name="dietaryPreferences"
-                                placeholder="Preferencias dietéticas (opcional)"
                                 id="dietaryPreferences"
-                                autoComplete="dietaryPreferences"
+                                value={dietaryPreferences}
+                                onChange={(e) => setDietaryPreferences(e.target.value)}
                                 variant="outlined"
-                            />
+                            >
+                                <MenuItem value="Vegano">Vegano</MenuItem>
+                                <MenuItem value="Vegetariano">Vegetariano</MenuItem>
+                                <MenuItem value="Keto">Keto</MenuItem>
+                            </Select>
                         </FormControl>
                         <FormControl>
                             <FormLabel htmlFor="time">Tiempo</FormLabel>
-                            <TextField
-                                required
+                            <Select
                                 fullWidth
                                 name="time"
-                                placeholder="Tiempo de preparación"
                                 id="time"
-                                autoComplete="time"
+                                value={time}
+                                onChange={(e) => setTime(e.target.value)}
                                 variant="outlined"
-                                error={timeError}
-                                helperText={timeErrorMessage}
-                                color={timeError ? 'error' : 'primary'}
-                            />
+                            >
+                                <MenuItem value="Menos de 30 min">Menos de 30 min</MenuItem>
+                                <MenuItem value="30-60 min">30-60 min</MenuItem>
+                                <MenuItem value="Más de 60 min">Más de 60 min</MenuItem>
+                            </Select>
                         </FormControl>
                         <FormControl>
                             <FormLabel htmlFor="difficulty">Dificultad</FormLabel>

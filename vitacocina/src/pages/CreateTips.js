@@ -91,9 +91,9 @@ export default function CreateTip(props) {
             setDescriptionErrorMessage('');
         }
 
-        if (!img.value || img.value.length < 1) {
+        if (!img.files || img.files.length === 0) {
             setImgError(true);
-            setImgErrorMessage('La URL de la imagen es obligatoria.');
+            setImgErrorMessage('La imagen es obligatoria.');
             isValid = false;
         } else {
             setImgError(false);
@@ -104,7 +104,7 @@ export default function CreateTip(props) {
     };
 
     const handleSubmit = async (event) => {
-        event.preventDefault(); 
+        event.preventDefault();
         if (titleError || descriptionError || imgError) {
             return;
         }
@@ -112,14 +112,32 @@ export default function CreateTip(props) {
         const form = event.currentTarget;
         const user = JSON.parse(localStorage.getItem('user'));
 
-        const tipData = {
-            author: user._id,
-            title: form.title.value,
-            description: form.description.value,
-            img: form.img.value,
-        };
+        // Subir la imagen primero
+        const imgFile = form.img.files[0];
+        const imgData = new FormData();
+        imgData.append('img', imgFile);
 
         try {
+            const imgResponse = await fetch('http://localhost:5000/api/recipesImg', {
+                method: 'POST',
+                body: imgData,
+            });
+
+            if (!imgResponse.ok) {
+                throw new Error('Error en la carga de la imagen');
+            }
+
+            const imgResult = await imgResponse.json();
+            const imgUrl = imgResult.url;
+
+            // Crear el tip con la URL de la imagen
+            const tipData = {
+                author: user._id,
+                title: form.title.value,
+                description: form.description.value,
+                img: imgUrl,
+            };
+
             const response = await fetch('http://localhost:5000/api/tips', {
                 method: 'POST',
                 headers: {
@@ -127,9 +145,11 @@ export default function CreateTip(props) {
                 },
                 body: JSON.stringify(tipData),
             });
+
             if (!response.ok) {
                 throw new Error('Error en la creación del tip');
             }
+
             const result = await response.json();
             alert('Tip creado exitosamente.', result);
             navigate('/');
@@ -193,13 +213,13 @@ export default function CreateTip(props) {
                                 />
                             </FormControl>
                             <FormControl>
-                                <FormLabel htmlFor="img">URL de la Imagen</FormLabel>
+                                <FormLabel htmlFor="img">Imagen</FormLabel>
                                 <TextField
                                     required
                                     fullWidth
                                     name="img"
+                                    type="file"
                                     id="img"
-                                    placeholder="URL de la imagen"
                                     autoComplete="img"
                                     variant="outlined"
                                     error={imgError}
