@@ -39,6 +39,7 @@ const isUserLoggedIn = Boolean(user);
 const isAdmin = isUserLoggedIn && user.email.endsWith('@vitacocina.com');
 
 const actions = isAdmin ? [  // <-- Condicional para acciones de admin
+  { icon: <Link href="/posts" sx={{ color: '#000000', textDecoration: 'none' }}>Ver mis publicaciones</Link> },
   { icon: <Link href="/createRecipe" sx={{ color: '#000000', textDecoration: 'none' }}>Agregar Receta</Link> },
   { icon: <Link href="/createTip" sx={{ color: '#000000', textDecoration: 'none' }}>Agregar Consejo</Link> },
   { icon: <Link href="/allrecipe" sx={{ color: '#000000', textDecoration: 'none' }}>Editar Cuenta</Link> },
@@ -47,6 +48,7 @@ const actions = isAdmin ? [  // <-- Condicional para acciones de admin
   { icon: <Link onClick={handleLogout} sx={{ color: '#000000', textDecoration: 'none', cursor: 'pointer' }}>Cerrar Sesión</Link> },
 
 ] : [ // <-- Acciones para usuarios normales
+  { icon: <Link href="/posts" sx={{ color: '#000000', textDecoration: 'none' }}>Ver mis publicaciones</Link> },
   { icon: <Link href="/createRecipe" sx={{ color: '#000000', textDecoration: 'none' }}>Agregar Receta</Link> },
   { icon: <Link href="/createTip" sx={{ color: '#000000', textDecoration: 'none' }}>Agregar Consejo</Link> },
   { icon: <Link href="/allrecipe" sx={{ color: '#000000', textDecoration: 'none' }}>Editar Cuenta</Link> },
@@ -76,7 +78,7 @@ const UserMenu = () => {
               tooltipTitle={action.name}
               sx={{
                 '&.MuiSpeedDialAction-fab': {
-                  width: 110, 
+                  width: 130, 
                   borderRadius: 1,
                   height: 45,
                 },
