@@ -58,7 +58,10 @@ const PostListPaper = ({ posts, type, handleEdit, handleDelete, fallbackText }) 
                   >
                     <IconButton
                       color="primary"
-                      onClick={() => handleEdit(type, post._id)}
+                      onClick={(e) => {
+                        e.stopPropagation(); // Evita que el clic se propague al Paper
+                        handleEdit(type, post._id);
+                      }}
                     >
                       <EditIcon />
                     </IconButton>
