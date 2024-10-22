@@ -29,6 +29,9 @@ export default function RecipePage() {
   const [recipe, setRecipe] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isFavorite, setIsFavorite] = useState(false);
+  const [userReview, setUserReview] = useState(null);
+  const [averageRating, setAverageRating] = useState(-1);
+  const [reviewsCount, setReviewsCount] = useState(-1);
 
   const tagsTitle = {
     dietaryPreferences: "Dieta",
@@ -48,9 +51,23 @@ export default function RecipePage() {
     fetch(`${ENDPOINT}/api/recipe/${id}`, { method: 'GET' })
       .then(response => response.json())
       .then(data => {
-        setRecipe(data);
-        console.log(data);
-        setLoading(false); // Cambiar a false cuando la carga haya terminado
+        // Filtrar las reseñas para no incluir la reseña del usuario
+        const filteredReviews = user
+          ? data.reviews.filter(review => review.user._id !== user._id)
+          : data.reviews;
+  
+        // Establecer la receta sin la reseña del usuario
+        setRecipe({ ...data, reviews: filteredReviews });
+        setAverageRating(calculateAverageRating(data));
+        setReviewsCount(data.reviews.length)
+        setLoading(false);
+  
+        if (user) {
+          const existingReview = data.reviews.find(review => review.user._id === user._id);
+          if (existingReview) {
+            setUserReview(existingReview);
+          }
+        }
       });
   }, [id]);
 
@@ -124,8 +141,6 @@ export default function RecipePage() {
     );
   }
 
-  const averageRating = calculateAverageRating(recipe);
-
   return (
     <Container maxWidth="md" sx={{ paddingTop: '20px' }}>
       <Typography variant="h3">{recipe.name}</Typography>
@@ -143,7 +158,7 @@ export default function RecipePage() {
           />
           <Typography variant='body1' component='div'>{averageRating}</Typography>
           <Divider orientation='vertical' flexItem sx={{ marginX: 1.5 }} />
-          <Typography variant='body1' href='#reviews' component='a'>{recipe.reviews.length} Reseñas</Typography>
+          <Typography variant='body1' href='#reviews' component='a'>{reviewsCount} Reseñas</Typography>
         </>)}
       </Box>
 
@@ -270,7 +285,7 @@ export default function RecipePage() {
       </ButtonGroup>
 
       <Typography id='reviews' variant='h4' lineHeight={3}>Reseñas</Typography>
-      <MakeReview isLoggedIn={!!user}></MakeReview>
+      <MakeReview isLoggedIn={!!user} user={user} userReview={userReview} recipeId={id}></MakeReview>
       {recipe.reviews.map((review) => (
         <ReviewCard key={review.user._id} userName={review.user.name} rating={review.rating} comment={review.comment} />
       ))}
