@@ -1,3 +1,5 @@
+# [Video Autoexplicativo Vitacocina](https://drive.google.com/drive/folders/1XV3xiSDH67YBN2e1ysNwW8_2QbKo5ogg?usp=sharing)
+
 ### 1. Alcance de la Herramienta
 
 - Manejo de sesión: la herramienta con funcionalidades de manejo de sesión, incluyendo inicio de sesión y registro.
