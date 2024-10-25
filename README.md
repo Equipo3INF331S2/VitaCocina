@@ -33,3 +33,22 @@ node server.js
 cd vitacocina
 npm start
 ``` 
+
+## Test
+Recetas
+```bash
+cd vitacocina
+npm test -- RecipeCrudTest.test.js
+```
+
+Tips
+```bash
+cd vitacocina
+npm test -- TipsCrudTest.test.js
+```
+
+Users
+```bash
+cd vitacocina
+npm test -- UserCrudTest.test.js
+```
