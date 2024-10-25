@@ -15,18 +15,20 @@ VitaCocina es una aplicación web para compartir recetas y consejos culinarios. 
 ```bash
 git clone https://github.com/tu-usuario/VitaCocina.git
 cd VitaCocina 
+npm install
 ```
-### Instalación de dependencias
+### Instalación de dependencias frontend
 ```bash
+cd vitacocina
 npm install
 ``` 
 
-###Iniciar Backend(en la raíz del proyecto)
+### Iniciar Backend(en la raíz del proyecto)
 ```bash
 node server.js
 ``` 
 
-###Iniciar frontend(en la raíz del proyecto)
+### Iniciar frontend(en la raíz del proyecto)
 ```bash
 cd vitacocina
 npm start
