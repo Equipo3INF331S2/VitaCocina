@@ -16,6 +16,8 @@ import AppTheme from '../components/AppTheme';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 
+const ENDPOINT = process.env.ENPOINT || 'http://localhost:5000';
+
 const Card = styled(MuiCard)(({ theme }) => ({
     display: 'flex',
     flexDirection: 'column',
@@ -169,7 +171,7 @@ export default function CreateRecipe(props) {
         imgData.append('img', imgFile);
 
         try {
-            const imgResponse = await fetch('http://localhost:5000/api/recipesImg', {
+            const imgResponse = await fetch(`${ENDPOINT}/api/recipesImg`, {
                 method: 'POST',
                 body: imgData,
             });
@@ -193,7 +195,7 @@ export default function CreateRecipe(props) {
                 difficulty: form.difficulty.value,
             };
 
-            const response = await fetch('http://localhost:5000/api/recipes', {
+            const response = await fetch(`${ENDPOINT}/api/recipes`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

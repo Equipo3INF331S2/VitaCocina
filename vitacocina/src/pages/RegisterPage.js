@@ -15,6 +15,8 @@ import { VitaCocinaIcon } from '../components/CustomIcons';
 import ColorModeSelect from '../components/ColorModeSelect';
 import AppTheme from '../components/AppTheme';
 
+const ENDPOINT = process.env.ENPOINT || 'http://localhost:5000';
+
 const Card = styled(MuiCard)(({ theme }) => ({
     display: 'flex',
     flexDirection: 'column',
@@ -128,7 +130,7 @@ export default function SignUp(props) {
         };
 
         try {
-            const response = await fetch('http://localhost:5000/api/users', {
+            const response = await fetch(`${ENDPOINT}/api/users`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

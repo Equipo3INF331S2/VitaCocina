@@ -14,6 +14,8 @@ import { VitaCocinaIcon } from '../components/CustomIcons';
 import ColorModeSelect from '../components/ColorModeSelect';
 import AppTheme from '../components/AppTheme';
 
+const ENDPOINT = process.env.ENPOINT || 'http://localhost:5000';
+
 const Card = styled(MuiCard)(({ theme }) => ({
     display: 'flex',
     flexDirection: 'column',
@@ -118,7 +120,7 @@ export default function CreateTip(props) {
         imgData.append('img', imgFile);
 
         try {
-            const imgResponse = await fetch('http://localhost:5000/api/tipsImg', {
+            const imgResponse = await fetch(`${ENDPOINT}/api/tipsImg`, {
                 
                 method: 'POST',
                 body: imgData,
@@ -139,7 +141,7 @@ export default function CreateTip(props) {
                 img: imgUrl,
             };
 
-            const response = await fetch('http://localhost:5000/api/tips', {
+            const response = await fetch(`${ENDPOINT}/api/tips`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

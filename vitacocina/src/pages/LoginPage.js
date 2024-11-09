@@ -18,6 +18,8 @@ import AppTheme from '../components/AppTheme';
 import ColorModeSelect from '../components/ColorModeSelect';
 import { useNavigate } from 'react-router-dom';
 
+const ENDPOINT = process.env.ENPOINT || 'http://localhost:5000';
+
 const Card = styled(MuiCard)(({ theme }) => ({
     display: 'flex',
     flexDirection: 'column',
@@ -87,7 +89,7 @@ export default function SignIn(props) {
         const password = data.get('password');
 
         try {
-            const response = await fetch(`http://localhost:5000/api/users?email=${email}&password=${password}`, {
+            const response = await fetch(`${ENDPOINT}/api/users?email=${email}&password=${password}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
