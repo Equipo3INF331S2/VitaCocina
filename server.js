@@ -13,8 +13,10 @@ app.use(cors());
 app.use('/uploads', express.static('uploads'));
 
 // Conectar a MongoDB
+if (process.env.NODE_ENV !== 'test') {
   mongoose.connect(process.env.MONGO_URI).then(() => console.log('Connected to MongoDB'))
     .catch((err) => console.error('Could not connect to MongoDB', err));
+}
 
 // Rutas
 const recipeRoutes = require('./routes/recipeRoutes');
@@ -23,10 +25,13 @@ const userRouter = require('./routes/userRoutes');
 const reviewsRouter = require('./routes/reviewRoutes');
 
 app.use('/api', [recipeRoutes, tipRoutes, userRouter, reviewsRouter]);
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+
+if (process.env.NODE_ENV !== 'test') {
+  const PORT = process.env.PORT || 5000;
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+}
 
 
 module.exports = { app };
