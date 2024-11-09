@@ -15,8 +15,7 @@ import { VitaCocinaIcon } from '../components/CustomIcons';
 import ColorModeSelect from '../components/ColorModeSelect';
 import AppTheme from '../components/AppTheme';
 
-//const ENDPOINT = process.env.ENPOINT || 'http://localhost:5000';
-const ENDPOINT = 'http://20.201.119.103:5000'
+const ENDPOINT = process.env.ENPOINT || 'http://localhost:5000';
 
 const Card = styled(MuiCard)(({ theme }) => ({
     display: 'flex',
