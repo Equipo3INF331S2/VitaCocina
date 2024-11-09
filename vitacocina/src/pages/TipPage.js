@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Card, CardMedia, Typography, Container, CircularProgress } from '@mui/material';
 
-const ENDPOINT = process.env.ENPOINT || 'http://localhost:5000';
+const ENDPOINT = process.env.REACT_APP_ENDPOINT;
 
 export default function RecipePage() {
   const { id } = useParams();

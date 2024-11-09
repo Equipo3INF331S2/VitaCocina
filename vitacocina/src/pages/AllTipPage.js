@@ -8,7 +8,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 
 
 
-const ENDPOINT = process.env.ENPOINT || 'http://localhost:5000';
+const ENDPOINT = process.env.REACT_APP_ENDPOINT;
 
 const AllTipPage = () => {
 

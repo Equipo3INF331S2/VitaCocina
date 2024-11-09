@@ -16,7 +16,7 @@ import AppTheme from '../components/AppTheme';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 
-const ENDPOINT = process.env.ENPOINT || 'http://localhost:5000';
+const ENDPOINT = process.env.REACT_APP_ENDPOINT;
 
 const Card = styled(MuiCard)(({ theme }) => ({
     display: 'flex',

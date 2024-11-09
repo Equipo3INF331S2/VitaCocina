@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Typography, Container, Button, Box, TextField, FormControl, FormLabel, Select, MenuItem } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 
-const ENDPOINT = process.env.ENDPOINT || 'http://localhost:5000';
+const ENDPOINT = process.env.REACT_APP_ENDPOINT;
 
 const EditPostPage = () => {
     const { type, id } = useParams();

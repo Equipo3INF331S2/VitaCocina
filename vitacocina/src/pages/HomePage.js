@@ -23,10 +23,7 @@ import Link from '@mui/material/Link';
 import UserMenu from '../components/userMenu';
 import { useNavigate } from 'react-router-dom';
 
-
-
-const ENDPOINT = process.env.ENPOINT || 'http://localhost:5000';
-
+const ENDPOINT = process.env.REACT_APP_ENDPOINT;
 
 const StyledTextField = styled(TextField)({
     '& .MuiOutlinedInput-root': {

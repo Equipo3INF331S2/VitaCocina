@@ -5,7 +5,7 @@ import Grid from '@mui/material/Grid2';
 
 import PostListPaper from '../components/PostsListPaper';
 
-const ENDPOINT = process.env.ENPOINT || 'http://localhost:5000';
+const ENDPOINT = process.env.REACT_APP_ENDPOINT;
 
 const MyPostsPage = () => {
   const navigate = useNavigate();

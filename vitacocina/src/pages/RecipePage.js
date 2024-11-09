@@ -20,7 +20,7 @@ import XIcon from '@mui/icons-material/X';
 import MakeReview from '../components/MakeReview';
 import ReviewCard from '../components/Review';
 
-const ENDPOINT = process.env.ENPOINT || 'http://localhost:5000';
+const ENDPOINT = process.env.REACT_APP_ENDPOINT;
 
 export default function RecipePage() {
   const navigate = useNavigate();

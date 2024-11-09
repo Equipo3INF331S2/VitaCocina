@@ -8,7 +8,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { useSearchParams, useLocation } from 'react-router-dom';
 
 
-const ENDPOINT = process.env.ENPOINT || 'http://localhost:5000';
+const ENDPOINT = process.env.REACT_APP_ENDPOINT;
 
 const SearchResults = () => {
 
