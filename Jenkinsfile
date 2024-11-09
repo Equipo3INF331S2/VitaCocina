@@ -16,7 +16,7 @@ pipeline {
                 dir(FRONTEND_DIR) {
                     sh 'npm install'
                     sh 'CI=false npm run build'
-                    sh 'npx serve -s build -l 5000 &'
+                    sh 'npx serve -s build -l 3000 &'
                 }
             }
         }
