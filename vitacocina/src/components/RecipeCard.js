@@ -11,7 +11,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { Grid, Button, Box } from '@mui/material';
 import HeartBrokenIcon from '@mui/icons-material/HeartBroken';
 
-const ENDPOINT = process.env.ENPOINT || 'http://localhost:5000';
+const ENDPOINT = process.env.REACT_APP_ENDPOINT;
 
 const RecipeCard = ({ recipeData, showDeleteButton = false, onDelete }) => {
   if (!recipeData || recipeData.length === 0) { // Manejar el caso donde no hay recetas
