@@ -12,15 +12,17 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 import Container from '@mui/material/Container';
 import CircularProgress from '@mui/material/CircularProgress';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import HeartBrokenIcon from '@mui/icons-material/HeartBroken'; 
+import HeartBrokenIcon from '@mui/icons-material/HeartBroken';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import XIcon from '@mui/icons-material/X';
-import {jsPDF} from 'jspdf';
-
+import WhatsAppIcon from '@mui/icons-material/WhatsApp';
+import { jsPDF } from 'jspdf';
+import { FacebookShareButton, TwitterShareButton, WhatsappShareButton } from "react-share";
 import MakeReview from '../components/MakeReview';
 import ReviewCard from '../components/Review';
+import { Helmet } from 'react-helmet';
 
 const ENDPOINT = process.env.REACT_APP_ENDPOINT;
 
@@ -34,6 +36,9 @@ export default function RecipePage() {
   const [userReview, setUserReview] = useState(null);
   const [averageRating, setAverageRating] = useState(-1);
   const [reviewsCount, setReviewsCount] = useState(-1);
+
+  const shareUrl = 'window.location.href';
+  const shareTitle = "Mira esta receta de VitaCocina!"
 
   const tagsTitle = {
     dietaryPreferences: "Dieta",
@@ -57,13 +62,13 @@ export default function RecipePage() {
         const filteredReviews = user
           ? data.reviews.filter(review => review.user._id !== user._id)
           : data.reviews;
-  
+
         // Establecer la receta sin la reseña del usuario
         setRecipe({ ...data, reviews: filteredReviews });
         setAverageRating(calculateAverageRating(data));
         setReviewsCount(data.reviews.length)
         setLoading(false);
-  
+
         if (user) {
           const existingReview = data.reviews.find(review => review.user._id === user._id);
           if (existingReview) {
@@ -90,11 +95,11 @@ export default function RecipePage() {
     }
 
     fetch(`${ENDPOINT}/api/favorites/${user._id}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ recipeId }),
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ recipeId }),
     })
       .then(response => {
         if (!response.ok) {
@@ -133,10 +138,10 @@ export default function RecipePage() {
     } else {
       addToFavorites(id);
     }
-  }; 
+  };
 
-  const downloadPDF = () => {   
-    const doc = new jsPDF();  
+  const downloadPDF = () => {
+    const doc = new jsPDF();
     //Porceso para centrar titulo
     const pageWidth = doc.internal.pageSize.getWidth();
     const titleWidth = doc.getTextWidth(recipe.name);
@@ -177,6 +182,19 @@ export default function RecipePage() {
 
   return (
     <Container maxWidth="md" sx={{ paddingTop: '20px' }}>
+      <Helmet>
+        <title>{recipe ? recipe.name + " - VitaCocina" : "Cargando... - VitaCocina"}</title>
+        <meta name="description" content={recipe ? recipe.description : "Cargando receta..."} />
+        <meta property="og:title" content={recipe ? recipe.name + " - VitaCocina" : "Cargando... - VitaCocina"} /> 
+        <meta property="og:description" content={recipe ? recipe.description : "Cargando receta..."} /> 
+        <meta property="og:image" content={recipe ? `${ENDPOINT}/uploads/${recipe.img}` : ""} /> 
+        <meta property="og:url" content={window.location.href} />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={recipe ? recipe.name + " - VitaCocina" : "Cargando... - VitaCocina"} />
+        <meta name="twitter:description" content={recipe ? recipe.description : "Cargando receta..."} />
+        <meta name="twitter:image" content={recipe ? `${ENDPOINT}/uploads/${recipe.img}` : ""} />
+      </Helmet>
       <Typography variant="h3">{recipe.name}</Typography>
       <Box display='flex' marginY={1}>
         {averageRating === -1 ? (
@@ -212,14 +230,14 @@ export default function RecipePage() {
           onClick={handleFavoriteToggle}
         >
           {isFavorite ? 'Eliminar de Favoritos' : 'Agregar a Favoritos'}
-        </Button> 
-      </Box> 
+        </Button>
+      </Box>
       <Box marginY='16px'>
         <Button
           variant="contained"
           startIcon={<PictureAsPdfIcon />}
           color='primary'
-          sx={{ 
+          sx={{
             width: '25%',
             padding: '6px 16px',
             textTransform: 'none',
@@ -293,45 +311,50 @@ export default function RecipePage() {
 
       <Typography variant='h6' marginTop={4}>Comparte esta receta</Typography>
       <ButtonGroup variant="text" aria-label="share recipe" sx={{ marginTop: 1 }}>
-        <Button
-          onClick={() => {}}
-          sx={{
-            width: 64,
-            height: 50,
-            boxShadow: '0 4px 10px rgba(0,0,0,0.1)',
-            '&:hover': {
-              backgroundColor: '#f5f5f5',
-            },
-          }}
-        >
-          <FacebookIcon sx={{ color: '#000' }} />
-        </Button>
-        <Button
-          onClick={() => {}}
-          sx={{
-            width: 64,
-            height: 50,
-            boxShadow: '0 4px 10px rgba(0,0,0,0.1)',
-            '&:hover': {
-              backgroundColor: '#f5f5f5',
-            },
-          }}
-        >
-          <InstagramIcon sx={{ color: '#000' }} />
-        </Button>
-        <Button
-          onClick={() => {}}
-          sx={{
-            width: 64,
-            height: 50,
-            boxShadow: '0 4px 10px rgba(0,0,0,0.1)',
-            '&:hover': {
-              backgroundColor: '#f5f5f5',
-            },
-          }}
-        >
-          <XIcon sx={{ color: '#000' }} />
-        </Button>
+        <FacebookShareButton url={shareUrl} quote={shareTitle}>
+          <Button
+            sx={{
+              width: 64,
+              height: 50,
+              boxShadow: '0 4px 10px rgba(0,0,0,0.1)',
+              '&:hover': {
+                backgroundColor: '#f5f5f5',
+              },
+            }}
+          >
+            <FacebookIcon sx={{ color: '#000' }} />
+          </Button>
+        </FacebookShareButton>
+        <TwitterShareButton url={shareUrl} title={shareTitle}>
+          <Button
+            sx={{
+              width: 64,
+              height: 50,
+              boxShadow: '0 4px 10px rgba(0,0,0,0.1)',
+              '&:hover': {
+                backgroundColor: '#f5f5f5',
+              },
+            }}
+          >
+            <XIcon sx={{ color: '#000' }} />
+          </Button>
+        </TwitterShareButton>
+
+        <WhatsappShareButton title={shareTitle} separator='' url={shareUrl}>
+          <Button
+            sx={{
+              width: 64,
+              height: 50,
+              boxShadow: '0 4px 10px rgba(0,0,0,0.1)',
+              '&:hover': {
+                backgroundColor: '#f5f5f5',
+              },
+            }}
+          >
+            <WhatsAppIcon sx={{ color: '#000' }} />
+          </Button>
+        </WhatsappShareButton>
+
       </ButtonGroup>
 
       <Typography id='reviews' variant='h4' lineHeight={3}>Reseñas</Typography>
