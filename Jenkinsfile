@@ -44,6 +44,7 @@ pipeline {
         stage('Build Frontend') {
             steps {
                 dir(FRONTEND_DIR) {
+                    sh 'lsof -ti:3000 | xargs kill -9 || true'
                     sh 'CI=false npm run build'
                     sh 'JENKINS_NODE_COOKIE=dontKillMe nohup npx serve -s build -l 3000 > frontend.log 2>&1 &'
                 }
@@ -52,6 +53,7 @@ pipeline {
         stage('Build Backend') {
             steps {
                 dir(BACKEND_DIR) {
+                    sh 'lsof -ti:5000 | xargs kill -9 || true'
                     sh 'JENKINS_NODE_COOKIE=dontKillMe nohup npm start > backend.log 2>&1 &'
                 }
             }
