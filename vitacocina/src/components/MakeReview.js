@@ -7,7 +7,7 @@ import Rating from '@mui/material/Rating';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 
-const ENDPOINT = process.env.ENPOINT || 'http://localhost:5000';
+const ENDPOINT = process.env.REACT_APP_ENDPOINT;
 
 const MakeReview = ({ isLoggedIn, user, userReview, recipeId }) => {
   const [rating, setRating] = useState(null);

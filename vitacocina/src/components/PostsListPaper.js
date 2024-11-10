@@ -4,7 +4,7 @@ import { Paper, List, ListItem, Typography, Box, IconButton } from '@mui/materia
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-const ENDPOINT = process.env.ENPOINT || 'http://localhost:5000';
+const ENDPOINT = process.env.REACT_APP_ENDPOINT;
 
 const PostListPaper = ({ posts, type, handleEdit, handleDelete, fallbackText }) => {
   const navigate = useNavigate();
