@@ -45,14 +45,14 @@ pipeline {
             steps {
                 dir(FRONTEND_DIR) {
                     sh 'CI=false npm run build'
-                    sh 'nohup npx serve -s build -l 3000 > frontend.log 2>&1 &'
+                    sh 'JENKINS_NODE_COOKIE=dontKillMe nohup npx serve -s build -l 3000 > frontend.log 2>&1 &'
                 }
             }
         }
         stage('Build Backend') {
             steps {
                 dir(BACKEND_DIR) {
-                    sh 'nohup npm start > backend.log 2>&1 &'
+                    sh 'JENKINS_NODE_COOKIE=dontKillMe nohup npm start > backend.log 2>&1 &'
                 }
             }
         }
