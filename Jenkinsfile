@@ -3,19 +3,6 @@ def COLOR_MAP = [
     'FAILURE': 'danger'
 ]
 
-def getBuildTrigger() {
-    def userCause = currentBuild.rawBuild.getCause(hudson.model.Cause.UserIdCause)
-    def scmCause = currentBuild.rawBuild.getCause(hudson.model.Cause.SCMTriggerCause)
-
-    if (userCause) {
-        return "manual by ${userCause.getUserId()}"
-    } else if (scmCause) {
-        return "due to a push to GitHub"
-    } else {
-        return "by another cause"
-    }
-}
-
 pipeline {
     agent any
     environment {
@@ -23,6 +10,7 @@ pipeline {
         BACKEND_DIR = '.'
         GITHUB_REPO = 'https://github.com/Equipo3INF331S2/VitaCocina.git'
         BUILD_TRIGGER = ''
+        CAUSE = "${currentBuild.getBuildCauses()[0].shortDescription}"
     }
     stages {
         stage('Checkout') {
@@ -72,14 +60,10 @@ pipeline {
 
     post {
         always {
-            script {
-                BUILD_TRIGGER = getBuildTrigger()
-            }
-
             slackSend(
                 channel: 'bots',
                 color: COLOR_MAP[currentBuild.currentResult],
-                message: "*${currentBuild.currentResult}:* job ${env.JOB_NAME} build ${env.BUILD_NUMBER} triggered ${BUILD_TRIGGER}"
+                message: "*${currentBuild.currentResult}:* job ${env.JOB_NAME} build ${env.BUILD_NUMBER} \n ${CAUSE}"
             )
         }
     }
