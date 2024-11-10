@@ -12,10 +12,12 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 import Container from '@mui/material/Container';
 import CircularProgress from '@mui/material/CircularProgress';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import HeartBrokenIcon from '@mui/icons-material/HeartBroken';
+import HeartBrokenIcon from '@mui/icons-material/HeartBroken'; 
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import XIcon from '@mui/icons-material/X';
+import {jsPDF} from 'jspdf';
 
 import MakeReview from '../components/MakeReview';
 import ReviewCard from '../components/Review';
@@ -131,7 +133,39 @@ export default function RecipePage() {
     } else {
       addToFavorites(id);
     }
-  };
+  }; 
+
+  const downloadPDF = () => {   
+    const doc = new jsPDF();  
+    //Porceso para centrar titulo
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const titleWidth = doc.getTextWidth(recipe.name);
+    const titleX = (pageWidth - titleWidth) / 2;
+    doc.setFontSize(20);
+    doc.text(recipe.name, titleX, 10);
+    doc.setFontSize(12);
+    doc.text(`Publicado por: ${recipe.author.name}`, 10, 20);
+    doc.text(`Dieta: ${recipe.dietaryPreferences}`, 10, 30);
+    doc.text(`Tiempo: ${recipe.time}`, 10, 40);
+    doc.text(`Dificultad: ${recipe.difficulty}`, 10, 50);
+
+    doc.setFontSize(16);
+    doc.text('Ingredientes', 10, 60);
+    doc.setFontSize(12);
+    recipe.ingredients.forEach((ingrediente, index) => {
+      doc.text(ingrediente, 10, 70 + (index * 10));
+    });
+
+    doc.setFontSize(16);
+    doc.text('Instrucciones', 10, 80 + (recipe.ingredients.length * 10));
+    doc.setFontSize(12);
+    recipe.instructions.forEach((instruccion, index) => {
+      doc.text(instruccion, 10, 90 + (recipe.ingredients.length * 10) + (index * 10));
+    });
+
+    doc.save(`${recipe.name}.pdf`);
+
+  }
 
   if (loading) {
     return (
@@ -144,7 +178,6 @@ export default function RecipePage() {
   return (
     <Container maxWidth="md" sx={{ paddingTop: '20px' }}>
       <Typography variant="h3">{recipe.name}</Typography>
-
       <Box display='flex' marginY={1}>
         {averageRating === -1 ? (
           <Typography variant='body1' href='#reviews' component='a'>Sé el primero en publicar una reseña!</Typography>
@@ -171,6 +204,7 @@ export default function RecipePage() {
           startIcon={isFavorite ? <HeartBrokenIcon /> : <FavoriteIcon />}
           color='error'
           sx={{
+            width: '25%',
             padding: '6px 16px',
             textTransform: 'none',
             fontWeight: 'bold',
@@ -178,6 +212,22 @@ export default function RecipePage() {
           onClick={handleFavoriteToggle}
         >
           {isFavorite ? 'Eliminar de Favoritos' : 'Agregar a Favoritos'}
+        </Button> 
+      </Box> 
+      <Box marginY='16px'>
+        <Button
+          variant="contained"
+          startIcon={<PictureAsPdfIcon />}
+          color='primary'
+          sx={{ 
+            width: '25%',
+            padding: '6px 16px',
+            textTransform: 'none',
+            fontWeight: 'bold',
+          }}
+          onClick={downloadPDF}
+        >
+          Descargar PDF
         </Button>
       </Box>
 
