@@ -11,10 +11,32 @@ pipeline {
                 git branch: 'main', url: "${GITHUB_REPO}"
             }
         }
+        stage('Install Dependencies') {
+            steps {
+                parallel(
+                    "Install Frontend Dependencies": {
+                        dir(FRONTEND_DIR) {
+                            sh 'npm install'
+                        }
+                    },
+                    "Install Backend Dependencies": {
+                        dir(BACKEND_DIR) {
+                            sh 'npm install'
+                        }
+                    }
+                )
+            }
+        }
+        stage('Testing') {
+            steps {
+                dir(FRONTEND_DIR) {
+                    sh 'npm test . --watchAll=false'
+                }
+            }
+        }
         stage('Build Frontend') {
             steps {
                 dir(FRONTEND_DIR) {
-                    sh 'npm install'
                     sh 'CI=false npm run build'
                     sh 'npx serve -s build -l 3000 &'
                 }
@@ -23,8 +45,7 @@ pipeline {
         stage('Build Backend') {
             steps {
                 dir(BACKEND_DIR) {
-                    sh 'npm install'
-                    sh 'npm start'
+                    sh 'npm start &'
                 }
             }
         }
