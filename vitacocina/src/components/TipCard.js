@@ -9,7 +9,7 @@ import Container from '@mui/material/Container';
 import CircularProgress from '@mui/material/CircularProgress';
 import { Grid } from '@mui/material';
 
-const ENDPOINT = process.env.ENPOINT || 'http://localhost:5000';
+const ENDPOINT = process.env.REACT_APP_ENDPOINT;
 
 
 const TipCard = ({tipData}) => {
