@@ -1,5 +1,6 @@
-# [Video Autoexplicativo Vitacocina](https://drive.google.com/drive/folders/1XV3xiSDH67YBN2e1ysNwW8_2QbKo5ogg?usp=sharing)
-
+# [Videos Autoexplicativo Vitacocina](https://drive.google.com/drive/folders/1XV3xiSDH67YBN2e1ysNwW8_2QbKo5ogg?usp=sharing)
+---
+# Entrega 1
 ### 1. Alcance de la Herramienta
 
 - Manejo de sesión: la herramienta con funcionalidades de manejo de sesión, incluyendo inicio de sesión y registro.
@@ -70,3 +71,45 @@ Las pruebas realizadas cumplieron satisfactoriamente con lo deseado.
 Como grupo una de las principales dificultades en el desarrollo del proyecto fue el uso de herramientas como slack y jira. Al no tener experiencia en estas, la comunicación en etapas temprana del proyecto fue menor. Además, algunas tarea no fueron creadas en la backlog de jira por la poca experiencia en esta misma. La solución a este problema fue la capacitación grupal a través de conferencias.
 
 Otro obstáculo dentro del desarrollo fue la implementación de la herramienta jest, la cual para integrarlo con nuestro trabajo tuvimos que instalar y corregir muchas instancias. la solución fue leer la documentación de jest y buscar tutoriales.
+
+---
+# Entrega 2
+
+El video de la entrega 2 se encuentra en la misma seccion de "Videos Autoexplicativo Vitacocina"
+
+
+### 1. Explicación Jenkinsfile
+
+Nota: Se utilizo un webhook para utilizar un push al repositorio como build trigger al Jenkins 
+
+#### 1.0 Definiciones
+
+- COLOR_MAP: Este mapa define colores para las notificaciones de Slack
+
+##### 1.1 Environment (Variables de entorno):
+- FRONTEND_DIR: Ruta del directorio del frontend (vitacocina).
+- BACKEND_DIR: Ruta del directorio del backend (. para la raíz del proyecto).
+- GITHUB_REPO: URL del repositorio de GitHub.
+- BUILD_TRIGGER: Variable vacía para definir el desencadenante del build.
+- CAUSE: Almacena la causa que desencadenó el build (como el mensaje del push).
+
+#### 1.2 Stages (Etapas):
+- Etapa 1 (Checkout): Esta etapa clona el repositorio desde la rama main.
+- Etapa 2 (Install Dependencies): Aquí se instalan las dependencias de frontend y backend en paralelo.
+- Etapa 3 (Testing): Esta etapa ejecuta pruebas para el frontend en modo no interactivo (--watchAll=false).
+- Etapa 4 (Build Frontend): Esta etapa construye y despliega el frontend:
+   - lsof -ti:3000 | xargs kill -9 || true: Mata cualquier proceso en el puerto 3000 (donde corre el frontend).
+   - CI=false npm run build: Compila el frontend.
+   - JENKINS_NODE_COOKIE=dontKillMe nohup npx serve -s build -l 3000 > frontend.log 2>&1 &: Ejecuta el frontend en segundo plano en el puerto 3000, redirigiendo la salida al archivo frontend.log.
+- Etapa 5 (Build Backend): Esta etapa despliega el backend:
+    - lsof -ti:5000 | xargs kill -9 || true: Mata cualquier proceso en el puerto 5000 (donde corre el backend).
+   - JENKINS_NODE_COOKIE=dontKillMe nohup npm start > backend.log 2>&1 &: Ejecuta el backend en segundo plano en el puerto 5000, redirigiendo la salida al archivo backend.log.
+
+#### 1.3 Post (Notificación)
+Esta sección envía una notificación de Slack al canal bots con el resultado del build. El color y mensaje se ajustan según el estado (SUCCESS o FAILURE), y el mensaje incluye el nombre del job, número de build y la causa que disparó el build.
+
+### 2. Nuevos Requerimientos
+   
+- Requerimiento 1 (Descargar recetas en archivos PDF): Los usuarios de VitaCocina al revisar una receta esperan poder descargarla para tenerla descargada, para esto, se implementa un botón de descarga en formato pdf en cada descripción de las recetas disponibles.
+
+- Requerimiento 2 (Compartir recetas por redes sociales): Los usuarios de VitaCocina esperan poder compartir las recetas por redes sociales, para esto, se implementan botones que representen a cada red social (Facebook, Twitter/X y Whatsapp), los cuales permitan compartir la receta.
