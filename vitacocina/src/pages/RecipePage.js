@@ -37,7 +37,7 @@ export default function RecipePage() {
   const [averageRating, setAverageRating] = useState(-1);
   const [reviewsCount, setReviewsCount] = useState(-1);
 
-  const shareUrl = 'window.location.href';
+  const shareUrl = window.location.href;
   const shareTitle = "Mira esta receta de VitaCocina!"
 
   const tagsTitle = {
