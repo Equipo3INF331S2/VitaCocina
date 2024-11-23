@@ -26,7 +26,7 @@ const RecipeCard = ({ recipeData, showDeleteButton = false, onDelete }) => {
     <Grid container spacing={2} sx={{ width: '100%', maxWidth: '1300px', direction: { xs: 'column', sm: 'row' } }}>
       {recipeData.map((recipe) => (
         <Grid item xs={12} sm={6} md={4} key={recipe._id}>
-            <Card>
+            <Card className={'RecipeCard'}>
               <Link key={recipe._id} to={`/recipes/${recipe._id}`} style={{ textDecoration: 'none', color: 'black'}}>
                 <CardActionArea>
                   <CardMedia

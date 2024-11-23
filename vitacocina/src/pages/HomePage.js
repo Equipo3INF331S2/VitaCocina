@@ -276,7 +276,7 @@ const HomePage = () => {
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
-                                    <IconButton onClick={handleSearch} aria-label="search" size="small">
+                                    <IconButton onClick={handleSearch} aria-label="search" size="small" id="search-icon">
                                         <SearchIcon sx={{ color: '#000000' }} />
                                     </IconButton>
                                 </InputAdornment>
