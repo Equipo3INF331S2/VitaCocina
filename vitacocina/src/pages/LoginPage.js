@@ -216,6 +216,7 @@ export default function SignIn(props) {
                         />
                         <ForgotPassword open={open} handleClose={handleClose} />
                         <Button
+                            id="loginButton"
                             type="submit"
                             fullWidth
                             variant="contained"
