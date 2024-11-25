@@ -360,6 +360,7 @@ export default function CreateRecipe(props) {
                             />
                         </FormControl>
                         <Button
+                            id="createRecipeButton"
                             type="submit"
                             fullWidth
                             variant="contained"

@@ -57,6 +57,7 @@ const PostListPaper = ({ posts, type, handleEdit, handleDelete, fallbackText }) 
                     }}
                   >
                     <IconButton
+                      id={post.name === "TEST" || post.title === "TEST" ? "TESTEdit" : undefined}
                       color="primary"
                       onClick={(e) => {
                         e.stopPropagation(); // Evita que el clic se propague al Paper
@@ -79,6 +80,7 @@ const PostListPaper = ({ posts, type, handleEdit, handleDelete, fallbackText }) 
                     }}
                   >
                     <IconButton
+                      id={post.name === "TEST" || post.title === "TEST" ? "TESTDelete" : undefined}
                       color="error"
                       onClick={(e) => {
                         e.stopPropagation(); // Evita que el clic se propague al Paper
