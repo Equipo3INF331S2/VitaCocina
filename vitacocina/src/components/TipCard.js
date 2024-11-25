@@ -28,7 +28,7 @@ const TipCard = ({tipData}) => {
       {tipData.map((tip) => (
         <Grid item xs={12} sm={6} md={4} key={tip._id}>
           <Link to={`/Tips/${tip._id}`} style={{ textDecoration: 'none' }}>
-            <Card>
+            <Card className={'TipsCard'}>
               <CardActionArea>
                 <CardMedia
                   component="img"
