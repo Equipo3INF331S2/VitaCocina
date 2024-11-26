@@ -23,6 +23,7 @@ import { FacebookShareButton, TwitterShareButton, WhatsappShareButton } from "re
 import MakeReview from '../components/MakeReview';
 import ReviewCard from '../components/Review';
 import { Helmet } from 'react-helmet';
+import 'jspdf-autotable';
 
 const ENDPOINT = process.env.REACT_APP_ENDPOINT;
 
@@ -140,36 +141,51 @@ export default function RecipePage() {
     }
   };
 
-  const downloadPDF = () => {
+  const downloadPDF = async () => {
     const doc = new jsPDF();
-    //Porceso para centrar titulo
-    const pageWidth = doc.internal.pageSize.getWidth();
-    const titleWidth = doc.getTextWidth(recipe.name);
-    const titleX = (pageWidth - titleWidth) / 2;
-    doc.setFontSize(20);
-    doc.text(recipe.name, titleX, 10);
-    doc.setFontSize(12);
-    doc.text(`Publicado por: ${recipe.author.name}`, 10, 20);
-    doc.text(`Dieta: ${recipe.dietaryPreferences}`, 10, 30);
-    doc.text(`Tiempo: ${recipe.time}`, 10, 40);
-    doc.text(`Dificultad: ${recipe.difficulty}`, 10, 50);
 
-    doc.setFontSize(16);
-    doc.text('Ingredientes', 10, 60);
-    doc.setFontSize(12);
-    recipe.ingredients.forEach((ingrediente, index) => {
-      doc.text(ingrediente, 10, 70 + (index * 10));
+    doc.setFontSize(30);
+    doc.text('VitaCocina', 105, 20, {align:'center'})
+
+    doc.setFontSize(30);
+    const titleY = 50;
+    doc.text(recipe.name, 105, titleY, { align: 'center' });
+
+    const titleHeight = 20;
+    const tableStartY = titleY + titleHeight + 10; 
+
+    const recipeInfo = [
+      [`Publicado por:`, recipe.author.name],
+      [`Dieta:`, recipe.dietaryPreferences],
+      [`Tiempo:`, recipe.time],
+      [`Dificultad:`, recipe.difficulty],
+    ];
+    doc.autoTable({
+      startY: tableStartY,
+      head: [],
+      body: recipeInfo,
+      columnStyles: { 0: { fontStyle: 'bold' } }
     });
 
+
     doc.setFontSize(16);
-    doc.text('Instrucciones', 10, 80 + (recipe.ingredients.length * 10));
-    doc.setFontSize(12);
-    recipe.instructions.forEach((instruccion, index) => {
-      doc.text(instruccion, 10, 90 + (recipe.ingredients.length * 10) + (index * 10));
+    doc.text('Ingredientes', 10, doc.lastAutoTable.finalY + 10);
+    doc.autoTable({
+      startY: doc.lastAutoTable.finalY + 20,
+      body: recipe.ingredients.map(ing => [ing]),
+      columnStyles: { 0: { cellWidth: '100%' } }
+    });
+
+
+    doc.setFontSize(16);
+    doc.text('Instrucciones', 10, doc.lastAutoTable.finalY + 10);
+    doc.autoTable({
+      startY: doc.lastAutoTable.finalY + 20,
+      body: recipe.instructions.map((instruccion, index) => [`${index + 1}. ${instruccion}`]),
+      columnStyles: { 0: { cellWidth: '100%' } }
     });
 
     doc.save(`${recipe.name}.pdf`);
-
   }
 
   if (loading) {
@@ -185,9 +201,9 @@ export default function RecipePage() {
       <Helmet>
         <title>{recipe ? recipe.name + " - VitaCocina" : "Cargando... - VitaCocina"}</title>
         <meta name="description" content={recipe ? recipe.description : "Cargando receta..."} />
-        <meta property="og:title" content={recipe ? recipe.name + " - VitaCocina" : "Cargando... - VitaCocina"} /> 
-        <meta property="og:description" content={recipe ? recipe.description : "Cargando receta..."} /> 
-        <meta property="og:image" content={recipe ? `${ENDPOINT}/uploads/${recipe.img}` : ""} /> 
+        <meta property="og:title" content={recipe ? recipe.name + " - VitaCocina" : "Cargando... - VitaCocina"} />
+        <meta property="og:description" content={recipe ? recipe.description : "Cargando receta..."} />
+        <meta property="og:image" content={recipe ? `${ENDPOINT}/uploads/${recipe.img}` : ""} />
         <meta property="og:url" content={window.location.href} />
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary_large_image" />
