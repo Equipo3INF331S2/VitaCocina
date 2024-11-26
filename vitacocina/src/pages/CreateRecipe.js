@@ -70,6 +70,7 @@ export default function CreateRecipe(props) {
     const [difficultyErrorMessage, setDifficultyErrorMessage] = React.useState('');
     const [dietaryPreferences, setDietaryPreferences] = React.useState('');
     const [time, setTime] = React.useState('');
+    const [difficulty, setDifficulty] = React.useState('');
     const navigate = useNavigate();
 
     // Verificar si el usuario está logueado
@@ -144,7 +145,7 @@ export default function CreateRecipe(props) {
             setTimeErrorMessage('');
         }
 
-        if (!difficulty.value || difficulty.value.length < 1) {
+        if (!difficulty || difficulty.length < 1) {
             setDifficultyError(true);
             setDifficultyErrorMessage('La dificultad es obligatoria.');
             isValid = false;
@@ -192,7 +193,7 @@ export default function CreateRecipe(props) {
                 instructions: form.instructions.value.split(','),
                 dietaryPreferences: dietaryPreferences,
                 time: time,
-                difficulty: form.difficulty.value,
+                difficulty: difficulty,
             };
 
             const response = await fetch(`${ENDPOINT}/api/recipes`, {
@@ -218,9 +219,9 @@ export default function CreateRecipe(props) {
     return (
         <AppTheme {...props} >
             <CssBaseline enableColorScheme />
-            <CreateRecipeContainer direction="column" justifyContent="center" alignItems="center">
-                <ColorModeSelect sx={{ position: 'fixed', top: '1rem', right: '1rem' }} />
-                <Card variant="outlined">
+            <CreateRecipeContainer direction="column" justifyContent="center" alignItems="center"  >
+                {/* <ColorModeSelect sx={{ position: 'fixed', top: '1rem', right: '1rem' }} /> */}
+                <Card variant="outlined" >
                     <VitaCocinaIcon />
                     <Typography
                         component="h1"
@@ -346,18 +347,18 @@ export default function CreateRecipe(props) {
                         </FormControl>
                         <FormControl>
                             <FormLabel htmlFor="difficulty">Dificultad</FormLabel>
-                            <TextField
-                                required
+                            <Select
                                 fullWidth
                                 name="difficulty"
-                                placeholder="Dificultad de la receta"
                                 id="difficulty"
-                                autoComplete="difficulty"
+                                value={difficulty}
+                                onChange={(e) => setDifficulty(e.target.value)}
                                 variant="outlined"
-                                error={difficultyError}
-                                helperText={difficultyErrorMessage}
-                                color={difficultyError ? 'error' : 'primary'}
-                            />
+                            >
+                                <MenuItem value="Principiante">Principiante</MenuItem>
+                                <MenuItem value="Intermedio">Intermedio</MenuItem>
+                                <MenuItem value="Avanzado">Avanzado</MenuItem>
+                            </Select>
                         </FormControl>
                         <Button
                             id="createRecipeButton"

@@ -64,7 +64,13 @@ async function loginTest() {
     await timeItem.click();
     
     let difficulty = await driver.findElement(By.css('#difficulty'));
-    await difficulty.sendKeys('Díficil');
+    await difficulty.click();
+    let difficultyItem = await driver.wait(
+      until.elementLocated(By.css('li[data-value="Principiante"]')),
+      10000
+    );
+    await difficultyItem.click();
+
 
     let createRecipeButton = await driver.findElement(By.css('#createRecipeButton'));
     createRecipeButton.click();
