@@ -42,7 +42,7 @@ const actions = isAdmin ? [  // <-- Condicional para acciones de admin
   { icon: <Link href="/posts" sx={{ color: '#000000', textDecoration: 'none' }}>Ver mis publicaciones</Link> },
   { icon: <Link href="/createRecipe" sx={{ color: '#000000', textDecoration: 'none' }}>Agregar Receta</Link> },
   { icon: <Link href="/createTip" sx={{ color: '#000000', textDecoration: 'none' }}>Agregar Consejo</Link> },
-  { icon: <Link href="/allrecipe" sx={{ color: '#000000', textDecoration: 'none' }}>Editar Cuenta</Link> },
+  // { icon: <Link href="/allrecipe" sx={{ color: '#000000', textDecoration: 'none' }}>Editar Cuenta</Link> },
   { icon: <Link href="/favorites" sx={{ color: '#000000', textDecoration: 'none' }}>Ver Lista favoritos</Link> },
   { icon: <Link href="/admin" sx={{ color: '#000000', textDecoration: 'none' }}>Administrar Vitacocina</Link> },
   { icon: <Link onClick={handleLogout} sx={{ color: '#000000', textDecoration: 'none', cursor: 'pointer' }}>Cerrar Sesión</Link> },
@@ -51,7 +51,7 @@ const actions = isAdmin ? [  // <-- Condicional para acciones de admin
   { icon: <Link href="/posts" sx={{ color: '#000000', textDecoration: 'none' }}>Ver mis publicaciones</Link> },
   { icon: <Link href="/createRecipe" sx={{ color: '#000000', textDecoration: 'none' }}>Agregar Receta</Link> },
   { icon: <Link href="/createTip" sx={{ color: '#000000', textDecoration: 'none' }}>Agregar Consejo</Link> },
-  { icon: <Link href="/allrecipe" sx={{ color: '#000000', textDecoration: 'none' }}>Editar Cuenta</Link> },
+  // { icon: <Link href="/allrecipe" sx={{ color: '#000000', textDecoration: 'none' }}>Editar Cuenta</Link> },
   { icon: <Link href="/favorites" sx={{ color: '#000000', textDecoration: 'none' }}>Ver Lista favoritos</Link> },
   { icon: <Link onClick={handleLogout} sx={{ color: '#000000', textDecoration: 'none', cursor: 'pointer' }}>Cerrar Sesión</Link> },
 
