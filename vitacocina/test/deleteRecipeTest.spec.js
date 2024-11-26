@@ -26,6 +26,8 @@ async function loginTest() {
 
     await driver.wait(until.urlIs('http://localhost:3000/'), 10000);
 
+    console.log('Test Inicio de Sesion Exitoso')
+
     // CREATE RECIPE
     await driver.get('http://localhost:3000/createRecipe');
     await driver.wait(until.elementLocated(By.css('#title'), 10000));
@@ -73,6 +75,8 @@ async function loginTest() {
 
     await driver.wait(until.urlIs('http://localhost:3000/'), 10000);
 
+    console.log('Test Creación de Receta Exitoso')
+
     // DELETE RECIPE
     await driver.get('http://localhost:3000/posts');
     
@@ -83,8 +87,10 @@ async function loginTest() {
     deleteRecipeButton.click();
     
     await driver.wait(until.stalenessOf(deleteRecipeButton), 10000);
-  
-    console.log('Prueba exitosa');
+
+    console.log('Test Borrar Receta Exitoso')
+
+    console.log('loginTest exitoso');
   } catch (err) {
     console.error(`Error durante la prueba: ${err}`);
   } finally {
