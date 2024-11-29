@@ -11,6 +11,9 @@ pipeline {
         GITHUB_REPO = 'https://github.com/Equipo3INF331S2/VitaCocina.git'
         BUILD_TRIGGER = ''
         CAUSE = "${currentBuild.getBuildCauses()[0].shortDescription}"
+        DISPLAY = ':99' // Necesario para ejecutar Chrome sin un servidor gráfico
+        PATH = "$PATH:/usr/local/bin" // Incluye la ruta de ChromeDriver
+        XDG_RUNTIME_DIR = 'tmp/runtime-jenkins' // Necesario para Chrome en Jenkins
     }
     stages {
         stage('Checkout') {
@@ -55,6 +58,14 @@ pipeline {
                 dir(BACKEND_DIR) {
                     sh 'lsof -ti:5000 | xargs kill -9 || true'
                     sh 'JENKINS_NODE_COOKIE=dontKillMe nohup npm start > backend.log 2>&1 &'
+                }
+            }
+        }
+        stage('Selenium Testing') {
+            steps {
+                dir('${FRONTEND}/test') {
+                    sh 'npm cache clean --force'
+                    sh 'node runner.js'
                 }
             }
         }
