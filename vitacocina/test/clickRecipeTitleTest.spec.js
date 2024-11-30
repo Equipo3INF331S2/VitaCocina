@@ -10,7 +10,6 @@ async function clickRecipeTitleTest() {
   options.addArguments('--no-sandbox');
   options.addArguments("--disable-dev-shm-usage");
   options.addArguments('--disable-gpu');
-  options.setBinaryPath("/usr/bin/chromium-browser");
   let driver = await new Builder()
   .forBrowser('chrome')
   .setChromeOptions(options)
