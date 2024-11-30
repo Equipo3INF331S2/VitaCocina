@@ -80,12 +80,12 @@ async function loginTest() {
     let alert2 = await driver.switchTo().alert();
     await alert2.accept();
 
-    await driver.wait(until.urlIs('http://20.201.119.103:3000/'), 10000);
+    await driver.wait(until.urlIs('http://localhost:3000/'), 10000);
 
     console.log('Test Creación de Receta Exitoso')
 
     // DELETE RECIPE
-    await driver.get('http://20.201.119.103:3000/posts');
+    await driver.get('http://localhost:3000/posts');
     
     await driver.wait(until.urlContains('/posts'), 10000);
     await driver.wait(until.elementLocated(By.css('#TESTDelete'), 10000));
