@@ -12,6 +12,25 @@ const testFiles = [
   'tipsCardClickTest.spec.js'
 ];
 
+(async () => {
+  for (const file of testFiles) {
+    console.log(`Ejecutando: ${file}`);
+    await new Promise((resolve, reject) => {
+      exec(`node ${file}`, (error, stdout, stderr) => {
+        if (error) {
+          console.error(`Error ejecutando ${file}:`, stderr);
+          reject(error);
+        } else {
+          console.log(stdout);
+          resolve();
+        }
+      });
+    });
+  }
+  console.log("Todos los archivos ejecutados.");
+})();
+
+/*
 testFiles.forEach((file) => {
   exec(`node ${file}`, (error, stdout, stderr) => {
     if (error) {
@@ -25,3 +44,4 @@ testFiles.forEach((file) => {
     console.log(`Resultado de ${file}:\n${stdout}`);
   });
 });
+*/
