@@ -17,6 +17,12 @@ pipeline {
         XDG_RUNTIME_DIR = 'tmp/runtime-jenkins' // Necesario para Chrome en Jenkins
     }
     stages {
+        stage('Setup Xvfb') {
+            steps {
+                echo 'Setting up Xvfb...'
+                sh 'Xvfb :99 -ac &'
+            }
+        }
         stage('Checkout') {
             steps {
                 git branch: 'main', url: "${GITHUB_REPO}"
