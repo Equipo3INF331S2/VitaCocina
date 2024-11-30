@@ -1,7 +1,17 @@
 const { Builder, By, until } = require('selenium-webdriver');
+const chrome = require('selenium-webdriver/chrome');
 
 async function clickRecipeTitleTest() {
-  let driver = await new Builder().forBrowser('chrome').build();
+  
+  //let driver = await new Builder().forBrowser('chrome').build();
+  let options = new chrome.Options();
+  options.addArguments('--headless');
+  options.addArguments('--no-sandbox');
+  options.addArguments('--disable-gpu');
+  let driver = await new Builder()
+  .forBrowser('chrome')
+  .setChromeOptions(options)
+  .build();
 
   try {
     await driver.get('https://www.google.com/');
