@@ -19,7 +19,7 @@ async function downloadPDFTest() {
   let driver = await new Builder().forBrowser('chrome').setChromeOptions(chromeOptions).build();
 
   try {
-    await driver.get('http://20.201.119.103:3000/');
+    await driver.get('http://localhost:3000/');
 
     await driver.wait(until.elementLocated(By.css('.RecipeCard')), 10000);
     const recipeCard = await driver.findElement(By.css('.RecipeCard'));

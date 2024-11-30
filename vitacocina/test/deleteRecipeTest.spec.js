@@ -7,7 +7,7 @@ async function loginTest() {
   
   try {
     // LOGIN
-    await driver.get('http://20.201.119.103:3000/login');
+    await driver.get('localhost:3000/login');
   
     await driver.wait(until.elementLocated(By.css('#email'), 10000));
   
