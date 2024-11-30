@@ -1,10 +1,9 @@
 const {Builder, By, until, Key} = require('selenium-webdriver');
-const { chrome } = require('selenium-webdriver/chrome');
 
 const path = require('path');
 
 async function loginTest() { 
-  let driver = await new Builder().forBrowser('chrome').setChromeOptions(new chrome.Options()).build();
+  let driver = await new Builder().forBrowser('chrome').build();
   
   try {
     // LOGIN
