@@ -6,10 +6,12 @@ async function clickRecipeTitleTest() {
   
   //let driver = await new Builder().forBrowser('chrome').build();
   let options = new chrome.Options();
+  options.setBinary("/usr/bin/google-chrome-stable");
   options.addArguments('--headless');
   options.addArguments('--no-sandbox');
   options.addArguments("--disable-dev-shm-usage");
   options.addArguments('--disable-gpu');
+  options.addArguments("--disable-web-security");
   let driver = await new Builder()
   .forBrowser('chrome')
   .setChromeOptions(options)
