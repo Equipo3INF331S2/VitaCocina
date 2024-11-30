@@ -12,6 +12,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "chromedriver": "^131.0.1",
+    "chromedriver-manager": "^0.2.0",
     "jspdf": "^2.5.2",
     "jspdf-autotable": "^3.8.4",
     "mongodb-memory-server": "^10.1.2",
