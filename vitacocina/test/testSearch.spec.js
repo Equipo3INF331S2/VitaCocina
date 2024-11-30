@@ -5,6 +5,8 @@ async function testSearch() {
   //let driver = await new Builder().forBrowser('chrome').build(); // Cambia 'chrome' por el navegador que uses
   let options = new chrome.Options();
   options.addArguments('--headless');
+  options.addArguments('--no-sandbox');
+  options.addArguments('--disable-gpu');
   let driver = await new Builder()
   .forBrowser('chrome')
   .setChromeOptions(options)
