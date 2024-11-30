@@ -3,7 +3,8 @@ const chrome = require('selenium-webdriver/chrome');
 
 async function testSearch() {
   //let driver = await new Builder().forBrowser('chrome').build(); // Cambia 'chrome' por el navegador que uses
-  let options = new chrome.Options().headless();
+  let options = new chrome.Options();
+  options.addArguments('--headless');
   let driver = await new Builder()
   .forBrowser('chrome')
   .setChromeOptions(options)

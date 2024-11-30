@@ -23,7 +23,7 @@ async function loginTest() {
     let alert = await driver.switchTo().alert();
     await alert.accept();
 
-    await driver.wait(until.urlIs('http://20.201.119.103:3000/'), 10000);
+    await driver.wait(until.urlIs('http://localhost:3000/'), 10000);
   
     console.log('Prueba exitosa');
   } catch (err) {
