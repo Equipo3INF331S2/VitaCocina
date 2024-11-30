@@ -7,6 +7,7 @@ pipeline {
     agent any
     environment {
         FRONTEND_DIR = 'vitacocina'
+        SELENIUM_TEST_DIR = 'vitacocina/test'
         BACKEND_DIR = '.'
         GITHUB_REPO = 'https://github.com/Equipo3INF331S2/VitaCocina.git'
         BUILD_TRIGGER = ''
@@ -63,7 +64,7 @@ pipeline {
         }
         stage('Selenium Testing') {
             steps {
-                dir("${FRONTEND}/test") {
+                dir(SELENIUM_TEST_DIR) {
                     sh 'npm cache clean --force'
                     sh 'node testsRunner.js'
                 }
