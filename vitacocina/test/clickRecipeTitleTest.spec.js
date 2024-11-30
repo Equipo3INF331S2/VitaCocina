@@ -8,6 +8,7 @@ async function clickRecipeTitleTest() {
   let options = new chrome.Options();
   options.addArguments('--headless');
   options.addArguments('--no-sandbox');
+  options.addArguments("--disable-dev-shm-usage");
   options.addArguments('--disable-gpu');
   let driver = await new Builder()
   .forBrowser('chrome')
