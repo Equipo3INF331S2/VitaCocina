@@ -8,6 +8,7 @@ async function clickRecipeTitleTest() {
   options.addArguments('--headless');
   options.addArguments('--no-sandbox');
   options.addArguments('--disable-gpu');
+  options.setChromeBinaryPath('/usr/local/bin/google-chrome')
   let driver = await new Builder()
   .forBrowser('chrome')
   .setChromeOptions(options)
