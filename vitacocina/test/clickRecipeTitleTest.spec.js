@@ -1,6 +1,5 @@
 const { Builder, By, until } = require('selenium-webdriver');
 const chrome = require('selenium-webdriver/chrome');
-const { ChromeDriverManager } = require('chromedriver-manager');
 
 async function clickRecipeTitleTest() {
   
@@ -10,11 +9,9 @@ async function clickRecipeTitleTest() {
   options.addArguments('--headless');
   options.addArguments('--no-sandbox');
   options.addArguments('--disable-gpu');
-  const service = new chrome.ServiceBuilder(ChromeDriverManager().install()).build();
   let driver = await new Builder()
   .forBrowser('chrome')
   .setChromeOptions(options)
-  .setChromeService(service)
   .build();
 
   try {
