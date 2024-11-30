@@ -113,3 +113,20 @@ Esta sección envía una notificación de Slack al canal bots con el resultado d
 - Requerimiento 1 (Descargar recetas en archivos PDF): Los usuarios de VitaCocina al revisar una receta esperan poder descargarla para tenerla descargada, para esto, se implementa un botón de descarga en formato pdf en cada descripción de las recetas disponibles.
 
 - Requerimiento 2 (Compartir recetas por redes sociales): Los usuarios de VitaCocina esperan poder compartir las recetas por redes sociales, para esto, se implementan botones que representen a cada red social (Facebook, Twitter/X y Whatsapp), los cuales permitan compartir la receta.
+
+- ---
+# Entrega 3
+
+En esta entrega se realizaron pruebas en Selenium y se implementaron estas en el Pipeline de Jenkins, para esto se crearon pruebas las cuales probaban las siguientes funcionalidades del software:
+ 1. Ingreso como usuario a la pagina
+ 2. Creación de recetas
+ 3. Borrar una receta de la página
+ 4. Acceder a la página de todas las recetas
+ 5. Acceder a la página de todos los consejos
+ 6. Acceder a una receta en específico
+ 7. Acceder a un consejo en específico
+ 8. Usar la barra de busqueda
+ 9. Descargar una receta en archivo PDF
+ 10. Compartir recetas mediante redes sociales
+
+PD: El video del entregable se encuentra en el link al inicio del documento
