@@ -15,6 +15,7 @@ pipeline {
         DISPLAY = ':99' // Necesario para ejecutar Chrome sin un servidor gráfico
         PATH = "$PATH:/usr/local/bin" // Incluye la ruta de ChromeDriver
         XDG_RUNTIME_DIR = 'tmp/runtime-jenkins' // Necesario para Chrome en Jenkins
+        HOST_IP = sh(returnStdout: true, script: 'hostname -I | awk \'{print $1}\'').trim()
     }
     stages {
         stage('Setup Xvfb') {
