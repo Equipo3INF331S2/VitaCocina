@@ -63,9 +63,9 @@ pipeline {
         }
         stage('Selenium Testing') {
             steps {
-                dir('${FRONTEND}/test') {
+                dir("${FRONTEND}/test") {
                     sh 'npm cache clean --force'
-                    sh 'node runner.js'
+                    sh 'node testsRunner.js'
                 }
             }
         }
