@@ -10,13 +10,14 @@ async function clickRecipeTitleTest() {
   options.addArguments('--no-sandbox');
   options.addArguments("--disable-dev-shm-usage");
   options.addArguments('--disable-gpu');
+  options.setBinaryPath("/usr/bin/chromium-browser");
   let driver = await new Builder()
   .forBrowser('chrome')
   .setChromeOptions(options)
   .build();
 
   try {
-    await driver.get(`http://${process.env.HOST_IP}:3000/`);
+    await driver.get(`http://localhost:3000/`);
 
     await driver.wait(until.elementLocated(By.linkText('Recetas')), 10000);
     const recipeLink = await driver.findElement(By.linkText('Recetas'));
