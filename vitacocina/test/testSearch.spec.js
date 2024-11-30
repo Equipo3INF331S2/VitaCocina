@@ -5,7 +5,7 @@ async function testSearch() {
 
   try {
     // Acceder a la URL de tu aplicación
-    await driver.get('http://localhost:3000/'); // Reemplaza con la URL de tu aplicación
+    await driver.get('http://20.201.119.103:3000/'); // Reemplaza con la URL de tu aplicación
 
     // Esperar a que la barra de búsqueda sea visible
     await driver.wait(until.elementLocated(By.css('#search-bar')), 10000);
