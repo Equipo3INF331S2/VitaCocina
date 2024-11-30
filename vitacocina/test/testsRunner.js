@@ -18,8 +18,10 @@ const testFiles = [
     await new Promise((resolve, reject) => {
       exec(`node ${file}`, (error, stdout, stderr) => {
         if (error) {
-          console.error(`Error ejecutando ${file}:`, stderr);
+          console.error(`Error ejecutando ${file}:`, error);
           reject(error);
+        } else if (stderr) {
+          console.error(`Error ejecutando ${file}:`, stderr);
         } else {
           console.log(stdout);
           resolve();
