@@ -15,12 +15,10 @@ const testFiles = [
 testFiles.forEach((file) => {
   exec(`node ${file}`, (error, stdout, stderr) => {
     if (error) {
-      console.error(`Error ejecutando ${file}:`, error.message);
-      return;
+      throw new Error(`Error ejecutando ${file}:`, error.message);
     }
     if (stderr) {
-      console.error(`Stderr de ${file}:`, stderr);
-      return;
+      throw new Error(`Stderr de ${file}:`, stderr);
     }
     console.log(`Resultado de ${file}:\n${stdout}`);
   });

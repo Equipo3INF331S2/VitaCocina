@@ -1,7 +1,8 @@
 const { Builder, By, Key, until } = require('selenium-webdriver');
+const { chrome } = require('selenium-webdriver/chrome');
 
 async function testSearch() {
-  let driver = await new Builder().forBrowser('chrome').build(); // Cambia 'chrome' por el navegador que uses
+  let driver = await new Builder().forBrowser('chrome').setChromeOptions(new chrome.Options()).build();
 
   try {
     // Acceder a la URL de tu aplicación

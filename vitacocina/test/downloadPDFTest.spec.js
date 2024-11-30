@@ -1,4 +1,6 @@
 const { Builder, By, until } = require('selenium-webdriver');
+const { chrome } = require('selenium-webdriver/chrome');
+
 const fs = require('fs');
 const path = require('path');
 
@@ -15,7 +17,7 @@ async function downloadPDFTest() {
     },
   };
 
-  let driver = await new Builder().forBrowser('chrome').setChromeOptions(chromeOptions).build();
+  let driver = await new Builder().forBrowser('chrome').setChromeOptions(new chrome.Options()).build();
 
   try {
     await driver.get('http://localhost:3000/');

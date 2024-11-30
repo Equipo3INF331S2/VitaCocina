@@ -1,7 +1,8 @@
 const {Builder, By, until} = require('selenium-webdriver');
+const { chrome } = require('selenium-webdriver/chrome');
 
 async function loginTest() { 
-  let driver = await new Builder().forBrowser('chrome').build();
+  let driver = await new Builder().forBrowser('chrome').setChromeOptions(new chrome.Options()).build();
   
   try {
   
